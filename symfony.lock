@@ -104,6 +104,9 @@
     "egulias/email-validator": {
         "version": "3.1.2"
     },
+    "fakerphp/faker": {
+        "version": "v1.19.0"
+    },
     "friendsofphp/php-cs-fixer": {
         "version": "3.8",
         "recipe": {
@@ -118,6 +121,12 @@
     },
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.12"
+    },
+    "knplabs/knp-components": {
+        "version": "v3.5.0"
+    },
+    "knplabs/knp-paginator-bundle": {
+        "version": "v5.8.0"
     },
     "laminas/laminas-code": {
         "version": "4.5.1"
