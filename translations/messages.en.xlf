@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en" datatype="plaintext" original="file.ext">
+    <body>
+      <trans-unit id="label.actions">
+        <source>label.actions</source>
+        <target>Actions</target>
+      </trans-unit>
+      <trans-unit id="label.id">
+        <source>label.id</source>
+        <target>Id</target>
+      </trans-unit>
+      <trans-unit id="label.title">
+        <source>label.title</source>
+        <target>Title</target>
+      </trans-unit>
+      <trans-unit id="label.content">
+        <source>label.content</source>
+        <target>Content</target>
+      </trans-unit>
+      <trans-unit id="label.tags">
+        <source>label.tags</source>
+        <target>Tags</target>
+      </trans-unit>
+      <trans-unit id="message.empty_list">
+        <source>message.empty_list</source>
+        <target>List is empty.</target>
+      </trans-unit>
+      <trans-unit id="message.record_not_found">
+        <source>message.record_not_found</source>
+        <target>Record not found.</target>
+      </trans-unit>
+      <trans-unit id="title.book_list">
+        <source>title.book_list</source>
+        <target>Book list</target>
+      </trans-unit>
+      <trans-unit id="title.book_view">
+        <source>title.book_view</source>
+        <target>Book view #%id%</target>
+       </trans-unit>
+      <trans-unit id="book.book_creation_time">
+        <source>book.book_creation_time</source>
+        <target>Book creation time</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
