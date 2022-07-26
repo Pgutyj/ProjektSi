@@ -42,6 +42,58 @@
         <source>book.book_creation_time</source>
         <target>Book creation time</target>
       </trans-unit>
+      <trans-unit id="action.view">
+        <source>action.view</source>
+        <target>Check out</target>
+        </trans-unit>
+      <trans-unit id="title.book_details">
+        <source>title.book_details</source>
+        <target>Book details</target>
+      </trans-unit>
+      <trans-unit id="action.back_to_list">
+        <source>action.back_to_list</source>
+        <target>Back to the list</target>
+      </trans-unit>
+       <trans-unit id="label.category">
+       <source>label.category</source>
+       <target>Categoires</target>
+       </trans-unit>
+       <trans-unit id="title.category_list">
+       <source>title.category_list</source>
+       <target>List of Categoires</target>
+       </trans-unit>
+       <trans-unit id="title.category_details">
+       <source>title.category_details</source>
+       <target>Category details</target>
+       </trans-unit>
+       <trans-unit id="label.name">
+       <source>label.name</source>
+       <target>Category name</target>
+       </trans-unit>
+       <trans-unit id="label.create">
+       <source>label.create</source>
+       <target>Create category</target>
+       </trans-unit>
+       <trans-unit id="label.editing">
+       <source>label.editing</source>
+       <target>Edit category</target>
+       </trans-unit>
+       <trans-unit id="label.delete">
+       <source>label.delete</source>
+       <target>Delete category</target>
+       </trans-unit>
+       <trans-unit id="action.delete">
+       <source>action.delete</source>
+       <target>Delete</target>
+       </trans-unit>
+       <trans-unit id="action.edit">
+       <source>action.edit</source>
+       <target>Edit</target>
+       </trans-unit>
+       <trans-unit id="action.create">
+       <source>action.create</source>
+       <target>Create</target>
+       </trans-unit>
     </body>
   </file>
 </xliff>

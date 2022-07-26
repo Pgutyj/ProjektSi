@@ -1,19 +1,19 @@
 <?php
+/**
+ * Task repository.
+ */
 
 namespace App\Repository;
 
+use App\Entity\Category;
 use App\Entity\Book;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
-/**
- * @extends ServiceEntityRepository<Book>
- *
- * @method Book|null find($id, $lockMode = null, $lockVersion = null)
- * @method Book|null findOneBy(array $criteria, array $orderBy = null)
- * @method Book[]    findAll()
- * @method Book[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- */
+use Doctrine\Persistence\ManagerRegistry;
+
+
 class BookRepository extends ServiceEntityRepository
 {
     /**
@@ -27,7 +27,11 @@ class BookRepository extends ServiceEntityRepository
      */
     public const PAGINATOR_ITEMS_PER_PAGE = 10;
 
-
+    /**
+     * Constructor.
+     *
+     * @param ManagerRegistry $registry Manager registry
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Book::class);
@@ -41,7 +45,54 @@ class BookRepository extends ServiceEntityRepository
     public function queryAll(): QueryBuilder
     {
         return $this->getOrCreateQueryBuilder()
+            ->select(
+                'partial book.{id, title, description, book_creation_time, price}',
+                'partial category.{id, name}'
+            )
+            ->join('book.category', 'category')
             ->orderBy('book.book_creation_time', 'DESC');
+    }
+
+    /**
+     * Count tasks by category.
+     *
+     * @param Category $category Category
+     *
+     * @return int Number of tasks in category
+     *
+     * @throws NoResultException
+     * @throws NonUniqueResultException
+     */
+    public function countByCategory(Category $category): int
+    {
+        $qb = $this->getOrCreateQueryBuilder();
+
+        return $qb->select($qb->expr()->countDistinct('book.id'))
+            ->where('book.category = :category')
+            ->setParameter(':category', $category)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    /**
+     * Save entity.
+     *
+     */
+    public function save(Book $book): void
+    {
+        $this->_em->persist($book);
+        $this->_em->flush();
+    }
+
+    /**
+     * Delete entity.
+     *
+     * @param Task $task Task entity
+     */
+    public function delete(Book $book): void
+    {
+        $this->_em->remove($book);
+        $this->_em->flush();
     }
 
     /**
@@ -55,4 +106,5 @@ class BookRepository extends ServiceEntityRepository
     {
         return $queryBuilder ?? $this->createQueryBuilder('book');
     }
+
 }

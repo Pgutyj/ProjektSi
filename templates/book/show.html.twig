@@ -11,13 +11,15 @@
             <dt>{{ 'label.id'|trans }}</dt>
             <dd>{{ book.id }}</dd>
             <dt>{{ 'label.book_creation_time'|trans }}</dt>
-            <dd>{{ book.book_creation_time|date('Y/m/d') }}</dd>
+            <dd>{{ book.book_creation_time|date('d/m/Y') }}</dd>
             <dt>{{ 'label.description'|trans }}</dt>
             <dd>{{ book.description }}</dd>
             <dt>{{ 'label.price'|trans }}</dt>
             <dd>{{ book.price }}</dd>
             <dt>{{ 'label.title'|trans }}</dt>
             <dd>{{  book.title }}</dd>
+            <dt>{{ 'label.category'|trans }}</dt>
+            <dd>{{  book.category.name }}</dd>
         </dl>
         <p>
             <a href="{{ url('book_index') }}" title="{{ 'action.back_to_list'|trans }}">

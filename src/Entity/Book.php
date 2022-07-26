@@ -4,10 +4,13 @@
  */
 namespace App\Entity;
 
+use App\Entity\Category;
 use App\Repository\BookRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use DateTimeImmutable;
-
+//#[ORM\ManyToMany(targetEntity="App\Entity\Tag", inversedBy="tasks", fetch="EXTRA_LAZY")]
 #[ORM\Entity(repositoryClass: BookRepository::class)]
 #[ORM\Table(name: 'books')]
 class Book
@@ -52,6 +55,20 @@ class Book
      */
     #[ORM\Column(type: 'integer', nullable: true)]
     private $price;
+
+    #[ORM\ManyToOne(targetEntity: Category::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Category $category=null;
+
+    #[Assert\Valid]
+    #[ORM\ManyToMany(targetEntity: Tag::class, fetch: 'EXTRA_LAZY', orphanRemoval: true)]
+    #[ORM\JoinTable(name: 'books_tags')]
+    private $tags;
+
+    public function __construct()
+    {
+        $this->tags = new ArrayCollection();
+    }
     /**
      * Getter for Id.
      *
@@ -106,7 +123,7 @@ class Book
      *
      * @return DateTimeInterface|null book_creation_time
      */
-    public function getBookCreationTime(): ?\DateTimeInterface
+    public function getbook_creation_time(): ?\DateTimeInterface
     {
         return $this->book_creation_time;
     }
@@ -115,7 +132,7 @@ class Book
      *
      * @return DateTimeInterface|null $book_creation_time book_creation_time
      */
-    public function setBookCreationTime(\DateTimeInterface $book_creation_time): self
+    public function setbook_creation_time(\DateTimeInterface $book_creation_time): self
     {
         $this->book_creation_time = $book_creation_time;
 
@@ -140,5 +157,39 @@ class Book
         $this->price = $price;
 
         return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Tag>
+     */
+    public function getTags(): Collection
+    {
+        return $this->tags;
+    }
+
+    public function addTag(Tag $tag): void
+    {
+        if (!$this->tags->contains($tag)) {
+            $this->tags[] = $tag;
+        }
+
+    }
+
+    public function removeTag(Tag $tag): void
+    {
+        $this->tags->removeElement($tag);
+
     }
 }
