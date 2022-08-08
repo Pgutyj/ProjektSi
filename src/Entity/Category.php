@@ -49,10 +49,8 @@ class Category
         return $this->slug;
     }
 
-    public function setSlug(?string $slug): self
+    public function setSlug(?string $slug): void
     {
         $this->slug = $slug;
-
-        return $this;
     }
 }

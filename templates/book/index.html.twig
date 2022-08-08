@@ -18,7 +18,10 @@
                 <th>{{ knp_pagination_sortable(pagination,'label.book_creation_time'|trans, 'book.book_creation_time') }}</th>
                 <th>{{ knp_pagination_sortable(pagination,'label.price'|trans, 'book.price') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label.category'|trans, 'category.name')  }}</th>
+                <th>{{ knp_pagination_sortable(pagination,'label.create'|trans, 'book.create') }}</th>
                 <th>{{ knp_pagination_sortable(pagination,'label.actions'|trans, 'book.actions') }}</th>
+                <th>{{ knp_pagination_sortable(pagination,'label.editing'|trans, 'book.editing') }}</th>
+                <th>{{ knp_pagination_sortable(pagination,'label.delete'|trans, 'book.delete') }}</th>
             </tr>
             </thead>
             <tbody>
@@ -30,9 +33,25 @@
                     <td>{{ book.book_creation_time|date('Y/m/d') }}</td>
                     <td>{{ book.price }}</td>
                     <td>{{ book.category.name }}</td>
+                    {# <td>{{ book.tag.name }}</td>#}
+                    <td>
+                        <a href="{{ url('book_create', {id: book.id}) }}" title="{{ 'action.create'|trans }}">
+                            {{ 'action.create'|trans }}
+                        </a>
+                    </td>
                     <td>
                         <a href="{{ url('book_show', {id: book.id}) }}" title="{{ 'action.view'|trans }}">
                             {{ 'action.view'|trans }}
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{{ url('book_edit', {id: book.id}) }}" title="{{ 'action.edit'|trans }}">
+                            {{ 'action.edit'|trans }}
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{{ url('book_delete', {id: book.id}) }}" title="{{ 'action.delete'|trans }}">
+                            {{ 'action.delete'|trans }}
                         </a>
                     </td>
                 </tr>

@@ -1,22 +1,23 @@
 <?php
 /**
- * Task type.
+ * Book type.
  */
 
 namespace App\Form\Type;
 
-use App\Entity\Tag;
 use App\Entity\Category;
 use App\Entity\Book;
+use App\Entity\Tag;
 use App\Form\DataTransformer\TagsDataTransformer;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class TaskType.
+ * Class BookType.
  */
 class BookType extends AbstractType
 {
@@ -53,12 +54,27 @@ class BookType extends AbstractType
                 'attr' => ['max_length' => 255],
             ]);
         $builder->add(
+            'description',
+            TextType::class,
+            [
+                'label' => 'label.description',
+                'required' => true,
+                'attr' => ['max_length' => 400],
+            ]);
+        $builder->add(
+            'price',
+            IntegerType::class,
+            [
+                'label' => 'label.price',
+                'required' => false,
+            ]);
+        $builder->add(
             'category',
             EntityType::class,
             [
                 'class' => Category::class,
                 'choice_label' => function ($category): string {
-                    return $category->getTitle();
+                    return $category->getName();
                 },
                 'label' => 'label.category',
                 'placeholder' => 'label.none',
@@ -70,14 +86,20 @@ class BookType extends AbstractType
             'tags',
             EntityType::class,
             [
-                'label'=>'label.tags',
-                'required'=>false,
-                'attr'=>['max_length'=>128],
+                'class' => Tag::class,
+                'choice_label' => function ($tag): string {
+                    return $tag->getTagInfo();
+                },
+                'label' => 'label.tags',
+                'placeholder' => 'label.none',
+                'required' => false,
+                'expanded' => true,
+                'multiple' => true,
             ]
         );
-        $builder->get('tags')->addModelTransformer(
-            $this->tagsDataTransformer
-        );
+      //  $builder->get('tags')->addModelTransformer(
+      //      $this->tagsDataTransformer
+       // );
     }
 
     /**

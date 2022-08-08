@@ -1,6 +1,6 @@
 <?php
 /**
- * Task service.
+ * Book service.
  */
 
 namespace App\Service;
@@ -13,12 +13,12 @@ use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 
 /**
- * Class TaskService.
+ * Class BookService.
  */
 class CategoryService implements CategoryServiceInterface
 {
     /**
-     * Task repository.
+     * Book repository.
      */
     private CategoryRepository $categoryRepository;
 

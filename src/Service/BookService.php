@@ -1,6 +1,6 @@
 <?php
 /**
- * Task service.
+ * Book service.
  */
 
 namespace App\Service;
@@ -11,12 +11,12 @@ use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 
 /**
- * Class TaskService.
+ * Class BookService.
  */
 class BookService implements BookServiceInterface
 {
     /**
-     * Task repository.
+     * Book repository.
      */
     private BookRepository $bookRepository;
 
@@ -28,8 +28,8 @@ class BookService implements BookServiceInterface
     /**
      * Constructor.
      *
-     * @param TaskRepository     $taskRepository Task repository
-     * @param PaginatorInterface $paginator      Paginator
+     * @param BookRepository     $bookRepository Book repository
+     * @param PaginatorInterface $paginator Paginator
      */
     public function __construct(BookRepository $bookRepository, PaginatorInterface $paginator)
     {
@@ -56,7 +56,7 @@ class BookService implements BookServiceInterface
     /**
      * Save entity.
      *
-     * @param Task $task Task entity
+     * @param Book $book Book entity
      */
     public function save(Book $book): void
     {
@@ -66,7 +66,7 @@ class BookService implements BookServiceInterface
     /**
      * Delete entity.
      *
-     * @param Task $task Task entity
+     * @param Book $book Book entity
      */
     public function delete(Book $book): void
     {

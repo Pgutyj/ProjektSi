@@ -1,6 +1,6 @@
 <?php
 /**
- * Task service interface.
+ * Book service interface.
  */
 
 namespace App\Service;
@@ -9,7 +9,7 @@ use App\Entity\Category;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 
 /**
- * Interface TaskServiceInterface.
+ * Interface BookServiceInterface.
  */
 interface CategoryServiceInterface
 {

@@ -10,7 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use DateTimeImmutable;
-//#[ORM\ManyToMany(targetEntity="App\Entity\Tag", inversedBy="tasks", fetch="EXTRA_LAZY")]
+//#[ORM\ManyToMany(targetEntity="App\Entity\Tag", inversedBy="", fetch="EXTRA_LAZY")]
 #[ORM\Entity(repositoryClass: BookRepository::class)]
 #[ORM\Table(name: 'books')]
 class Book
@@ -56,9 +56,22 @@ class Book
     #[ORM\Column(type: 'integer', nullable: true)]
     private $price;
 
-    #[ORM\ManyToOne(targetEntity: Category::class)]
+    /**
+     * Category.
+     *
+     * @var Category
+     */
+    #[ORM\ManyToOne(targetEntity: Category::class, fetch: 'EXTRA_LAZY')]
+    #[Assert\Type(Category::class)]
+    #[Assert\NotBlank]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Category $category=null;
+    private ?Category $category;
+
+    /**
+     * Tags.
+     *
+     * @var ArrayCollection<int, Tag>
+     */
 
     #[Assert\Valid]
     #[ORM\ManyToMany(targetEntity: Tag::class, fetch: 'EXTRA_LAZY', orphanRemoval: true)]

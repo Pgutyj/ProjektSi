@@ -1,6 +1,6 @@
 <?php
 /**
- * Task repository.
+ * Book repository.
  */
 
 namespace App\Repository;
@@ -87,7 +87,7 @@ class BookRepository extends ServiceEntityRepository
     /**
      * Delete entity.
      *
-     * @param Task $task Task entity
+     * @param Book $book Book entity
      */
     public function delete(Book $book): void
     {

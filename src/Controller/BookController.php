@@ -6,7 +6,7 @@
 namespace App\Controller;
 
 use App\Entity\Book;
-use App\Form\BookType;
+use App\Form\Type\BookType;
 use App\Service\BookServiceInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -134,7 +134,7 @@ class BookController extends AbstractController
      * Delete action.
      *
      * @param Request $request HTTP request
-     * @param Task    $task    Task entity
+     * @param Book    $book    Book entity
      *
      * @return Response HTTP response
      */

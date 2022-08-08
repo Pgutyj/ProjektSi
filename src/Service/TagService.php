@@ -1,6 +1,6 @@
 <?php
 /**
- * Task service.
+ * Tag service.
  */
 
 namespace App\Service;

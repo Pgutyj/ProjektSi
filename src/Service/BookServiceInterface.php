@@ -1,6 +1,6 @@
 <?php
 /**
- * Task service interface.
+ * Book service interface.
  */
 
 namespace App\Service;
