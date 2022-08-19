@@ -22,11 +22,7 @@ interface BookServiceInterface
      */
     public function getPaginatedList(int $page): PaginationInterface;
 
-
     public function save(Book $book): void;
 
-
-
     public function delete(Book $book): void;
-
 }

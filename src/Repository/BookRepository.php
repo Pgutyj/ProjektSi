@@ -13,7 +13,6 @@ use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
-
 class BookRepository extends ServiceEntityRepository
 {
     /**
@@ -47,9 +46,11 @@ class BookRepository extends ServiceEntityRepository
         return $this->getOrCreateQueryBuilder()
             ->select(
                 'partial book.{id, title, description, book_creation_time, price}',
-                'partial category.{id, name}'
+                'partial category.{id, name}',
+                'partial tags.{id, tag_info}'
             )
             ->join('book.category', 'category')
+            ->leftjoin('book.tags', 'tags')
             ->orderBy('book.book_creation_time', 'DESC');
     }
 
@@ -74,9 +75,19 @@ class BookRepository extends ServiceEntityRepository
             ->getSingleScalarResult();
     }
 
+    public function countByTag(Tag $tag): int
+    {
+        $qb = $this->getOrCreateQueryBuilder();
+
+        return $qb->select($qb->expr()->countDistinct('book.id'))
+            ->where('book.tags = :tags')
+            ->setParameter(':tag', $tag)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
     /**
      * Save entity.
-     *
      */
     public function save(Book $book): void
     {
@@ -106,5 +117,4 @@ class BookRepository extends ServiceEntityRepository
     {
         return $queryBuilder ?? $this->createQueryBuilder('book');
     }
-
 }

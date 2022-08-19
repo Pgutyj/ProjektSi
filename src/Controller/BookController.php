@@ -1,6 +1,6 @@
 <?php
 /**
- * Book Controller
+ * Book Controller.
  */
 
 namespace App\Controller;
@@ -13,8 +13,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Form\Extension\Core\Type\FormType;
-
 
 /**
  * Class BookController.
@@ -22,26 +20,32 @@ use Symfony\Component\Form\Extension\Core\Type\FormType;
 #[Route('/book')]
 class BookController extends AbstractController
 {
-
     private BookServiceInterface $bookService;
 
     private TranslatorInterface $translator;
 
+    /**
+     * construct function.
+     */
     public function __construct(TranslatorInterface $translator, BookServiceInterface $bookService)
     {
-        $this->translator=$translator;
-        $this->bookService=$bookService;
+        $this->translator = $translator;
+        $this->bookService = $bookService;
     }
 
-
+    /**
+     * index function.
+     */
     #[Route(
         name: 'book_index',
         methods: 'GET'
     )]
     public function index(Request $request): Response
     {
-        $pagination = $this->bookService->getPaginatedList($request->query->getInt('page', 1)
+        $pagination = $this->bookService->getPaginatedList(
+            $request->query->getInt('page', 1)
         );
+
         return $this->render(
             'book/index.html.twig',
             ['pagination' => $pagination]
@@ -55,7 +59,6 @@ class BookController extends AbstractController
      *
      * @return Response HTTP response
      */
-
     #[Route(
         '/{id}',
         name: 'book_show',
@@ -69,8 +72,6 @@ class BookController extends AbstractController
             ['book' => $book]
         );
     }
-
-
 
     #[Route('/create', name: 'book_create', methods: 'GET|POST', )]
     public function create(Request $request): Response
@@ -91,10 +92,10 @@ class BookController extends AbstractController
                 $this->translator->trans('message.created_successfully')
             );
 
-            return $this->redirectToRoute('task_index');
+            return $this->redirectToRoute('book_index');
         }
 
-        return $this->render('book/create.html.twig',  ['form' => $form->createView()]);
+        return $this->render('book/create.html.twig', ['form' => $form->createView()]);
     }
 
     #[Route('/{id}/edit', name: 'book_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|PUT')]
@@ -168,6 +169,19 @@ class BookController extends AbstractController
                 'form' => $form->createView(),
                 'book' => $book,
             ]
+        );
+    }
+    #[Route(
+        '/{id}/reserve',
+        name: 'book_reserve',
+        requirements: ['id' => '[1-9]\d*'],
+        methods: 'GET',
+    )]
+    public function reserve(Book $book): Response
+    {
+        return $this->render(
+            'book/reserve.html.twig',
+            ['book' => $book]
         );
     }
 

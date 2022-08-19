@@ -29,7 +29,7 @@ class BookService implements BookServiceInterface
      * Constructor.
      *
      * @param BookRepository     $bookRepository Book repository
-     * @param PaginatorInterface $paginator Paginator
+     * @param PaginatorInterface $paginator      Paginator
      */
     public function __construct(BookRepository $bookRepository, PaginatorInterface $paginator)
     {

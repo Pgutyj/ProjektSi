@@ -6,6 +6,8 @@ use App\Repository\ReservationRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ReservationRepository::class)]
+#[ORM\Table(name: 'reservations')]
+#[UniqueEntity(fields: ['name'])]
 class Reservation
 {
     #[ORM\Id]
@@ -21,6 +23,9 @@ class Reservation
 
     #[ORM\Column(type: 'text', nullable: true)]
     private $comment;
+
+    #[ORM\ManyToOne(targetEntity: ReservationStatus::class)]
+    private $reservation_status;
 
     public function getId(): ?int
     {
@@ -59,6 +64,18 @@ class Reservation
     public function setComment(?string $comment): self
     {
         $this->comment = $comment;
+
+        return $this;
+    }
+
+    public function getReservationStatus(): ?ReservationStatus
+    {
+        return $this->reservation_status;
+    }
+
+    public function setReservationStatus(?ReservationStatus $reservation_status): self
+    {
+        $this->reservation_status = $reservation_status;
 
         return $this;
     }

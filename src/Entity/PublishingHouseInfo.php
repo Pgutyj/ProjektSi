@@ -6,6 +6,8 @@ use App\Repository\PublishingHouseInfoRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PublishingHouseInfoRepository::class)]
+#[ORM\Table(name: 'publishingHouseInfos')]
+#[UniqueEntity(fields: ['name'])]
 class PublishingHouseInfo
 {
     #[ORM\Id]

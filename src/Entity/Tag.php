@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\TagRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\PersistentCollection;
 
 #[ORM\Entity(repositoryClass: TagRepository::class)]
 #[ORM\Table(name: 'tags')]
@@ -22,15 +23,24 @@ class Tag
         return $this->id;
     }
 
-    public function getTagInfo(): ?string
+    public function getTag_info(): ?string
     {
         return $this->tag_info;
     }
 
-    public function setTagInfo(string $tag_info): self
+    public function setTag_info(string $tag_info): self
     {
         $this->tag_info = $tag_info;
 
+        return $this;
+    }
+
+    public function addBook(Book $book): self
+    {
+        if (!$this->books->contains($book)) {
+            $this->books[] = $book;
+            $book->addTag($this);
+        }
         return $this;
     }
 }

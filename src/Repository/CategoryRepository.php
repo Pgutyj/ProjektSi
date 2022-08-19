@@ -5,8 +5,6 @@ namespace App\Repository;
 use App\Entity\Category;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
 
 /**
@@ -19,7 +17,6 @@ use Doctrine\ORM\QueryBuilder;
  */
 class CategoryRepository extends ServiceEntityRepository
 {
-
     public const PAGINATOR_ITEMS_PER_PAGE = 5;
 
     public function __construct(ManagerRegistry $registry)
@@ -31,7 +28,7 @@ class CategoryRepository extends ServiceEntityRepository
     {
         return $this->getOrCreateQueryBuilder()
             ->select('partial category.{id, name}')
-            ->orderBy('category.name', 'DESC');
+            ->orderBy('category.id', 'ASC');
     }
 
     /**
@@ -57,5 +54,4 @@ class CategoryRepository extends ServiceEntityRepository
         $this->_em->remove($category);
         $this->_em->flush();
     }
-
 }

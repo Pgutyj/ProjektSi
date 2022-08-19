@@ -12,6 +12,7 @@ use App\Form\DataTransformer\TagsDataTransformer;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -21,8 +22,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class BookType extends AbstractType
 {
-
-
     /**
      * Builds the form.
      *
@@ -34,8 +33,6 @@ class BookType extends AbstractType
      *
      * @see FormTypeExtensionInterface::buildForm()
      */
-
-
     private TagsDataTransformer $tagsDataTransformer;
 
     public function __construct(TagsDataTransformer $tagsDataTransformer)
@@ -52,7 +49,8 @@ class BookType extends AbstractType
                 'label' => 'label.title',
                 'required' => true,
                 'attr' => ['max_length' => 255],
-            ]);
+            ]
+        );
         $builder->add(
             'description',
             TextType::class,
@@ -60,14 +58,16 @@ class BookType extends AbstractType
                 'label' => 'label.description',
                 'required' => true,
                 'attr' => ['max_length' => 400],
-            ]);
+            ]
+        );
         $builder->add(
             'price',
             IntegerType::class,
             [
                 'label' => 'label.price',
                 'required' => false,
-            ]);
+            ]
+        );
         $builder->add(
             'category',
             EntityType::class,
@@ -88,7 +88,7 @@ class BookType extends AbstractType
             [
                 'class' => Tag::class,
                 'choice_label' => function ($tag): string {
-                    return $tag->getTagInfo();
+                    return $tag->getTag_info();
                 },
                 'label' => 'label.tags',
                 'placeholder' => 'label.none',
@@ -97,9 +97,19 @@ class BookType extends AbstractType
                 'multiple' => true,
             ]
         );
-      //  $builder->get('tags')->addModelTransformer(
-      //      $this->tagsDataTransformer
-       // );
+
+        $builder->add(
+            'date',
+            DateType::class,
+            [
+                'widget' => 'choice',
+                'input'  => 'datetime_immutable'
+            ]
+        );
+
+         // $builder->get('tags')->addModelTransformer(
+           // $this->tagsDataTransformer
+        // );
     }
 
     /**

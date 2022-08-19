@@ -20,19 +20,9 @@
             <dd>{{  book.title }}</dd>
             <dt>{{ 'label.category'|trans }}</dt>
             <dd>{{  book.category.name }}</dd>
-            <dt>{{ 'label.tags'|trans }}</dt>
-            <dd>
-                {% if book.tags is defined and book.tags|length %}
-                        {% for tag in book.tags %}
-                            {{ tag.tag_info }}
-                        {% endfor %}
-                    {% else %}
-                        {{ 'label.notags'|trans }}
-                    {% endif %}
-            </dd>
         </dl>
         <p>
-            <a href="{{ url('book_index') }}" title="{{ 'action.back_to_list'|trans }}">
+            <a href="{{ url('book_reserve') }}" title="{{ 'action.back_to_list'|trans }}">
                 {{ 'action.back_to_list'|trans }}
             </a>
         </p>

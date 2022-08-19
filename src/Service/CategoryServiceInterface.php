@@ -20,7 +20,6 @@ interface CategoryServiceInterface
      *
      * @return PaginationInterface<string, mixed> Paginated list
      */
-
     public function save(Category $category): void;
 
     public function delete(Category $category): void;
@@ -28,5 +27,4 @@ interface CategoryServiceInterface
     public function getPaginatedList(int $page): PaginationInterface;
 
     public function canBeDeleted(Category $category): bool;
-
 }

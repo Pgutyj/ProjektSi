@@ -1,6 +1,6 @@
 <?php
 /**
- * Book service.
+ * Category service.
  */
 
 namespace App\Service;
@@ -13,16 +13,18 @@ use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 
 /**
- * Class BookService.
+ * Class Category Service.
  */
 class CategoryService implements CategoryServiceInterface
 {
     /**
      * Book repository.
      */
-    private CategoryRepository $categoryRepository;
-
     private BookRepository $bookRepository;
+    /**
+     * Category repository.
+     */
+    private CategoryRepository $categoryRepository;
 
     /**
      * Paginator.
@@ -46,10 +48,8 @@ class CategoryService implements CategoryServiceInterface
     {
         $this->categoryRepository = $categoryRepository;
         $this->paginator = $paginator;
-        $this->bookRepository=$bookRepository;
+        $this->bookRepository = $bookRepository;
     }
-
-
 
     /**
      * Get paginated list.
@@ -66,6 +66,7 @@ class CategoryService implements CategoryServiceInterface
             CategoryRepository::PAGINATOR_ITEMS_PER_PAGE
         );
     }
+
     public function canBeDeleted(Category $category): bool
     {
         try {

@@ -6,6 +6,8 @@ use App\Repository\AuthorInfoRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AuthorInfoRepository::class)]
+#[ORM\Table(name: 'authorInfos')]
+#[UniqueEntity(fields: ['name'])]
 class AuthorInfo
 {
     #[ORM\Id]

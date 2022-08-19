@@ -1,18 +1,18 @@
 <?php
 /**
- * Category fixtures.
+ * Author Info fixtures.
  */
 
 namespace App\DataFixtures;
 
-use App\Entity\Category;
+use App\Entity\AuthorInfo;
 
 /**
  * Class CategoryFixtures.
  *
  * @psalm-suppress MissingConstructor
  */
-class CategoryFixtures extends AbstractBaseFixtures
+class AuthorInfoFixtures extends AbstractBaseFixtures
 {
     /**
      * Load data.
@@ -22,11 +22,11 @@ class CategoryFixtures extends AbstractBaseFixtures
      */
     public function loadData(): void
     {
-        $this->createMany(20, 'categories', function (int $i) {
-            $category = new category();
-            $category->setName($this->faker->unique()->word);
+        $this->createMany(20, 'authorInfos', function (int $i) {
+            $authorInfo = new authorInfo();
+            $authorInfo->setName($this->faker->unique()->word);
 
-            return $category;
+            return $authorInfo;
         });
 
         $this->manager->flush();

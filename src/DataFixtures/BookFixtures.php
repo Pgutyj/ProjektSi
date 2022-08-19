@@ -4,10 +4,6 @@ namespace App\DataFixtures;
 
 use App\Entity\Book;
 use DateTimeImmutable;
-use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Persistence\ObjectManager;
-use Faker\Factory;
-use Faker\Generator;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 class BookFixtures extends AbstractBaseFixtures implements DependentFixtureInterface
@@ -25,6 +21,16 @@ class BookFixtures extends AbstractBaseFixtures implements DependentFixtureInter
             $book->setPrice($this->faker->numberBetween(15, 50));
             $category = $this->getRandomReference('categories');
             $book->setCategory($category);
+            $tags = $this->getRandomReferences(
+                'tags',
+                $this->faker->numberBetween(0, 5)
+            );
+            foreach ($tags as $tag) {
+                $book->addTag($tag);
+            }
+
+            $author = $this->getRandomReference('users');
+            $book->setAuthor($author);
 
             return $book;
         });
@@ -34,7 +40,6 @@ class BookFixtures extends AbstractBaseFixtures implements DependentFixtureInter
 
     public function getDependencies(): array
     {
-        return [CategoryFixtures::class];
+        return [CategoryFixtures::class, TagFixtures::class, UserFixtures::class];
     }
-
 }

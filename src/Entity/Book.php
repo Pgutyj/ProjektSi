@@ -1,16 +1,18 @@
 <?php
 /**
- * Book Entity
+ * Book Entity.
  */
+
 namespace App\Entity;
 
-use App\Entity\Category;
 use App\Repository\BookRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use DateTimeImmutable;
-//#[ORM\ManyToMany(targetEntity="App\Entity\Tag", inversedBy="", fetch="EXTRA_LAZY")]
+
+
+
 #[ORM\Entity(repositoryClass: BookRepository::class)]
 #[ORM\Table(name: 'books')]
 class Book
@@ -28,7 +30,6 @@ class Book
      * title.
      *
      * @var string|null
-     *
      */
     #[ORM\Column(type: 'string', length: 100)]
     private $title;
@@ -36,15 +37,11 @@ class Book
      * description.
      *
      * @var text|null
-     *
      */
     #[ORM\Column(type: 'text')]
     private $description;
     /**
      * book_creation_time.
-     *
-     * @var DateTimeImmutable|null
-     *
      */
     #[ORM\Column(type: 'datetime_immutable')]
     private ?DateTimeImmutable $book_creation_time;
@@ -72,16 +69,22 @@ class Book
      *
      * @var ArrayCollection<int, Tag>
      */
-
     #[Assert\Valid]
     #[ORM\ManyToMany(targetEntity: Tag::class, fetch: 'EXTRA_LAZY', orphanRemoval: true)]
     #[ORM\JoinTable(name: 'books_tags')]
     private $tags;
 
+    #[ORM\ManyToOne(targetEntity: User::class, fetch: 'EXTRA_LAZY')]
+    #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotBlank]
+    #[Assert\Type(User::class)]
+    private ?User $author;
+
     public function __construct()
     {
         $this->tags = new ArrayCollection();
     }
+
     /**
      * Getter for Id.
      *
@@ -91,15 +94,15 @@ class Book
     {
         return $this->id;
     }
+
     /**
      * Getter for Title.
-     *
-     * @return string|null
      */
     public function getTitle(): ?string
     {
         return $this->title;
     }
+
     /**
      * Setter for Title.
      *
@@ -111,6 +114,7 @@ class Book
 
         return $this;
     }
+
     /**
      * Getter for Description.
      *
@@ -120,6 +124,7 @@ class Book
     {
         return $this->description;
     }
+
     /**
      * Setter for Description.
      *
@@ -131,6 +136,7 @@ class Book
 
         return $this;
     }
+
     /**
      * Getter for book_creation_time.
      *
@@ -140,6 +146,7 @@ class Book
     {
         return $this->book_creation_time;
     }
+
     /**
      * Setter for book_creation_time.
      *
@@ -151,6 +158,7 @@ class Book
 
         return $this;
     }
+
     /**
      * Getter for Price.
      *
@@ -160,6 +168,7 @@ class Book
     {
         return $this->price;
     }
+
     /**
      * Setter for Price.
      *
@@ -197,12 +206,22 @@ class Book
         if (!$this->tags->contains($tag)) {
             $this->tags[] = $tag;
         }
-
     }
 
     public function removeTag(Tag $tag): void
     {
         $this->tags->removeElement($tag);
+    }
 
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): self
+    {
+        $this->author = $author;
+
+        return $this;
     }
 }
