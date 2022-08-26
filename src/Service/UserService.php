@@ -7,12 +7,16 @@ namespace App\Service;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
+use Symfony\Component\Security\Core\Security;
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use Knp\Component\Pager\PaginatorInterface;
 
 /**
  * Class UserService.
  */
 class UserService implements UserServiceInterface
 {
+    private $security;
     /**
      * UserType repository.
      */
@@ -24,9 +28,11 @@ class UserService implements UserServiceInterface
      * @param UserRepository     $userRepository UserType repository
      * @param PaginatorInterface $paginator      Paginator
      */
-    public function __construct(UserRepository $userRepository)
+    public function __construct(UserRepository $userRepository, Security $security, PaginatorInterface $paginator)
     {
         $this->userRepository = $userRepository;
+        $this->security = $security;
+        $this->paginator = $paginator;
     }
 
     /**
@@ -47,5 +53,19 @@ class UserService implements UserServiceInterface
     public function delete(User $user): void
     {
         $this->userRepository->delete($user);
+    }
+
+    public function getCurrentUser(): void
+    {
+        $user = $this->security->getUser();
+    }
+
+    public function getPaginatedList(int $page): PaginationInterface
+    {
+        return $this->paginator->paginate(
+            $this->userRepository->queryAll(),
+            $page,
+            UserRepository::PAGINATOR_ITEMS_PER_PAGE
+        );
     }
 }

@@ -31,6 +31,10 @@ class BookFixtures extends AbstractBaseFixtures implements DependentFixtureInter
 
             $author = $this->getRandomReference('users');
             $book->setAuthor($author);
+            $book_author = $this->getRandomReference('authorInfos');
+            $book->setBookAuthor($book_author);
+            $publishing_house_info = $this->getRandomReference('publishingHouseInfos');
+            $book->setPublishingHouseInfo($publishing_house_info);
 
             return $book;
         });
@@ -40,6 +44,12 @@ class BookFixtures extends AbstractBaseFixtures implements DependentFixtureInter
 
     public function getDependencies(): array
     {
-        return [CategoryFixtures::class, TagFixtures::class, UserFixtures::class];
+        return [
+            CategoryFixtures::class,
+            TagFixtures::class,
+            UserFixtures::class,
+            AuthorInfoFixtures::class,
+            PublishingHouseInfoFixtures::class,
+                ];
     }
 }

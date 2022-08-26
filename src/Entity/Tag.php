@@ -4,7 +4,6 @@ namespace App\Entity;
 
 use App\Repository\TagRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\PersistentCollection;
 
 #[ORM\Entity(repositoryClass: TagRepository::class)]
 #[ORM\Table(name: 'tags')]
@@ -41,6 +40,7 @@ class Tag
             $this->books[] = $book;
             $book->addTag($this);
         }
+
         return $this;
     }
 }

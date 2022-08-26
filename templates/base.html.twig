@@ -16,6 +16,9 @@
     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
         <div>{{ app.user.nick }}</div>
         <div>
+            <a href="{{ url('app_profile', {id: app.user.id}) }}">{{ 'action_profile'|trans }}</a>
+        </div>
+        <div>
             <a href="{{ url('app_logout') }}">{{ 'action_logout'|trans }}</a>
         </div>
     {% else %}

@@ -1,34 +1,20 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    {{ 'title.book_details'|trans({'%id%': book.id|default('')}) }}
+    {{ 'title.reserve'|trans({'%id%': book.id|default('')}) }}
 {% endblock %}
 
 {% block body %}
-    <h1>{{ 'title.book_details'|trans({'%id%': book.id|default('')}) }}</h1>
-    {% if book is defined and book|length %}
-        <dl class="dl-horizontal">
-            <dt>{{ 'label.id'|trans }}</dt>
-            <dd>{{ book.id }}</dd>
-            <dt>{{ 'label.book_creation_time'|trans }}</dt>
-            <dd>{{ book.book_creation_time|date('d/m/Y') }}</dd>
-            <dt>{{ 'label.description'|trans }}</dt>
-            <dd>{{ book.description }}</dd>
-            <dt>{{ 'label.price'|trans }}</dt>
-            <dd>{{ book.price }}</dd>
-            <dt>{{ 'label.title'|trans }}</dt>
-            <dd>{{  book.title }}</dd>
-            <dt>{{ 'label.category'|trans }}</dt>
-            <dd>{{  book.category.name }}</dd>
-        </dl>
+    <h1>{{ 'title.reserve'|trans({'%id%': book.id|default('')}) }}</h1>
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <div class="form-group row float-sm-right">
+            <input type="submit" value="{{ 'action.reserve'|trans }}" class="btn btn-primary" />
+        </div>
         <p>
-            <a href="{{ url('book_reserve') }}" title="{{ 'action.back_to_list'|trans }}">
+            <a href="{{ url('book_index') }}" title="{{ 'action.back_to_list'|trans }}">
                 {{ 'action.back_to_list'|trans }}
             </a>
         </p>
-    {% else %}
-        <p>
-            {{ 'message.record_not_found'|trans }}
-        </p>
-    {% endif %}
+        {{ form_end(form) }}
 {% endblock %}

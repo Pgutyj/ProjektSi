@@ -24,7 +24,10 @@ class Reservation
     #[ORM\Column(type: 'text', nullable: true)]
     private $comment;
 
-    #[ORM\ManyToOne(targetEntity: ReservationStatus::class)]
+    #[ORM\ManyToOne(targetEntity: ReservationStatus::class, fetch: 'EXTRA_LAZY')]
+    #[Assert\Type(ReservationStatus::class)]
+    #[Assert\NotBlank]
+    #[ORM\JoinColumn(nullable: true)]
     private $reservation_status;
 
     public function getId(): ?int

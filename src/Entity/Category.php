@@ -22,7 +22,7 @@ class Category
     #[Assert\Length(min: 3, max: 64)]
     private ?string $name;
 
-    #[ORM\Column(type: 'string', length: 20, nullable: true)]
+    #[ORM\Column(type: 'string', length: 128, nullable: true)]
     #[Assert\Type('string')]
     #[Assert\Length(min: 3, max: 64)]
     #[Gedmo\Slug(fields: ['name'])]

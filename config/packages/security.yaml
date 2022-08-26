@@ -22,6 +22,7 @@ security:
             lazy: true
             provider: app_user_provider
             custom_authenticator: App\Security\LoginFormAuthenticator
+            switch_user: {role: ROLE_ADMIN, parameter: _want_to_be_this_user}
             logout:
                 path: app_logout
                 # where to redirect after logout
@@ -43,6 +44,8 @@ security:
         # - { path: ^/profile, roles: ROLE_USER }
         - { path: ^/login, roles: PUBLIC_ACCESS}
         - { path: ^/signup, roles: PUBLIC_ACCESS}
+        - { path: ^/book, roles: PUBLIC_ACCESS}
+        - { path: ^/admin, roles: ROLE_ADMIN}
         - { path: ^/, roles: ROLE_USER}
 
 when@test:

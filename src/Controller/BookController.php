@@ -6,6 +6,7 @@
 namespace App\Controller;
 
 use App\Entity\Book;
+use App\Form\Type\ReservationType;
 use App\Form\Type\BookType;
 use App\Service\BookServiceInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -42,14 +43,42 @@ class BookController extends AbstractController
     )]
     public function index(Request $request): Response
     {
-        $pagination = $this->bookService->getPaginatedList(
-            $request->query->getInt('page', 1)
-        );
+        $filters = $this->getFilters($request);
+        $user = $this->getUser();
+        if (null != $user) {
+            $pagination = $this->bookService->getPaginatedList(
+                $request->query->getInt('page', 1),
+                $user,
+                $filters
+            );
+        } else {
+            $pagination = $this->bookService->getPaginatedAll(
+                $request->query->getInt('page', 1)
+            );
+        }
 
         return $this->render(
             'book/index.html.twig',
             ['pagination' => $pagination]
         );
+    }
+
+    /**
+     * Get filters from request.
+     *
+     * @param Request $request HTTP request
+     *
+     * @return array<string, int> Array of filters
+     *
+     * @psalm-return array{category_id: int, tag_id: int, status_id: int}
+     */
+    private function getFilters(Request $request): array
+    {
+        $filters = [];
+        $filters['category_id'] = $request->query->getInt('filters_category_id');
+        $filters['tag_id'] = $request->query->getInt('filters_tag_id');
+
+        return $filters;
     }
 
     /**
@@ -65,8 +94,18 @@ class BookController extends AbstractController
         requirements: ['id' => '[1-9]\d*'],
         methods: 'GET',
     )]
+    #[IsGranted('VIEW', subject: 'book')]
     public function show(Book $book): Response
     {
+        if ($book->getAuthor() !== $this->getUser()) {
+            $this->addFlash(
+                'warning',
+                $this->translator->trans('message.record_not_found')
+            );
+
+            return $this->redirectToRoute('book_index');
+        }
+
         return $this->render(
             'book/show.html.twig',
             ['book' => $book]
@@ -76,7 +115,10 @@ class BookController extends AbstractController
     #[Route('/create', name: 'book_create', methods: 'GET|POST', )]
     public function create(Request $request): Response
     {
+        $user = $this->getUser();
         $book = new Book();
+        $book->setAuthor($user);
+
         $form = $this->createForm(
             BookType::class,
             $book,
@@ -98,9 +140,28 @@ class BookController extends AbstractController
         return $this->render('book/create.html.twig', ['form' => $form->createView()]);
     }
 
+    #[IsGranted('EDIT', subject: 'book')]
     #[Route('/{id}/edit', name: 'book_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|PUT')]
     public function edit(Request $request, Book $book): Response
     {
+        if ($book->getAuthor() !== $this->getUser()) {
+            $this->addFlash(
+                'warning',
+                $this->translator->trans('message.record_not_found')
+            );
+
+            return $this->redirectToRoute('book_index');
+        }
+
+        if ($book->getAuthor() !== $this->getUser()) {
+            $this->addFlash(
+                'warning',
+                $this->translator->trans('message.record_not_found')
+            );
+
+            return $this->redirectToRoute('book_index');
+        }
+
         $form = $this->createForm(
             BookType::class,
             $book,
@@ -109,7 +170,6 @@ class BookController extends AbstractController
                 'action' => $this->generateUrl('book_edit', ['id' => $book->getId()]),
             ]
         );
-        $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->bookService->save($book);
@@ -140,8 +200,18 @@ class BookController extends AbstractController
      * @return Response HTTP response
      */
     #[Route('/{id}/delete', name: 'book_delete', requirements: ['id' => '[1-9]\d*'], methods: 'GET|DELETE')]
+    #[IsGranted('DELETE', subject: 'book')]
     public function delete(Request $request, Book $book): Response
     {
+        if ($book->getAuthor() !== $this->getUser()) {
+            $this->addFlash(
+                'warning',
+                $this->translator->trans('message.record_not_found')
+            );
+
+            return $this->redirectToRoute('book_index');
+        }
+
         $form = $this->createForm(
             BookType::class,
             $book,
@@ -171,20 +241,51 @@ class BookController extends AbstractController
             ]
         );
     }
+
+    /**
+     * Reserve action.
+     *
+     * @param Request $request HTTP request
+     * @param Book    $book    Book entity
+     *
+     * @return Response HTTP response
+     */
+
     #[Route(
         '/{id}/reserve',
         name: 'book_reserve',
         requirements: ['id' => '[1-9]\d*'],
-        methods: 'GET',
+        methods: 'GET|PUT',
     )]
-    public function reserve(Book $book): Response
+    public function reserve(Request $request, Book $book): Response
     {
+        $form = $this->createForm(
+            ReservationType::class,
+            $book,
+            [
+                'method' => 'PUT',
+                'action' => $this->generateUrl('book_reserve', ['id' => $book->getId()]),
+            ]
+        );
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->bookService->reserve($book);
+
+            $this->addFlash(
+                'success',
+                $this->translator->trans('message.reserved successfully')
+            );
+
+            return $this->redirectToRoute('book_index');
+        }
+
         return $this->render(
             'book/reserve.html.twig',
-            ['book' => $book]
+            [
+                'book' => $book,
+                'form' => $form->createView(),
+            ]
         );
     }
-
-
-
 }

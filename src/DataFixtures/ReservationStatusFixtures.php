@@ -22,11 +22,20 @@ class ReservationStatusFixtures extends AbstractBaseFixtures
      */
     public function loadData(): void
     {
-        $this->createMany(3, 'reservationStatuses', function (int $i) {
+        $this->createMany(4, 'reservationStatus', function (int $i) {
             $reservationStatus = new reservationStatus();
-            $reservationStatus->setStatusInfo('rejected');
-            $reservationStatus->setStatusInfo('approved');
-            $reservationStatus->setStatusInfo('refunded');
+            if (0 == $i) {
+                $reservationStatus->setStatusInfo('waiting');
+            }
+            if (1 == $i) {
+                $reservationStatus->setStatusInfo('rejected');
+            }
+            if (2 == $i) {
+                $reservationStatus->setStatusInfo('approved');
+            }
+            if (3 == $i) {
+                $reservationStatus->setStatusInfo('refunded');
+            }
 
             return $reservationStatus;
         });

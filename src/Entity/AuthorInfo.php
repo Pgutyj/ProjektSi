@@ -16,7 +16,10 @@ class AuthorInfo
     private $id;
 
     #[ORM\Column(type: 'string', length: 100)]
-    private $name;
+    #[Assert\Type('string')]
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 3, max: 64)]
+    private ?string $name;
 
     public function getId(): ?int
     {
@@ -28,10 +31,8 @@ class AuthorInfo
         return $this->name;
     }
 
-    public function setName(string $name): self
+    public function setName(?string $name): void
     {
         $this->name = $name;
-
-        return $this;
     }
 }

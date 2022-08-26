@@ -54,4 +54,14 @@ class CategoryRepository extends ServiceEntityRepository
         $this->_em->remove($category);
         $this->_em->flush();
     }
+
+    // public function findOneById($id): ?Category
+   // {
+    //    return $this->createQueryBuilder('category')
+    //        ->andWhere('category.id = :id')
+    //        ->setParameter('id', $id)
+     //       ->getQuery()
+    //        ->getOneOrNullResult()
+    //    ;
+   // }
 }

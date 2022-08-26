@@ -7,11 +7,13 @@ namespace App\Repository;
 
 use App\Entity\Category;
 use App\Entity\Book;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class BookRepository extends ServiceEntityRepository
 {
@@ -37,29 +39,11 @@ class BookRepository extends ServiceEntityRepository
     }
 
     /**
-     * Query all records.
-     *
-     * @return QueryBuilder Query builder
-     */
-    public function queryAll(): QueryBuilder
-    {
-        return $this->getOrCreateQueryBuilder()
-            ->select(
-                'partial book.{id, title, description, book_creation_time, price}',
-                'partial category.{id, name}',
-                'partial tags.{id, tag_info}'
-            )
-            ->join('book.category', 'category')
-            ->leftjoin('book.tags', 'tags')
-            ->orderBy('book.book_creation_time', 'DESC');
-    }
-
-    /**
-     * Count tasks by category.
+     * Count books by category.
      *
      * @param Category $category Category
      *
-     * @return int Number of tasks in category
+     * @return int Number of books in category
      *
      * @throws NoResultException
      * @throws NonUniqueResultException
@@ -104,6 +88,76 @@ class BookRepository extends ServiceEntityRepository
     {
         $this->_em->remove($book);
         $this->_em->flush();
+    }
+
+    public function reserve(Book $book): void
+    {
+        $this->_em->persist($book);
+        $this->_em->flush();
+    }
+
+    /**
+     * Query books by author.
+     *
+     * @param User $user User entity
+     *
+     * @return QueryBuilder Query builder
+     */
+    public function queryByAuthor(UserInterface $user, array $filters = []): QueryBuilder
+    {
+        $queryBuilder = $this->queryAll($filters);
+
+        $queryBuilder->andWhere('book.author = :author')
+            ->setParameter('author', $user);
+
+        return $queryBuilder;
+    }
+
+    /**
+     * Query all records.
+     *
+     * @return QueryBuilder Query builder
+     */
+    public function queryAll(array $filters): QueryBuilder
+    {
+        $queryBuilder = $this->getOrCreateQueryBuilder()
+            ->select(
+                'partial book.{id, title, description, book_creation_time, price}',
+                'partial category.{id, name}',
+                'partial tags.{id, tag_info}',
+                'partial PublishingHouseInfo.{id, name}',
+                'partial AuthorInfo.{id, name}'
+            )
+            ->join('book.category', 'category')
+            ->join('book.publishing_house_info', 'PublishingHouseInfo')
+            ->join('book.book_author', 'AuthorInfo')
+            ->leftJoin('book.tags', 'tags')
+            ->orderBy('book.book_creation_time', 'DESC');
+
+        return $this->applyFiltersToList($queryBuilder, $filters);
+    }
+
+    /**
+     * Apply filters to paginated list.
+     *
+     * @param QueryBuilder          $queryBuilder Query builder
+     * @param array<string, object> $filters      Filters array
+     *
+     * @return QueryBuilder Query builder
+     */
+    private function applyFiltersToList(QueryBuilder $queryBuilder, array $filters = []): QueryBuilder
+    {
+        if (isset($filters['category']) && $filters['category'] instanceof Category) {
+            $queryBuilder->andWhere('category = :category')
+                ->setParameter('category', $filters['category']);
+        }
+
+        if (isset($filters['tag']) && $filters['tag'] instanceof Tag) {
+            $queryBuilder->andWhere('tags IN (:tag)')
+                ->setParameter('tag', $filters['tag']);
+        }
+
+        return $queryBuilder;
     }
 
     /**

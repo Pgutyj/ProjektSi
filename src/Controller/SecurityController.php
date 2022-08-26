@@ -61,9 +61,9 @@ class SecurityController extends AbstractController
             $password = $user->getPassword();
             $user->setPassword(
                 $this->passwordHasher->hashPassword(
-                $user,
-                $password
-            )
+                    $user,
+                    $password
+                )
             );
             $this->userService->save($user);
 

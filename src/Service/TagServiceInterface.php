@@ -16,4 +16,6 @@ interface TagServiceInterface
     public function getPaginatedList(int $page): PaginationInterface;
 
     public function canBeDeleted(Tag $tag): bool;
+
+    public function findOneById(int $id): ?Tag;
 }

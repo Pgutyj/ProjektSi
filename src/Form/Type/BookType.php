@@ -5,17 +5,19 @@
 
 namespace App\Form\Type;
 
+use App\Entity\AuthorInfo;
 use App\Entity\Category;
 use App\Entity\Book;
+use App\Entity\PublishingHouseInfo;
 use App\Entity\Tag;
 use App\Form\DataTransformer\TagsDataTransformer;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 
 /**
  * Class BookType.
@@ -69,6 +71,44 @@ class BookType extends AbstractType
             ]
         );
         $builder->add(
+            'authorInfo',
+            EntityType::class,
+            [
+                'class' => AuthorInfo::class,
+                'choice_label' => function ($book_author): string {
+                    return $book_author->getname();
+                },
+                'label' => 'label.AuthorInfo',
+                'placeholder' => 'label.none',
+                'required' => true,
+            ]
+        );
+        $builder->add(
+            'PublishingHouseInfo',
+            EntityType::class,
+            [
+                'class' => PublishingHouseInfo::class,
+                'choice_label' => function ($publishing_house_info): string {
+                    return $publishing_house_info->getname();
+                },
+                'label' => 'label.PublishingHouseInfo',
+                'placeholder' => 'label.none',
+                'required' => true,
+            ]
+        );
+        $builder->add(
+            'BookCreationTime',
+            DateTimeType::class,
+            [
+                'date_label' => 'CreatedAt',
+                'placeholder' => [
+                    'year' => 'Year', 'month' => 'Month', 'day' => 'Day',
+                    'hour' => 'Hour', 'minute' => 'Minute', 'second' => 'Second',
+                ],
+                'input' => 'datetime_immutable',
+            ]
+        );
+        $builder->add(
             'category',
             EntityType::class,
             [
@@ -98,17 +138,8 @@ class BookType extends AbstractType
             ]
         );
 
-        $builder->add(
-            'date',
-            DateType::class,
-            [
-                'widget' => 'choice',
-                'input'  => 'datetime_immutable'
-            ]
-        );
-
-         // $builder->get('tags')->addModelTransformer(
-           // $this->tagsDataTransformer
+        // $builder->get('tags')->addModelTransformer(
+        // $this->tagsDataTransformer
         // );
     }
 
@@ -119,7 +150,11 @@ class BookType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(['data_class' => Book::class]);
+        $resolver->setDefaults(
+            [
+            'data_class' => Book::class,
+        ],
+        );
     }
 
     /**

@@ -6,7 +6,7 @@ use App\Repository\ReservationStatusRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ReservationStatusRepository::class)]
-#[ORM\Table(name: 'reseravtionStatus')]
+#[ORM\Table(name: 'reservationStatus')]
 #[UniqueEntity(fields: ['name'])]
 class ReservationStatus
 {

@@ -27,4 +27,6 @@ interface CategoryServiceInterface
     public function getPaginatedList(int $page): PaginationInterface;
 
     public function canBeDeleted(Category $category): bool;
+
+    public function findOneById(int $id): ?Category;
 }

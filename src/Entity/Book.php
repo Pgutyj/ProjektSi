@@ -11,8 +11,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use DateTimeImmutable;
 
-
-
 #[ORM\Entity(repositoryClass: BookRepository::class)]
 #[ORM\Table(name: 'books')]
 class Book
@@ -75,10 +73,21 @@ class Book
     private $tags;
 
     #[ORM\ManyToOne(targetEntity: User::class, fetch: 'EXTRA_LAZY')]
-    #[ORM\JoinColumn(nullable: false)]
-    #[Assert\NotBlank]
+    #[ORM\JoinColumn(nullable: true)]
     #[Assert\Type(User::class)]
     private ?User $author;
+
+    #[ORM\ManyToOne(targetEntity: AuthorInfo::class, fetch: 'EXTRA_LAZY')]
+    #[ORM\JoinColumn(nullable: false)]
+    #[Assert\Type(AuthorInfo::class)]
+    #[Assert\NotBlank]
+    private ?AuthorInfo $book_author = null;
+
+    #[ORM\ManyToOne(targetEntity: PublishingHouseInfo::class, fetch: 'EXTRA_LAZY')]
+    #[ORM\JoinColumn(nullable: false)]
+    #[Assert\Type(PublishingHouseInfo::class)]
+    #[Assert\NotBlank]
+    private ?PublishingHouseInfo $publishing_house_info;
 
     public function __construct()
     {
@@ -142,7 +151,7 @@ class Book
      *
      * @return DateTimeInterface|null book_creation_time
      */
-    public function getbook_creation_time(): ?\DateTimeInterface
+    public function getBookCreationTime(): ?DateTimeImmutable
     {
         return $this->book_creation_time;
     }
@@ -152,11 +161,9 @@ class Book
      *
      * @return DateTimeInterface|null $book_creation_time book_creation_time
      */
-    public function setbook_creation_time(\DateTimeInterface $book_creation_time): self
+    public function setBookCreationTime(DateTimeImmutable $book_creation_time): void
     {
         $this->book_creation_time = $book_creation_time;
-
-        return $this;
     }
 
     /**
@@ -221,6 +228,28 @@ class Book
     public function setAuthor(?User $author): self
     {
         $this->author = $author;
+
+        return $this;
+    }
+
+    public function getAuthorInfo(): ?AuthorInfo
+    {
+        return $this->book_author;
+    }
+
+    public function setAuthorInfo(?AuthorInfo $book_author): void
+    {
+        $this->book_author = $book_author;
+    }
+
+    public function getPublishingHouseInfo(): ?PublishingHouseInfo
+    {
+        return $this->publishing_house_info;
+    }
+
+    public function setPublishingHouseInfo(?PublishingHouseInfo $publishing_house_info): self
+    {
+        $this->publishing_house_info = $publishing_house_info;
 
         return $this;
     }

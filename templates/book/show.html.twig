@@ -10,8 +10,12 @@
         <dl class="dl-horizontal">
             <dt>{{ 'label.id'|trans }}</dt>
             <dd>{{ book.id }}</dd>
-            <dt>{{ 'label.book_creation_time'|trans }}</dt>
-            <dd>{{ book.book_creation_time|date('d/m/Y') }}</dd>
+            <dt>{{ 'label.BookCreationTime'|trans }}</dt>
+            <dd>{{ book.BookCreationTime|date('d/m/Y') }}</dd>
+            <dt>{{ 'label.AuthorInfo'|trans }}</dt>
+            <dd>{{  book.AuthorInfo.name }}</dd>
+            <dt>{{ 'label.PublishingHouseInfo'|trans }}</dt>
+            <dd>{{  book.PublishingHouseInfo.name }}</dd>
             <dt>{{ 'label.description'|trans }}</dt>
             <dd>{{ book.description }}</dd>
             <dt>{{ 'label.price'|trans }}</dt>

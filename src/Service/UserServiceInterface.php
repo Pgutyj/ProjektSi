@@ -6,6 +6,7 @@
 namespace App\Service;
 
 use App\Entity\User;
+use Knp\Component\Pager\Pagination\PaginationInterface;
 
 /**
  * Interface TaskServiceInterface.
@@ -25,4 +26,6 @@ interface UserServiceInterface
      * @param User $user User entity
      */
     public function delete(User $user): void;
+
+    public function getPaginatedList(int $page): PaginationInterface;
 }

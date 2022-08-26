@@ -8,7 +8,6 @@ namespace App\Service;
 use App\Entity\Category;
 use App\Repository\CategoryRepository;
 use App\Repository\BookRepository;
-use App\Entity\Book;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 
@@ -49,6 +48,20 @@ class CategoryService implements CategoryServiceInterface
         $this->categoryRepository = $categoryRepository;
         $this->paginator = $paginator;
         $this->bookRepository = $bookRepository;
+    }
+
+    /**
+     * Find by id.
+     *
+     * @param int $id Category id
+     *
+     * @return Category|null Category entity
+     *
+     * @throws NonUniqueResultException
+     */
+    public function findOneById(int $id): ?Category
+    {
+        return $this->categoryRepository->findOneById($id);
     }
 
     /**
