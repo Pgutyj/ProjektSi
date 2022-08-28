@@ -1,13 +1,27 @@
 <?php
 
+/**
+ * Book fixtures.
+ */
 namespace App\DataFixtures;
 
 use App\Entity\Book;
 use DateTimeImmutable;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
+/**
+ * Class BookFixtures.
+ *
+ * @psalm-suppress MissingConstructor
+ */
 class BookFixtures extends AbstractBaseFixtures implements DependentFixtureInterface
 {
+    /**
+     * Load data.
+     *
+     * @psalm-suppress PossiblyNullReference
+     * @psalm-suppress UnusedClosureParam
+     */
     public function loadData(): void
     {
         if (null === $this->manager || null === $this->faker) {
@@ -17,7 +31,7 @@ class BookFixtures extends AbstractBaseFixtures implements DependentFixtureInter
             $book = new Book();
             $book->setTitle($this->faker->sentence);
             $book->setDescription($this->faker->sentence(50));
-            $book->setbook_creation_time(DateTimeImmutable::createFromMutable($this->faker->dateTimeBetween('-100 days', '-1 days')));
+            $book->setBookCreationTime(DateTimeImmutable::createFromMutable($this->faker->dateTimeBetween('-100 days', '-1 days')));
             $book->setPrice($this->faker->numberBetween(15, 50));
             $category = $this->getRandomReference('categories');
             $book->setCategory($category);
@@ -31,17 +45,23 @@ class BookFixtures extends AbstractBaseFixtures implements DependentFixtureInter
 
             $author = $this->getRandomReference('users');
             $book->setAuthor($author);
-            $book_author = $this->getRandomReference('authorInfos');
-            $book->setBookAuthor($book_author);
-            $publishing_house_info = $this->getRandomReference('publishingHouseInfos');
-            $book->setPublishingHouseInfo($publishing_house_info);
+            $bookAuthor = $this->getRandomReference('authorInfos');
+            $book->setAuthorInfo($bookAuthor);
+            $publishingHouseInfo = $this->getRandomReference('publishingHouseInfos');
+            $book->setPublishingHouseInfo($publishingHouseInfo);
 
             return $book;
         });
 
         $this->manager->flush();
     }
-
+    /**
+     * get dependencies.
+     *
+     * @psalm-suppress PossiblyNullReference
+     *
+     * @return array Array of dependencies
+     */
     public function getDependencies(): array
     {
         return [

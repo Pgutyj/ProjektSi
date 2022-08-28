@@ -13,27 +13,43 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
- * Class CategoryController.
+ * Class AdminController.
  */
 #[Route('/admin')]
 class AdminController extends AbstractController
 {
     /**
-     * Category service.
+     * User service.
      */
     private UserServiceInterface $userService;
 
     /**
-     * Constructor.
+     * Translator Interface.
      */
     private TranslatorInterface $translator;
 
+    /**
+     * Constructor.
+     *
+     * @param UserService         $userService User Service
+     *
+     * @param TranslatorInterface $translator  Translator
+     */
     public function __construct(UserServiceInterface $userService, TranslatorInterface $translator)
     {
         $this->userService = $userService;
         $this->translator = $translator;
     }
 
+    /**
+     * index function.
+     *
+     * it shows the paginated list of all users
+     *
+     * @param Request $request HTTP request
+     *
+     * @return Response HTTP response
+     */
     #[Route(name: 'admin_index', methods: 'GET')]
     public function index(Request $request): Response
     {

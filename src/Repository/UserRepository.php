@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * UserRepository
+ */
 namespace App\Repository;
 
 use App\Entity\User;
@@ -12,6 +15,7 @@ use Knp\Component\Pager\PaginatorInterface;
 use Doctrine\ORM\QueryBuilder;
 
 /**
+ * class UserRepository
  * @extends ServiceEntityRepository<User>
  *
  * @method User|null find($id, $lockMode = null, $lockVersion = null)
@@ -21,14 +25,38 @@ use Doctrine\ORM\QueryBuilder;
  */
 class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
 {
+    /**
+     * Items per page.
+     *
+     * Use constants to define configuration options that rarely change instead
+     * of specifying them in configuration files.
+     * See https://symfony.com/doc/current/best_practices.html#configuration
+     *
+     * @constant int
+     */
     public const PAGINATOR_ITEMS_PER_PAGE = 10;
 
+    /**
+     * construct function.
+     *
+     * @param ManagerRegistry    $registry  Manager Registry
+     *
+     * @param PaginatorInterface $paginator paginator
+     *
+     */
     public function __construct(ManagerRegistry $registry, PaginatorInterface $paginator)
     {
         parent::__construct($registry, User::class);
         $this->paginator = $paginator;
     }
 
+    /**
+     * Add entity.
+     *
+     * @param User $entity User entity
+     *
+     * @param bool $flush  flush
+     */
     public function add(User $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
@@ -38,18 +66,37 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         }
     }
 
+    /**
+     * save entity.
+     *
+     * @param User $user User entity
+     *
+     */
     public function save(User $user): void
     {
         $this->_em->persist($user);
         $this->_em->flush();
     }
 
+    /**
+     * delete entity.
+     *
+     * @param User $user User entity
+     *
+     */
     public function delete(User $user): void
     {
         $this->_em->remove($user);
         $this->_em->flush();
     }
 
+    /**
+     * remove entity.
+     *
+     * @param User $entity User entity
+     *
+     * @param bool $flush  flush
+     */
     public function remove(User $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
@@ -61,6 +108,10 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
     /**
      * Used to upgrade (rehash) the user's password automatically over time.
+     *
+     * @param PasswordAuthenticatedUserInterface $user              Password Authenticated User Interface
+     *
+     * @param string                             $newHashedPassword new password that is hashed
      */
     public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newHashedPassword): void
     {
@@ -73,6 +124,11 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->add($user, true);
     }
 
+    /**
+     * Query all records.
+     *
+     * @return QueryBuilder Query builder
+     */
     public function queryAll(): QueryBuilder
     {
         return $this->getOrCreateQueryBuilder()
@@ -82,6 +138,13 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->orderBy('user.id', 'ASC');
     }
 
+    /**
+     * Get or create new query builder.
+     *
+     * @param QueryBuilder|null $queryBuilder Query builder
+     *
+     * @return QueryBuilder Query builder
+     */
     private function getOrCreateQueryBuilder(QueryBuilder $queryBuilder = null): QueryBuilder
     {
         return $queryBuilder ?? $this->createQueryBuilder('user');

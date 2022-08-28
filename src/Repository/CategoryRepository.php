@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Category Repository.
+ */
 namespace App\Repository;
 
 use App\Entity\Category;
@@ -8,6 +11,8 @@ use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\QueryBuilder;
 
 /**
+ * class CategoryRepository
+ *
  * @extends ServiceEntityRepository<Category>
  *
  * @method Category|null find($id, $lockMode = null, $lockVersion = null)
@@ -17,13 +22,33 @@ use Doctrine\ORM\QueryBuilder;
  */
 class CategoryRepository extends ServiceEntityRepository
 {
+    /**
+     * Items per page.
+     *
+     * Use constants to define configuration options that rarely change instead
+     * of specifying them in configuration files.
+     * See https://symfony.com/doc/current/best_practices.html#configuration
+     *
+     * @constant int
+     */
     public const PAGINATOR_ITEMS_PER_PAGE = 5;
 
+    /**
+     * construct function.
+     *
+     * @param ManagerRegistry $registry Manager Registry
+     *
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Category::class);
     }
 
+    /**
+     * Query all records.
+     *
+     * @return QueryBuilder Query builder
+     */
     public function queryAll(): QueryBuilder
     {
         return $this->getOrCreateQueryBuilder()
@@ -31,6 +56,31 @@ class CategoryRepository extends ServiceEntityRepository
             ->orderBy('category.id', 'ASC');
     }
 
+
+
+    /**
+     * save entity.
+     *
+     * @param Category $category Category entity
+     *
+     */
+    public function save(Category $category): void
+    {
+        $this->_em->persist($category);
+        $this->_em->flush();
+    }
+
+    /**
+     * delete entity.
+     *
+     * @param Category $category Category entity
+     *
+     */
+    public function delete(Category $category): void
+    {
+        $this->_em->remove($category);
+        $this->_em->flush();
+    }
     /**
      * Get or create new query builder.
      *
@@ -41,18 +91,6 @@ class CategoryRepository extends ServiceEntityRepository
     private function getOrCreateQueryBuilder(QueryBuilder $queryBuilder = null): QueryBuilder
     {
         return $queryBuilder ?? $this->createQueryBuilder('category');
-    }
-
-    public function save(Category $category): void
-    {
-        $this->_em->persist($category);
-        $this->_em->flush();
-    }
-
-    public function delete(Category $category): void
-    {
-        $this->_em->remove($category);
-        $this->_em->flush();
     }
 
     // public function findOneById($id): ?Category

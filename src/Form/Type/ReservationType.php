@@ -1,17 +1,19 @@
 <?php
 /**
- * Category type.
+ * Reservation type.
  */
 
 namespace App\Form\Type;
 
+use App\Entity\Reservation;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 
 /**
- * Class CategoryType.
+ * Class ReservationType.
  */
 class ReservationType extends AbstractType
 {
@@ -29,12 +31,33 @@ class ReservationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add(
+            'email',
+            TextType::class,
+            [
+                'label' => 'label.email',
+                'required' => true,
+                'attr' => ['max_length' => 200],
+            ]
+        );
+        $builder->add(
             'comment',
             TextType::class,
             [
                 'label' => 'label.comment',
                 'required' => true,
                 'attr' => ['max_length' => 200],
+            ]
+        );
+        $builder->add(
+            'reservation_time',
+            DateTimeType::class,
+            [
+                'date_label' => 'label.reservation_time',
+                'placeholder' => [
+                    'year' => 'Year', 'month' => 'Month', 'day' => 'Day',
+                    'hour' => 'Hour', 'minute' => 'Minute', 'second' => 'Second',
+                ],
+                'input' => 'datetime_immutable',
             ]
         );
     }
@@ -46,7 +69,7 @@ class ReservationType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(['data_class' => null]);
+        $resolver->setDefaults(['data_class' => Reservation::class]);
     }
 
     /**

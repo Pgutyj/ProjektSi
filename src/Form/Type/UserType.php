@@ -1,6 +1,6 @@
 <?php
 /**
- * Sign up type.
+ * User type.
  */
 
 namespace App\Form\Type;
@@ -12,7 +12,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class SignUp Type.
+ * Class UserType.
  */
 class UserType extends AbstractType
 {

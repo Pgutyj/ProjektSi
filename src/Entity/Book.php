@@ -11,6 +11,9 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use DateTimeImmutable;
 
+/**
+ * class Book
+ */
 #[ORM\Entity(repositoryClass: BookRepository::class)]
 #[ORM\Table(name: 'books')]
 class Book
@@ -27,22 +30,22 @@ class Book
     /**
      * title.
      *
-     * @var string|null
+     * @var string
      */
     #[ORM\Column(type: 'string', length: 100)]
     private $title;
     /**
      * description.
      *
-     * @var text|null
+     * @var text
      */
     #[ORM\Column(type: 'text')]
     private $description;
     /**
-     * book_creation_time.
+     * bookCreationTime.
      */
     #[ORM\Column(type: 'datetime_immutable')]
-    private ?DateTimeImmutable $book_creation_time;
+    private ?DateTimeImmutable $bookCreationTime;
     /**
      * price.
      *
@@ -72,23 +75,41 @@ class Book
     #[ORM\JoinTable(name: 'books_tags')]
     private $tags;
 
+    /**
+     * Author.
+     *
+     * @var User
+     */
     #[ORM\ManyToOne(targetEntity: User::class, fetch: 'EXTRA_LAZY')]
     #[ORM\JoinColumn(nullable: true)]
     #[Assert\Type(User::class)]
     private ?User $author;
 
+    /**
+     * Author Info.
+     *
+     * @var AuthorInfo
+     */
     #[ORM\ManyToOne(targetEntity: AuthorInfo::class, fetch: 'EXTRA_LAZY')]
     #[ORM\JoinColumn(nullable: false)]
     #[Assert\Type(AuthorInfo::class)]
     #[Assert\NotBlank]
-    private ?AuthorInfo $book_author = null;
+    private ?AuthorInfo $bookAuthor = null;
 
+    /**
+     * Publishing House Info .
+     *
+     * @var PublishingHouseInfo
+     */
     #[ORM\ManyToOne(targetEntity: PublishingHouseInfo::class, fetch: 'EXTRA_LAZY')]
     #[ORM\JoinColumn(nullable: false)]
     #[Assert\Type(PublishingHouseInfo::class)]
     #[Assert\NotBlank]
-    private ?PublishingHouseInfo $publishing_house_info;
+    private ?PublishingHouseInfo $publishingHouseInfo;
 
+    /**
+     *constructor
+     */
     public function __construct()
     {
         $this->tags = new ArrayCollection();
@@ -106,6 +127,8 @@ class Book
 
     /**
      * Getter for Title.
+     *
+     * @return string $title title
      */
     public function getTitle(): ?string
     {
@@ -115,7 +138,9 @@ class Book
     /**
      * Setter for Title.
      *
-     * @return string|null $title title
+     * @param string $title title
+     *
+     * @return self
      */
     public function setTitle(string $title): self
     {
@@ -127,7 +152,7 @@ class Book
     /**
      * Getter for Description.
      *
-     * @return string|null description
+     * @return string description
      */
     public function getDescription(): ?string
     {
@@ -137,7 +162,9 @@ class Book
     /**
      * Setter for Description.
      *
-     * @return string|null $description description
+     * @param string $description
+     *
+     * @return string $description description
      */
     public function setDescription(string $description): self
     {
@@ -147,29 +174,31 @@ class Book
     }
 
     /**
-     * Getter for book_creation_time.
+     * Getter for bookCreationTime.
      *
-     * @return DateTimeInterface|null book_creation_time
+     * @return DateTimeImmutable
      */
     public function getBookCreationTime(): ?DateTimeImmutable
     {
-        return $this->book_creation_time;
+        return $this->bookCreationTime;
     }
 
     /**
-     * Setter for book_creation_time.
+     * Setter for bookCreationTime.
      *
-     * @return DateTimeInterface|null $book_creation_time book_creation_time
+     * @param DateTimeImmutable $bookCreationTime book Creation Time
+     *
+     * @return DateTimeInterface $bookCreationTime $bookCreationTime
      */
-    public function setBookCreationTime(DateTimeImmutable $book_creation_time): void
+    public function setBookCreationTime(DateTimeImmutable $bookCreationTime): void
     {
-        $this->book_creation_time = $book_creation_time;
+        $this->bookCreationTime = $bookCreationTime;
     }
 
     /**
      * Getter for Price.
      *
-     * @return int|null price
+     * @return int price
      */
     public function getPrice(): ?int
     {
@@ -179,7 +208,9 @@ class Book
     /**
      * Setter for Price.
      *
-     * @return int|null $price price
+     * @param int|null $price
+     *
+     * @return int $price price
      */
     public function setPrice(?int $price): self
     {
@@ -188,11 +219,22 @@ class Book
         return $this;
     }
 
+    /**
+     * Getter for category.
+     *
+     * @return Category Category entity
+     */
     public function getCategory(): ?Category
     {
         return $this->category;
     }
-
+    /**
+     * Getter for category.
+     *
+     * @param Category|null $category Category entity
+     *
+     * @return Category Category entity
+     */
     public function setCategory(?Category $category): self
     {
         $this->category = $category;
@@ -201,13 +243,19 @@ class Book
     }
 
     /**
+     * getter for tags
+     *
      * @return Collection<int, Tag>
      */
     public function getTags(): Collection
     {
         return $this->tags;
     }
-
+    /**
+     * function for adding tags
+     *
+     * @param Tag $tag Tag entity
+     */
     public function addTag(Tag $tag): void
     {
         if (!$this->tags->contains($tag)) {
@@ -215,41 +263,78 @@ class Book
         }
     }
 
+    /**
+     * function for removing tags
+     *
+     * @param Tag $tag Tag entity
+     */
     public function removeTag(Tag $tag): void
     {
         $this->tags->removeElement($tag);
     }
 
+    /**
+     * getter for Author
+     *
+     * @return User User entity
+     */
     public function getAuthor(): ?User
     {
         return $this->author;
     }
-
+    /**
+     * setter for author
+     *
+     * @param User $author User entity
+     *
+     * @return self
+     */
     public function setAuthor(?User $author): self
     {
         $this->author = $author;
 
         return $this;
     }
-
+    /**
+     * getter for AuthorInfo
+     *
+     * @return AuthorInfo AuthorInfo entity
+     */
     public function getAuthorInfo(): ?AuthorInfo
     {
-        return $this->book_author;
+        return $this->bookAuthor;
     }
 
-    public function setAuthorInfo(?AuthorInfo $book_author): void
+    /**
+     * setter for AuthorInfo
+     *
+     * @param AuthorInfo $bookAuthor AuthorInfo entity
+     */
+    public function setAuthorInfo(?AuthorInfo $bookAuthor): void
     {
-        $this->book_author = $book_author;
+        $this->bookAuthor = $bookAuthor;
     }
 
+    /**
+     * getter for PublishingHouseInfo
+     *
+     * @return PublishingHouseInfo PublishingHouseInfo entity
+     */
     public function getPublishingHouseInfo(): ?PublishingHouseInfo
     {
-        return $this->publishing_house_info;
+        return $this->publishingHouseInfo;
     }
 
-    public function setPublishingHouseInfo(?PublishingHouseInfo $publishing_house_info): self
+    /**
+     * setter for PublishingHouseInfo
+     *
+     * @param PublishingHouseInfo $publishingHouseInfo PublishingHouseInfo entity
+     *
+     * @return self
+     */
+    public function setPublishingHouseInfo(?PublishingHouseInfo $publishingHouseInfo): self
     {
-        $this->publishing_house_info = $publishing_house_info;
+        $this->publishingHouseInfo = $publishingHouseInfo;
 
         return $this;
     }

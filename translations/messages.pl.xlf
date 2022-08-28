@@ -119,7 +119,7 @@
        </trans-unit>
         <trans-unit id="label.none">
             <source>label.none</source>
-            <target>bez kategorii</target>
+            <target>brak</target>
         </trans-unit>
         <trans-unit id="title.book_create">
             <source>title.book_create</source>
@@ -141,6 +141,265 @@
         <trans-unit id="title.book_delete">
             <source>title.book_delete</source>
             <target>Usuń książkę</target>
+        </trans-unit>
+
+
+        <trans-unit id="message.created_successfully">
+            <source>message.created_successfully</source>
+            <target>Stworzono pomyślnie</target>
+        </trans-unit>
+
+        <trans-unit id="message.edited_successfully">
+            <source>message.edited_successfully</source>
+            <target>Edytowano pomyślnie</target>
+        </trans-unit>
+
+        <trans-unit id="message.deleted_successfully">
+            <source>message.deleted_successfully</source>
+            <target>Usunięto pomyślnie</target>
+        </trans-unit>
+
+        <trans-unit id="message.reserved_successfully">
+            <source>message.reserved_successfully</source>
+            <target>Zarezerwowano pomyślnie</target>
+        </trans-unit>
+
+        <trans-unit id="message.category_contains_book">
+            <source>message.category_contains_book</source>
+            <target>Ta kategoria jest przypisana do książki</target>
+        </trans-unit>
+
+        <trans-unit id="message.tag_contains_book">
+            <source>message.tag_contains_book</source>
+            <target>Ten tag jest przypisany do książki</target>
+        </trans-unit>
+
+        <trans-unit id="action_profile">
+            <source>action_profile</source>
+            <target>Profil</target>
+        </trans-unit>
+
+        <trans-unit id="action_logout">
+            <source>action_logout</source>
+            <target>Wyloguj się</target>
+        </trans-unit>
+
+        <trans-unit id="action_login">
+            <source>action_login</source>
+            <target>Zaloguj się</target>
+        </trans-unit>
+
+        <trans-unit id="label.AuthorInfo">
+            <source>label.AuthorInfo</source>
+            <target>Autor książki</target>
+        </trans-unit>
+
+        <trans-unit id="label.PublishingHouseInfo">
+            <source>label.PublishingHouseInfo</source>
+            <target>Wydawnictwo</target>
+        </trans-unit>
+
+        <trans-unit id="label.notags">
+            <source>label.notags</source>
+            <target>brak tagów</target>
+        </trans-unit>
+
+        <trans-unit id="action.show">
+            <source>action.show</source>
+            <target>Zobacz</target>
+        </trans-unit>
+
+        <trans-unit id="action.reserve">
+            <source>action.reserve</source>
+            <target>Zarezerwuj</target>
+        </trans-unit>
+
+        <trans-unit id="title.manage_reservation">
+            <source>title.manage_reservation</source>
+            <target>zarządzaj rezerwacją</target>
+        </trans-unit>
+
+        <trans-unit id="title.reservations_list">
+            <source>title.reservations_list</source>
+            <target>Lista rezerwacji</target>
+        </trans-unit>
+
+        <trans-unit id="label.email">
+            <source>label.email</source>
+            <target>email</target>
+        </trans-unit>
+
+        <trans-unit id="label.reservation_time">
+            <source>label.reservation_time</source>
+            <target>Czas rezerwacji</target>
+        </trans-unit>
+
+        <trans-unit id="label.comment">
+            <source>label.comment</source>
+            <target>Komentarz</target>
+        </trans-unit>
+
+        <trans-unit id="label.StatusInfo">
+            <source>label.StatusInfo</source>
+            <target>Status</target>
+        </trans-unit>
+
+        <trans-unit id="label.manage">
+            <source>label.manage</source>
+            <target>Zarządzanie</target>
+        </trans-unit>
+
+        <trans-unit id="action.manage">
+            <source>action.manage</source>
+            <target>Zarządzaj</target>
+        </trans-unit>
+
+        <trans-unit id="title.reserve">
+            <source>title.reserve</source>
+            <target>Rezerwacja</target>
+        </trans-unit>
+
+        <trans-unit id="title.category_create">
+            <source>title.category_create</source>
+            <target>Tworzenie Kategorii</target>
+        </trans-unit>
+
+        <trans-unit id="title.category_edit">
+            <source>title.category_edit</source>
+            <target>Edycja Kategorii</target>
+        </trans-unit>
+        <trans-unit id="title.category_delete">
+            <source>title.category_delete</source>
+            <target>Usuwanie Kategorii</target>
+        </trans-unit>
+
+        <trans-unit id="message.form_error">
+            <source>message.form_error</source>
+            <target>Błąd formularza</target>
+        </trans-unit>
+
+        <trans-unit id="title.user_list">
+            <source>title.user_list</source>
+            <target>Lista użytkowników</target>
+        </trans-unit>
+
+        <trans-unit id="user.email">
+            <source>user.email</source>
+            <target>Email użytwonika</target>
+        </trans-unit>
+
+        <trans-unit id="user.nick">
+            <source>user.nick</source>
+            <target>Nick użytkownika</target>
+        </trans-unit>
+
+        <trans-unit id="action.sign_up">
+            <source>action.sign_up</source>
+            <target>Zarejestruj się</target>
+        </trans-unit>
+
+        <trans-unit id="action.browse">
+            <source>action.browse</source>
+            <target>Przeglądaj</target>
+        </trans-unit>
+
+        <trans-unit id="title.sign_up">
+            <source>title.sign_up</source>
+            <target>Rejestracja</target>
+        </trans-unit>
+        <trans-unit id="title.tag_create">
+            <source>title.tag_create</source>
+            <target>Tworzenie tagu</target>
+        </trans-unit>
+
+        <trans-unit id="title.tag_delete">
+            <source>title.tag_delete</source>
+            <target>Usuwanie tagu</target>
+        </trans-unit>
+
+        <trans-unit id="title.tag_edit">
+            <source>title.tag_edit</source>
+            <target>Edycja tagu</target>
+        </trans-unit>
+
+        <trans-unit id="title.tag_list">
+            <source>title.tag_list</source>
+            <target>Lista tagów</target>
+        </trans-unit>
+
+        <trans-unit id="title.tag_details">
+            <source>title.tag_details</source>
+            <target>Szegóły tagu</target>
+        </trans-unit>
+
+        <trans-unit id="label.BookCreationTime">
+            <source>label.BookCreationTime</source>
+            <target>Data Stworzenia Książki</target>
+        </trans-unit>
+
+        <trans-unit id="message.reserved succesfully">
+            <source>message.reserved succesfully</source>
+            <target>Pomyślnie zarezerwowano!</target>
+        </trans-unit>
+
+        <trans-unit id="title.profile_edit">
+            <source>title.profile_edit</source>
+            <target>Edycja Profilu</target>
+        </trans-unit>
+
+        <trans-unit id="title.profile_details">
+            <source>title.profile_details</source>
+            <target>Szczegóły Profilu</target>
+        </trans-unit>
+
+        <trans-unit id="label.nick">
+            <source>label.nick</source>
+            <target>Nick</target>
+        </trans-unit>
+
+        <trans-unit id="label.password">
+            <source>label.password</source>
+            <target>hasło</target>
+        </trans-unit>
+
+        <trans-unit id="label.reservation_status">
+            <source>label.reservation_status</source>
+            <target>Status rezerwacji</target>
+        </trans-unit>
+
+        <trans-unit id="label.tagInfo">
+            <source>label.tagInfo</source>
+            <target>Nazwa tagu</target>
+        </trans-unit>
+
+        <trans-unit id="action.back_to_login">
+            <source>action.back_to_login</source>
+            <target>Powrót do logowania</target>
+        </trans-unit>
+
+        <trans-unit id="title.login">
+            <source>title.login</source>
+            <target>Zaloguj się!</target>
+        </trans-unit>
+
+        <trans-unit id="label.logout">
+            <source>label.logout</source>
+            <target>Wyloguj się</target>
+        </trans-unit>
+
+        <trans-unit id="label.please_sign_in">
+            <source>label.please_sign_in</source>
+            <target>Proszę się zalogować</target>
+        </trans-unit>
+
+        <trans-unit id="label.sign_in">
+            <source>label.sign_in</source>
+            <target>Zaloguj się</target>
+        </trans-unit>
+
+        <trans-unit id="title.your_book_list">
+            <source>title.your_book_list</source>
+            <target>Lista twoich książek</target>
         </trans-unit>
     </body>
   </file>

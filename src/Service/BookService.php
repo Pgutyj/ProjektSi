@@ -39,52 +39,29 @@ class BookService implements BookServiceInterface
     /**
      * Constructor.
      *
-     * @param BookRepository     $bookRepository Book repository
-     * @param PaginatorInterface $paginator      Paginator
+     * @param CategoryServiceInterface $categoryService Category Service
+     *
+     * @param PaginatorInterface       $paginator       paginator
+     *
+     * @param TagServiceInterface      $tagService      Tag service
+     *
+     * @param TagServiceInterface      $bookRepository  Book Repository
      */
-    public function __construct(
-        CategoryServiceInterface $categoryService,
-        PaginatorInterface $paginator,
-        TagServiceInterface $tagService,
-        BookRepository $bookRepository
-    ) {
+    public function __construct(CategoryServiceInterface $categoryService, PaginatorInterface $paginator, TagServiceInterface $tagService, BookRepository $bookRepository)
+    {
         $this->categoryService = $categoryService;
         $this->paginator = $paginator;
         $this->tagService = $tagService;
         $this->bookRepository = $bookRepository;
     }
-
-    /**
-     * Prepare filters for the book list.
-     *
-     * @param array<string, int> $filters Raw filters from request
-     *
-     * @return array<string, object> Result array of filters
-     */
-    private function prepareFilters(array $filters): array
-    {
-        $resultFilters = [];
-        if (!empty($filters['category_id'])) {
-            $category = $this->categoryService->findOneById($filters['category_id']);
-            if (null !== $category) {
-                $resultFilters['category'] = $category;
-            }
-        }
-
-        if (!empty($filters['tag_id'])) {
-            $tag = $this->tagService->findOneById($filters['tag_id']);
-            if (null !== $tag) {
-                $resultFilters['tag'] = $tag;
-            }
-        }
-
-        return $resultFilters;
-    }
-
     /**
      * Get paginated list.
      *
-     * @param int $page Page number
+     * @param int   $page    Page number
+     *
+     * @param User  $author  entity user
+     *
+     * @param array $filters array of filters
      *
      * @return PaginationInterface<string, mixed> Paginated list
      */
@@ -99,6 +76,15 @@ class BookService implements BookServiceInterface
         );
     }
 
+    /**
+     * Get paginated list of all books that are available.
+     *
+     * @param int   $page    Page number
+     *
+     * @param array $filters array of filters
+     *
+     * @return PaginationInterface<string, mixed> Paginated list
+     */
     public function getPaginatedAll(int $page, array $filters = []): PaginationInterface
     {
         $filters = $this->prepareFilters($filters);
@@ -130,8 +116,41 @@ class BookService implements BookServiceInterface
         $this->bookRepository->delete($book);
     }
 
+    /**
+     * reserve entity.
+     *
+     * @param Book $book Book entity
+     */
     public function reserve(Book $book): void
     {
         $this->bookRepository->reserve($book);
+    }
+
+
+    /**
+     * Prepare filters for the book list.
+     *
+     * @param array<string, int> $filters Raw filters from request
+     *
+     * @return array<string, object> Result array of filters
+     */
+    private function prepareFilters(array $filters): array
+    {
+        $resultFilters = [];
+        if (!empty($filters['category_id'])) {
+            $category = $this->categoryService->findOneById($filters['category_id']);
+            if (null !== $category) {
+                $resultFilters['category'] = $category;
+            }
+        }
+
+        if (!empty($filters['tag_id'])) {
+            $tag = $this->tagService->findOneById($filters['tag_id']);
+            if (null !== $tag) {
+                $resultFilters['tag'] = $tag;
+            }
+        }
+
+        return $resultFilters;
     }
 }

@@ -8,7 +8,7 @@ namespace App\DataFixtures;
 use App\Entity\PublishingHouseInfo;
 
 /**
- * Class Publishing House Info Fixtures.
+ * Class PublishingHouseInfoFixtures
  *
  * @psalm-suppress MissingConstructor
  */

@@ -1,6 +1,6 @@
 <?php
 /**
- * UserType fixtures.
+ * User fixtures.
  */
 
 namespace App\DataFixtures;
@@ -20,6 +20,8 @@ class UserFixtures extends AbstractBaseFixtures
     private UserPasswordHasherInterface $passwordHasher;
 
     /**
+     * Constructor function
+     *
      * @param UserPasswordHasherInterface $passwordHasher Password hasher
      */
     public function __construct(UserPasswordHasherInterface $passwordHasher)

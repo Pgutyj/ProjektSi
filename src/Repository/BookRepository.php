@@ -8,6 +8,7 @@ namespace App\Repository;
 use App\Entity\Category;
 use App\Entity\Book;
 use App\Entity\User;
+use App\Entity\Tag;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
@@ -15,6 +16,9 @@ use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+/**
+ * class BookRepository
+ */
 class BookRepository extends ServiceEntityRepository
 {
     /**
@@ -59,19 +63,31 @@ class BookRepository extends ServiceEntityRepository
             ->getSingleScalarResult();
     }
 
+    /**
+     * Count books by tag.
+     *
+     * @param Tag $tag Tag entity
+     *
+     * @return int Number of books in tag
+     *
+     * @throws NoResultException
+     * @throws NonUniqueResultException
+     */
     public function countByTag(Tag $tag): int
     {
         $qb = $this->getOrCreateQueryBuilder();
 
         return $qb->select($qb->expr()->countDistinct('book.id'))
-            ->where('book.tags = :tags')
-            ->setParameter(':tag', $tag)
+            ->where('book.tags = :tag')
             ->getQuery()
             ->getSingleScalarResult();
     }
 
     /**
      * Save entity.
+     *
+     * @param Book $book Book entity
+     *
      */
     public function save(Book $book): void
     {
@@ -90,6 +106,11 @@ class BookRepository extends ServiceEntityRepository
         $this->_em->flush();
     }
 
+    /**
+     * reserve function.
+     *
+     * @param Book $book Book entity
+     */
     public function reserve(Book $book): void
     {
         $this->_em->persist($book);
@@ -99,7 +120,9 @@ class BookRepository extends ServiceEntityRepository
     /**
      * Query books by author.
      *
-     * @param User $user User entity
+     * @param User                  $user    User entity
+     *
+     * @param array<string, object> $filters Filters array
      *
      * @return QueryBuilder Query builder
      */
@@ -116,23 +139,25 @@ class BookRepository extends ServiceEntityRepository
     /**
      * Query all records.
      *
+     * @param array<string, object> $filters Filters array
+     *
      * @return QueryBuilder Query builder
      */
     public function queryAll(array $filters): QueryBuilder
     {
         $queryBuilder = $this->getOrCreateQueryBuilder()
             ->select(
-                'partial book.{id, title, description, book_creation_time, price}',
+                'partial book.{id, title, description, bookCreationTime, price}',
                 'partial category.{id, name}',
-                'partial tags.{id, tag_info}',
+                'partial tags.{id, tagInfo}',
                 'partial PublishingHouseInfo.{id, name}',
                 'partial AuthorInfo.{id, name}'
             )
             ->join('book.category', 'category')
-            ->join('book.publishing_house_info', 'PublishingHouseInfo')
-            ->join('book.book_author', 'AuthorInfo')
+            ->join('book.publishingHouseInfo', 'PublishingHouseInfo')
+            ->join('book.bookAuthor', 'AuthorInfo')
             ->leftJoin('book.tags', 'tags')
-            ->orderBy('book.book_creation_time', 'DESC');
+            ->orderBy('book.bookCreationTime', 'DESC');
 
         return $this->applyFiltersToList($queryBuilder, $filters);
     }

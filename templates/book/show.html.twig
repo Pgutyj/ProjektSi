@@ -28,7 +28,7 @@
             <dd>
                 {% if book.tags is defined and book.tags|length %}
                         {% for tag in book.tags %}
-                            {{ tag.tag_info }}
+                            {{ tag.tagInfo }}
                         {% endfor %}
                     {% else %}
                         {{ 'label.notags'|trans }}

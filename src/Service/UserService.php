@@ -1,6 +1,6 @@
 <?php
 /**
- * UserType service.
+ * Userservice.
  */
 
 namespace App\Service;
@@ -16,9 +16,13 @@ use Knp\Component\Pager\PaginatorInterface;
  */
 class UserService implements UserServiceInterface
 {
-    private $security;
     /**
-     * UserType repository.
+     * security
+     */
+    private $security;
+
+    /**
+     * User repository.
      */
     private UserRepository $userRepository;
 
@@ -26,6 +30,7 @@ class UserService implements UserServiceInterface
      * Constructor.
      *
      * @param UserRepository     $userRepository UserType repository
+     * @param Security           $security       Security
      * @param PaginatorInterface $paginator      Paginator
      */
     public function __construct(UserRepository $userRepository, Security $security, PaginatorInterface $paginator)
@@ -38,7 +43,7 @@ class UserService implements UserServiceInterface
     /**
      * Save entity.
      *
-     * @param User $user Book entity
+     * @param User $user User entity
      */
     public function save(User $user): void
     {
@@ -48,18 +53,28 @@ class UserService implements UserServiceInterface
     /**
      * Delete entity.
      *
-     * @param User $user Book entity
+     * @param User $user User entity
      */
     public function delete(User $user): void
     {
         $this->userRepository->delete($user);
     }
 
+    /**
+     * getter for the currently logged in user
+     */
     public function getCurrentUser(): void
     {
         $user = $this->security->getUser();
     }
 
+    /**
+     * Get paginated list.
+     *
+     * @param int $page Page number
+     *
+     * @return PaginationInterface<string, mixed> Paginated list
+     */
     public function getPaginatedList(int $page): PaginationInterface
     {
         return $this->paginator->paginate(

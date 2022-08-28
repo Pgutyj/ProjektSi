@@ -25,6 +25,22 @@ use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 class BookType extends AbstractType
 {
     /**
+     * Data transformer.
+     */
+    private TagsDataTransformer $tagsDataTransformer;
+
+    /**
+     * construct function.
+     *
+     * @param TagsDataTransformer $tagsDataTransformer Data transformer
+     *
+     */
+    public function __construct(TagsDataTransformer $tagsDataTransformer)
+    {
+        $this->tagsDataTransformer = $tagsDataTransformer;
+    }
+
+    /**
      * Builds the form.
      *
      * This method is called for each type in the hierarchy starting from the
@@ -35,13 +51,6 @@ class BookType extends AbstractType
      *
      * @see FormTypeExtensionInterface::buildForm()
      */
-    private TagsDataTransformer $tagsDataTransformer;
-
-    public function __construct(TagsDataTransformer $tagsDataTransformer)
-    {
-        $this->tagsDataTransformer = $tagsDataTransformer;
-    }
-
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add(
@@ -75,8 +84,8 @@ class BookType extends AbstractType
             EntityType::class,
             [
                 'class' => AuthorInfo::class,
-                'choice_label' => function ($book_author): string {
-                    return $book_author->getname();
+                'choice_label' => function ($bookAuthor): string {
+                    return $bookAuthor->getname();
                 },
                 'label' => 'label.AuthorInfo',
                 'placeholder' => 'label.none',
@@ -88,8 +97,8 @@ class BookType extends AbstractType
             EntityType::class,
             [
                 'class' => PublishingHouseInfo::class,
-                'choice_label' => function ($publishing_house_info): string {
-                    return $publishing_house_info->getname();
+                'choice_label' => function ($publishingHouseInfo): string {
+                    return $publishingHouseInfo->getname();
                 },
                 'label' => 'label.PublishingHouseInfo',
                 'placeholder' => 'label.none',
@@ -153,7 +162,7 @@ class BookType extends AbstractType
         $resolver->setDefaults(
             [
             'data_class' => Book::class,
-        ],
+            ],
         );
     }
 

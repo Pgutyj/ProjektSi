@@ -24,7 +24,7 @@
             {% for tag in pagination.items%}
                 <tr>
                     <td>{{ tag.id }}</td>
-                    <td>{{ tag.tag_info }}</td>
+                    <td>{{ tag.tagInfo }}</td>
                     <td>
                         <a href="{{ url('tag_create', {id: tag.id}) }}" title="{{ 'action.create'|trans }}">
                             {{ 'action.create'|trans }}

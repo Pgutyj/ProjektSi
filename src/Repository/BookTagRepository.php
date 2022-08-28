@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Book Tag Repository.
+ */
 namespace App\Repository;
 
 use App\Entity\BookTag;
@@ -7,6 +10,8 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
+ * class BookTagRepository
+ *
  * @extends ServiceEntityRepository<BookTag>
  *
  * @method BookTag|null find($id, $lockMode = null, $lockVersion = null)
@@ -16,11 +21,24 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class BookTagRepository extends ServiceEntityRepository
 {
+    /**
+     * construct function.
+     *
+     * @param ManagerRegistry $registry Manager Registry
+     *
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, BookTag::class);
     }
 
+    /**
+     * Add function.
+     *
+     * @param BookTag $entity BookTag entity
+     *
+     * @param bool    $flush  flush
+     */
     public function add(BookTag $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
@@ -30,6 +48,13 @@ class BookTagRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * remove function.
+     *
+     * @param BookTag $entity BookTag entity
+     *
+     * @param bool    $flush  flush
+     */
     public function remove(BookTag $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);

@@ -156,6 +156,270 @@
             <source>title.book_delete</source>
             <target>Delete a book</target>
         </trans-unit>
+
+        <trans-unit id="message.created_successfully">
+            <source>message.created_successfully</source>
+            <target>Created successfully</target>
+        </trans-unit>
+
+        <trans-unit id="message.edited_successfully">
+            <source>message.edited_successfully</source>
+            <target>Edited successfully</target>
+        </trans-unit>
+
+        <trans-unit id="message.deleted_successfully">
+            <source>message.deleted_successfully</source>
+            <target>Deleted successfully</target>
+        </trans-unit>
+
+        <trans-unit id="message.reserved_successfully">
+            <source>message.reserved_successfully</source>
+            <target>Reserved successfully</target>
+        </trans-unit>
+
+        <trans-unit id="message.category_contains_book">
+            <source>message.category_contains_book</source>
+            <target>This category contains a book</target>
+        </trans-unit>
+
+        <trans-unit id="message.tag_contains_book">
+            <source>message.tag_contains_book</source>
+            <target>This tag contains a book</target>
+        </trans-unit>
+
+        <trans-unit id="action_profile">
+            <source>action_profile</source>
+            <target>Your profile</target>
+        </trans-unit>
+
+        <trans-unit id="action_logout">
+            <source>action_logout</source>
+            <target>Logout</target>
+        </trans-unit>
+
+        <trans-unit id="action_login">
+            <source>action_login</source>
+            <target>Log in</target>
+        </trans-unit>
+
+        <trans-unit id="label.AuthorInfo">
+            <source>label.AuthorInfo</source>
+            <target>Book Author</target>
+        </trans-unit>
+
+        <trans-unit id="label.PublishingHouseInfo">
+            <source>label.PublishingHouseInfo</source>
+            <target>Publishing House</target>
+        </trans-unit>
+
+        <trans-unit id="label.notags">
+            <source>label.notags</source>
+            <target>No tags</target>
+        </trans-unit>
+
+        <trans-unit id="action.show">
+            <source>action.show</source>
+            <target>Show</target>
+        </trans-unit>
+
+        <trans-unit id="action.reserve">
+            <source>action.reserve</source>
+            <target>reserve</target>
+        </trans-unit>
+
+        <trans-unit id="title.manage_reservation">
+            <source>title.manage_reservation</source>
+            <target>Manage reservation</target>
+        </trans-unit>
+
+        <trans-unit id="title.reservations_list">
+            <source>title.reservations_list</source>
+            <target>List of reservations</target>
+        </trans-unit>
+
+        <trans-unit id="label.email">
+            <source>label.email</source>
+            <target>email</target>
+        </trans-unit>
+
+        <trans-unit id="label.reservation_time">
+            <source>label.reservation_time</source>
+            <target>Reservation Time</target>
+        </trans-unit>
+
+        <trans-unit id="label.comment">
+            <source>label.comment</source>
+            <target>Comment</target>
+        </trans-unit>
+
+        <trans-unit id="label.StatusInfo">
+            <source>label.StatusInfo</source>
+            <target>Status</target>
+        </trans-unit>
+
+        <trans-unit id="label.manage">
+            <source>label.manage</source>
+            <target>Manage</target>
+        </trans-unit>
+
+        <trans-unit id="action.manage">
+            <source>action.manage</source>
+            <target>Manage a</target>
+        </trans-unit>
+
+        <trans-unit id="title.reserve">
+            <source>title.reserve</source>
+            <target>Reserve</target>
+        </trans-unit>
+
+        <trans-unit id="title.category_create">
+            <source>title.category_create</source>
+            <target>Create Category</target>
+        </trans-unit>
+
+        <trans-unit id="title.category_edit">
+            <source>title.category_edit</source>
+            <target>Edit Category</target>
+        </trans-unit>
+        <trans-unit id="title.category_delete">
+            <source>title.category_delete</source>
+            <target>Delete Category</target>
+        </trans-unit>
+
+        <trans-unit id="message.form_error">
+            <source>message.form_error</source>
+            <target>Form error</target>
+        </trans-unit>
+
+        <trans-unit id="title.user_list">
+            <source>title.user_list</source>
+            <target>List of users</target>
+        </trans-unit>
+
+        <trans-unit id="user.email">
+            <source>user.email</source>
+            <target>user email</target>
+        </trans-unit>
+
+        <trans-unit id="user.nick">
+            <source>user.nick</source>
+            <target>user nick</target>
+        </trans-unit>
+
+        <trans-unit id="action.sign_up">
+            <source>action.sign_up</source>
+            <target>sign up</target>
+        </trans-unit>
+
+        <trans-unit id="action.browse">
+            <source>action.browse</source>
+            <target>Browse</target>
+        </trans-unit>
+
+        <trans-unit id="title.sign_up">
+            <source>title.sign_up</source>
+            <target>sign up!</target>
+        </trans-unit>
+        <trans-unit id="title.tag_create">
+            <source>title.tag_create</source>
+            <target>Create a tag</target>
+        </trans-unit>
+
+        <trans-unit id="title.tag_delete">
+            <source>title.tag_delete</source>
+            <target>Delete a tag</target>
+        </trans-unit>
+
+        <trans-unit id="title.tag_edit">
+            <source>title.tag_edit</source>
+            <target>Edit a tag</target>
+        </trans-unit>
+
+        <trans-unit id="title.tag_list">
+            <source>title.tag_list</source>
+            <target>List of tags</target>
+        </trans-unit>
+
+        <trans-unit id="title.tag_details">
+            <source>title.tag_details</source>
+            <target>Tag details</target>
+        </trans-unit>
+
+        <trans-unit id="label.BookCreationTime">
+            <source>label.BookCreationTime</source>
+            <target>Book Creation Time</target>
+        </trans-unit>
+
+        <trans-unit id="message.reserved succesfully">
+            <source>message.reserved succesfully</source>
+            <target>Reserved successfully!</target>
+        </trans-unit>
+
+        <trans-unit id="title.profile_edit">
+            <source>title.profile_edit</source>
+            <target>Edit Profile</target>
+        </trans-unit>
+
+        <trans-unit id="title.profile_details">
+            <source>title.profile_details</source>
+            <target>Profile Details</target>
+        </trans-unit>
+
+        <trans-unit id="label.nick">
+            <source>label.nick</source>
+            <target>Nick</target>
+        </trans-unit>
+
+        <trans-unit id="action.nick">
+            <source>label.nick</source>
+            <target>Nick</target>
+        </trans-unit>
+
+        <trans-unit id="label.password">
+            <source>"label.password"</source>
+            <target>password</target>
+        </trans-unit>
+
+        <trans-unit id="label.reservation_status">
+            <source>label.reservation_status</source>
+            <target>Reservation status</target>
+        </trans-unit>
+
+        <trans-unit id="label.tagInfo">
+            <source>label.tagInfo</source>
+            <target>Tag title</target>
+        </trans-unit>
+
+        <trans-unit id="action.back_to_login">
+            <source>action.back_to_login</source>
+            <target>Back to login</target>
+        </trans-unit>
+
+        <trans-unit id="title.login">
+            <source>title.login</source>
+            <target>Log in!</target>
+        </trans-unit>
+
+        <trans-unit id="label.logout">
+            <source>label.logout</source>
+            <target>Log out</target>
+        </trans-unit>
+
+        <trans-unit id="label.please_sign_in">
+            <source>label.please_sign_in</source>
+            <target>Please sign in</target>
+        </trans-unit>
+
+        <trans-unit id="label.sign_in">
+            <source>label.sign_in</source>
+            <target>Sign in</target>
+        </trans-unit>
+
+        <trans-unit id="title.your_book_list">
+            <source>title.your_book_list</source>
+            <target>Your book list</target>
+        </trans-unit>
+
     </body>
   </file>
 </xliff>

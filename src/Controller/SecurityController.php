@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * Security Controller.
+ */
 namespace App\Controller;
 
 use App\Entity\User;
@@ -14,8 +16,36 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+/**
+ * Class SecurityController.
+ */
 class SecurityController extends AbstractController
 {
+    /**
+     * User service.
+     */
+    private UserServiceInterface $userService;
+
+    /**
+     * translator
+     */
+    private TranslatorInterface $translator;
+
+    /**
+     * Password hasher
+     */
+    private UserPasswordHasherInterface $passwordHasher;
+
+    /**
+     * construct function.
+     *
+     * @param UserService                 $userService    User Service
+     *
+     * @param TranslatorInterface         $translator     Translator
+     *
+     * @param UserPasswordHasherInterface $passwordHasher Password hasher
+     *
+     */
     public function __construct(UserServiceInterface $userService, TranslatorInterface $translator, UserPasswordHasherInterface $passwordHasher)
     {
         $this->userService = $userService;
@@ -23,6 +53,14 @@ class SecurityController extends AbstractController
         $this->passwordHasher = $passwordHasher;
     }
 
+    /**
+     * Login function.
+     *
+     * @param AuthenticationUtils $authenticationUtils HTTP authentication
+     *
+     * @return Response HTTP response
+     *
+     */
     #[Route(path: '/login', name: 'app_login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
@@ -37,14 +75,23 @@ class SecurityController extends AbstractController
 
         return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
     }
-
+    /**
+     * Logout function.
+     */
     #[Route(path: '/logout', name: 'app_logout')]
     public function logout(): void
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
-
-    #[Route(path: '/signup', name: 'app_signup', methods: 'GET|POST', )]
+    /**
+     * signup action.
+     *
+     * @param Request $request HTTP request
+     *
+     * @return Response HTTP response
+     *
+     */
+    #[Route(path:'/signup', name:'app_signup', methods:'GET|POST')]
     public function signup(Request $request): Response
     {
         $user = new User();

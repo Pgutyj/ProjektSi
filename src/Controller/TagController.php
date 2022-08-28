@@ -26,10 +26,18 @@ class TagController extends AbstractController
     private TagServiceInterface $tagService;
 
     /**
-     * Constructor.
+     * Translator.
      */
     private TranslatorInterface $translator;
 
+    /**
+     * construct function.
+     *
+     * @param TagServiceInterface $tagService Tag Service
+     *
+     * @param TranslatorInterface $translator Translator
+     *
+     */
     public function __construct(TagServiceInterface $tagService, TranslatorInterface $translator)
     {
         $this->tagService = $tagService;
@@ -37,7 +45,7 @@ class TagController extends AbstractController
     }
 
     /**
-     * Index action.
+     * Index function.
      *
      * @param Request $request HTTP Request
      *
@@ -56,6 +64,8 @@ class TagController extends AbstractController
     /**
      * Show action.
      *
+     * @param Tag $tag Tag entity
+     *
      * @return Response HTTP response
      */
     #[Route(
@@ -72,7 +82,7 @@ class TagController extends AbstractController
     /**
      * Create action.
      *
-     * @param Tag $tag
+     * @param Request $request HTTP request
      *
      * @return Response HTTP response
      */
@@ -107,6 +117,10 @@ class TagController extends AbstractController
     /**
      * Edit action.
      *
+     * @param Request $request HTTP request
+     *
+     * @param Tag     $tag     Tag entity
+     *
      * @return Response HTTP response
      */
     #[Route('/{id}/edit', name: 'tag_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|PUT')]
@@ -127,7 +141,7 @@ class TagController extends AbstractController
 
             $this->addFlash(
                 'success',
-                $this->translator->trans('message.created_successfully')
+                $this->translator->trans('message.edited_successfully')
             );
 
             return $this->redirectToRoute('tag_index');
@@ -144,6 +158,10 @@ class TagController extends AbstractController
 
     /**
      * delete action.
+     *
+     * @param Request $request HTTP request
+     *
+     * @param Tag     $tag     Tag entity
      *
      * @return Response HTTP response
      */

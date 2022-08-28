@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * PublishingHouseInfoRepository
+ */
 namespace App\Repository;
 
 use App\Entity\PublishingHouseInfo;
@@ -7,6 +10,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
+ * class PublishingHouseInfoRepository
  * @extends ServiceEntityRepository<PublishingHouseInfo>
  *
  * @method PublishingHouseInfo|null find($id, $lockMode = null, $lockVersion = null)
@@ -16,11 +20,24 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class PublishingHouseInfoRepository extends ServiceEntityRepository
 {
+    /**
+     * construct function.
+     *
+     * @param ManagerRegistry $registry Manager Registry
+     *
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, PublishingHouseInfo::class);
     }
 
+    /**
+     * Add entity.
+     *
+     * @param PublishingHouseInfo $entity PublishingHouseInfo entity
+     *
+     * @param bool                $flush  flush
+     */
     public function add(PublishingHouseInfo $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
@@ -30,6 +47,13 @@ class PublishingHouseInfoRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * remove entity.
+     *
+     * @param PublishingHouseInfo $entity PublishingHouseInfo entity
+     *
+     * @param bool                $flush  flush
+     */
     public function remove(PublishingHouseInfo $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);

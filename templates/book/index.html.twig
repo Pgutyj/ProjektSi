@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    {{ 'title.book_list'|trans }}
+    {{ 'title.your_book_list'|trans }}
 {% endblock %}
 
 {% block body %}
-    <h1>{{ 'title.book_list'|trans }}</h1>
+    <h1>{{ 'title.your_book_list'|trans }}</h1>
     {% if pagination is defined and pagination.items|length %}
 
 
@@ -45,7 +45,6 @@
                         {{ 'label.notags'|trans }}
                              {% endif %}
                     <td>{{ book.price }}</td>
-                        </td>
                      <td>
                          {% if is_granted('CREATE', book) %}
                         <a href="{{ url('book_create', {id: book.id}) }}" title="{{ 'action.create'|trans }}">
@@ -64,11 +63,6 @@
                             <a class="btn btn-outline-danger" href="{{ url('book_delete', {id: book.id}) }}" title="{{ 'action.delete'|trans }}">
                                 {{ 'action.delete'|trans }}
                             </a>
-                        {% endif %}
-                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                        <a class="btn btn-outline-danger" href="{{ url('book_reserve', {id: book.id}) }}" title="{{ 'action.reserve'|trans }}">
-                            {{ 'action.reserve'|trans }}
-                        </a>
                         {% endif %}
                     </td>
                 </tr>

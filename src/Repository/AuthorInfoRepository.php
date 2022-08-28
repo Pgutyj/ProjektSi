@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * Author Info Repository.
+ */
 namespace App\Repository;
 
 use App\Entity\AuthorInfo;
@@ -7,6 +9,8 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
+ * class AuthorInfoRepository
+ *
  * @extends ServiceEntityRepository<AuthorInfo>
  *
  * @method AuthorInfo|null find($id, $lockMode = null, $lockVersion = null)
@@ -16,11 +20,24 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class AuthorInfoRepository extends ServiceEntityRepository
 {
+    /**
+     * construct function.
+     *
+     * @param ManagerRegistry $registry Manager Registry
+     *
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, AuthorInfo::class);
     }
 
+    /**
+     * Add entity.
+     *
+     * @param AuthorInfo $entity AuthorInfo entity
+     *
+    * @param bool       $flush  flush
+     */
     public function add(AuthorInfo $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
@@ -30,6 +47,13 @@ class AuthorInfoRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * remove entity.
+     *
+     * @param AuthorInfo $entity AuthorInfo entity
+     *
+     * @param bool       $flush  flush
+     */
     public function remove(AuthorInfo $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);

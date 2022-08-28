@@ -17,17 +17,45 @@ interface BookServiceInterface
     /**
      * Get paginated list.
      *
-     * @param int $page Page number
+     * @param int   $page    Page number
+     *
+     * @param User  $author  book author
+     *
+     * @param array $filters array of filters
      *
      * @return PaginationInterface<string, mixed> Paginated list
      */
     public function getPaginatedList(int $page, User $author, array $filters = []): PaginationInterface;
 
+    /**
+     * Get paginated All.
+     *
+     * @param int   $page    Page number
+     *
+     * @param array $filters array of filters
+     *
+     * @return PaginationInterface<string, mixed> Paginated list
+     */
     public function getPaginatedAll(int $page, array $filters = []): PaginationInterface;
 
+    /**
+     * Save entity.
+     *
+     * @param Book $book Book entity
+     */
     public function save(Book $book): void;
 
+    /**
+     * delete entity.
+     *
+     * @param Book $book Book entity
+     */
     public function delete(Book $book): void;
 
+    /**
+     * reserve entity.
+     *
+     * @param Book $book Book entity
+     */
     public function reserve(Book $book): void;
 }

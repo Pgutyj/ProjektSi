@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Book voter.
+ */
 namespace App\Security\Voter;
 
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -9,6 +12,9 @@ use App\Entity\Book;
 use App\Entity\User;
 use Symfony\Component\Security\Core\Security;
 
+/**
+ * class BookVoter
+ */
 class BookVoter extends Voter
 {
     /**
@@ -54,12 +60,32 @@ class BookVoter extends Voter
         $this->security = $security;
     }
 
+    /**
+     * supports function
+     *
+     * @param string $attribute attribute
+     *
+     * @param Book   $subject   subject
+     *
+     * @return bool Result
+     */
     protected function supports(string $attribute, $subject): bool
     {
         return in_array($attribute, [self::EDIT, self::VIEW, self::DELETE])
             && $subject instanceof Book;
     }
 
+    /**
+     * vote On Attribute function
+     *
+     * @param string         $attribute attribute
+     *
+     * @param Book           $subject   subject
+     *
+     * @param TokenInterface $token     Token interface
+     *
+     * @return bool Result
+     */
     protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool
     {
         $user = $token->getUser();
@@ -94,6 +120,14 @@ class BookVoter extends Voter
         return $book->getAuthor() === $user;
     }
 
+    /**
+     * Checks if user can create book.
+     *
+     * @param Book $book Book entity
+     * @param User $user User
+     *
+     * @return bool Result
+     */
     private function canCreate(Book $book, User $user): bool
     {
         return $book->getAuthor() === $user;
@@ -103,6 +137,7 @@ class BookVoter extends Voter
      * Checks if user can view book.
      *
      * @param Book $book Book entity
+     *
      * @param User $user User
      *
      * @return bool Result
@@ -115,7 +150,7 @@ class BookVoter extends Voter
     /**
      * Checks if user can delete task.
      *
-     * @param Task $task Task entity
+     * @param Book $book Book entity
      * @param User $user User
      *
      * @return bool Result

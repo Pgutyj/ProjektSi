@@ -8,7 +8,7 @@ namespace App\DataFixtures;
 use App\Entity\AuthorInfo;
 
 /**
- * Class CategoryFixtures.
+ * Class AuthorInfoFixtures.
  *
  * @psalm-suppress MissingConstructor
  */

@@ -1,36 +1,69 @@
 <?php
 
+/**
+ * ReservationStatus Entity.
+ */
 namespace App\Entity;
 
 use App\Repository\ReservationStatusRepository;
 use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * class ReservationStatus
+ */
 #[ORM\Entity(repositoryClass: ReservationStatusRepository::class)]
 #[ORM\Table(name: 'reservationStatus')]
 #[UniqueEntity(fields: ['name'])]
 class ReservationStatus
 {
+    /**
+     * Primary key.
+     *
+     * @var int|null
+     */
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private $id;
 
+    /**
+     * status info.
+     *
+     * @var string
+     */
     #[ORM\Column(type: 'string', length: 10)]
-    private $status_info;
+    private $statusInfo;
 
+    /**
+     * Getter for Id.
+     *
+     * @return int|null Id
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * Getter for StatusInfo.
+     *
+     * @return string $statusInfo statusInfo
+     */
     public function getStatusInfo(): ?string
     {
-        return $this->status_info;
+        return $this->statusInfo;
     }
 
-    public function setStatusInfo(string $status_info): self
+    /**
+     * setter for StatusInfo.
+     *
+     * @param string $statusInfo status info
+     *
+     * @return string $statusInfo statusInfo
+     */
+    public function setStatusInfo(string $statusInfo): self
     {
-        $this->status_info = $status_info;
+        $this->statusInfo = $statusInfo;
 
         return $this;
     }

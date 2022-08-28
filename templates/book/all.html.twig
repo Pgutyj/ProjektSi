@@ -1,0 +1,88 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ 'title.book_list'|trans }}
+{% endblock %}
+
+{% block body %}
+    <h1>{{ 'title.book_list'|trans }}</h1>
+    {% if pagination is defined and pagination.items|length %}
+
+
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>{{ knp_pagination_sortable(pagination, 'label.id'|trans, 'book.id')  }}</th>
+                <th>{{ knp_pagination_sortable(pagination,'label.title'|trans, 'book.title') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.AuthorInfo'|trans, 'AuthorInfo.name')  }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.PublishingHouseInfo'|trans, 'PublishingHouseInfo.name')  }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.category'|trans, 'category.name')  }}</th>
+                <th>{{ knp_pagination_sortable(pagination,'label.tags'|trans, 'book.tags.tagInfo') }}</th>
+                <th>{{ knp_pagination_sortable(pagination,'label.price'|trans, 'book.price') }}</th>
+                <th>{{ 'label.actions'|trans }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for book in pagination.items%}
+                <tr>
+                    <td>{{ book.id }}</td>
+                    <td>{{ book.title }}</td>
+                    <td>{{ book.AuthorInfo.name }}</td>
+                    <td>{{ book.PublishingHouseInfo.name }}</td>
+                    <td>
+                        <a href="{{ url('allBooks', {'filters.category_id' : book.category.id}) }}" title="{{ book.category.name }}">
+                            {{ book.category.name }}
+                        </a>
+                    </td>
+                    <td>
+                        {% if book.tags is defined and book.tags|length %}
+                            {% for tag in book.tags %}
+                                <a href="{{ url('allBooks', {'filters.tag_id' : tag.id}) }}" title="{{ tag.tagInfo }}">
+                                    {{ tag.tagInfo }}
+                                </a><br>
+                            {% endfor %}
+                        {% else %}
+                            {{ 'label.notags'|trans }}
+                        {% endif %}
+                    <td>{{ book.price }}</td>
+                    </td>
+                    <td>
+                        {% if is_granted('CREATE', book) %}
+                            <a href="{{ url('book_create', {id: book.id}) }}" title="{{ 'action.create'|trans }}">
+                                {{ 'action.create'|trans }}
+                            </a>
+                        {% endif %}
+                        <a class="btn btn-outline-primary" href="{{ url('book_show', {id: book.id}) }}" title="{{ 'action.show'|trans }}">
+                            {{ 'action.show'|trans }}
+                        </a>
+                        {% if is_granted('EDIT', book) %}
+                            <a class="btn btn-outline-success" href="{{ url('book_edit', {id: book.id}) }}" title="{{ 'action.edit'|trans }}">
+                                {{ 'action.edit'|trans }}
+                            </a>
+                        {% endif %}
+                        {% if is_granted('DELETE', book) %}
+                            <a class="btn btn-outline-danger" href="{{ url('book_delete', {id: book.id}) }}" title="{{ 'action.delete'|trans }}">
+                                {{ 'action.delete'|trans }}
+                            </a>
+                        {% endif %}
+                        {% if app.user.id!=book.Author.id and is_granted('IS_AUTHENTICATED_FULLY')%}
+                            <a class="btn btn-outline-danger" href="{{ url('book_reserve', {id: book.id}) }}" title="{{ 'action.reserve'|trans }}">
+                                {{ 'action.reserve'|trans }}
+                            </a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="navigation text-center">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+
+    {% else %}
+        <p>
+            {{ 'message.empty_list'|trans }}
+        </p>
+    {% endif %}
+{% endblock %}

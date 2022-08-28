@@ -1,6 +1,6 @@
 <?php
 /**
- * Book service interface.
+ * Category service interface.
  */
 
 namespace App\Service;
@@ -9,10 +9,25 @@ use App\Entity\Category;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 
 /**
- * Interface BookServiceInterface.
+ * Interface CategoryServiceInterface.
  */
 interface CategoryServiceInterface
 {
+
+    /**
+     * Save entity.
+     *
+     * @param Category $category Category entity
+     */
+    public function save(Category $category): void;
+
+    /**
+     * delete entity.
+     *
+     * @param Category $category Category entity
+     */
+    public function delete(Category $category): void;
+
     /**
      * Get paginated list.
      *
@@ -20,13 +35,28 @@ interface CategoryServiceInterface
      *
      * @return PaginationInterface<string, mixed> Paginated list
      */
-    public function save(Category $category): void;
-
-    public function delete(Category $category): void;
-
     public function getPaginatedList(int $page): PaginationInterface;
 
+    /**
+     *
+     * can Be Deleted .
+     *
+     * checks if entity can be deleted
+     *
+     * @param Category $category Category entity
+     *
+     * @return bool
+     */
     public function canBeDeleted(Category $category): bool;
 
+    /**
+     * Find by id.
+     *
+     * @param int $id Category id
+     *
+     * @return Category|null Category entity
+     *
+     * @throws NonUniqueResultException
+     */
     public function findOneById(int $id): ?Category;
 }

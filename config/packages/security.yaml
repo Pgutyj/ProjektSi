@@ -46,6 +46,7 @@ security:
         - { path: ^/signup, roles: PUBLIC_ACCESS}
         - { path: ^/book, roles: PUBLIC_ACCESS}
         - { path: ^/admin, roles: ROLE_ADMIN}
+        - { path: ^/reservations, roles: ROLE_ADMIN}
         - { path: ^/, roles: ROLE_USER}
 
 when@test:
