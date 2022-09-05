@@ -5,7 +5,7 @@
 
 namespace App\Service;
 
-use App\Entity\Category;
+use App\Entity\User;
 use App\Entity\Reservation;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 
@@ -47,4 +47,14 @@ interface ReservationServiceInterface
      * @throws NonUniqueResultException
      */
     public function findOneById(int $id): ?Reservation;
+
+    /**
+     * Get paginated list of all reservations belonging to a certain user.
+     *
+     * @param int  $page      Page number
+     * @param User $requester user entity
+     *
+     * @return PaginationInterface<string, mixed> Paginated list
+     */
+    public function getPaginatedReservations(int $page, User $requester): PaginationInterface;
 }

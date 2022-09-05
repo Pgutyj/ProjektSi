@@ -11,11 +11,14 @@ use App\Form\Type\ReservationType;
 use App\Form\Type\BookType;
 use App\Service\BookServiceInterface;
 use App\Service\UserServiceInterface;
+use App\Service\ReservationServiceInterface;
+use App\Service\ReservationStatusServiceInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use DateTimeImmutable;
 
 /**
  * Class BookController.
@@ -29,7 +32,7 @@ class BookController extends AbstractController
     private BookServiceInterface $bookService;
 
     /**
-     * translator
+     * translator.
      */
     private TranslatorInterface $translator;
 
@@ -37,21 +40,33 @@ class BookController extends AbstractController
      * User service.
      */
     private UserServiceInterface $userService;
+
+    /**
+     * Reservation service.
+     */
+    private ReservationServiceInterface $reservationService;
+
+    /**
+     * Reservation status service.
+     */
+    private ReservationStatusServiceInterface $reservationStatusService;
+
     /**
      * construct function.
      *
-     * @param TranslatorInterface  $translator  Translator
-     *
-     * @param BookServiceInterface $bookService Book Service
-     *
-     * @param UserServiceInterface $userService User Service
-     *
+     * @param TranslatorInterface               $translator               Translator
+     * @param BookServiceInterface              $bookService              Book Service
+     * @param UserServiceInterface              $userService              User Service
+     * @param ReservationServiceInterface       $reservationService       Reservation Service
+     * @param ReservationStatusServiceInterface $reservationStatusService Reservation Status Service
      */
-    public function __construct(TranslatorInterface $translator, BookServiceInterface $bookService, UserServiceInterface $userService)
+    public function __construct(TranslatorInterface $translator, BookServiceInterface $bookService, UserServiceInterface $userService, ReservationServiceInterface $reservationService, ReservationStatusServiceInterface $reservationStatusService)
     {
         $this->translator = $translator;
         $this->bookService = $bookService;
         $this->userService = $userService;
+        $this->reservationService = $reservationService;
+        $this->reservationStatusService = $reservationStatusService;
     }
 
     /**
@@ -60,7 +75,6 @@ class BookController extends AbstractController
      * @param Request $request HTTP request
      *
      * @return Response HTTP response
-     *
      */
     #[Route(
         name: 'book_index',
@@ -70,11 +84,11 @@ class BookController extends AbstractController
     {
         $filters = $this->getFilters($request);
         $user = $this->getUser();
-            $pagination = $this->bookService->getPaginatedList(
-                $request->query->getInt('page', 1),
-                $user,
-                $filters
-            );
+        $pagination = $this->bookService->getPaginatedList(
+            $request->query->getInt('page', 1),
+            $user,
+            $filters
+        );
 
         return $this->render(
             'book/index.html.twig',
@@ -91,11 +105,10 @@ class BookController extends AbstractController
      */
     #[Route(
         '/{id}',
-        name:'book_show',
-        requirements:['id' => '[1-9]\d*'],
-        methods:'GET',
+        name: 'book_show',
+        requirements: ['id' => '[1-9]\d*'],
+        methods: 'GET',
     )]
-    #[IsGranted('VIEW', subject:'book')]
     public function show(Book $book): Response
     {
         return $this->render(
@@ -110,20 +123,22 @@ class BookController extends AbstractController
      * @param Request $request HTTP request
      *
      * @return Response HTTP response
-     *
      */
-    #[Route('/create', name:'book_create', methods:'GET|POST')]
+    #[Route('/create', name: 'book_create', methods: 'GET|POST')]
     public function create(Request $request): Response
     {
-        $user = $this->getUser();
         $book = new Book();
-        $book->setAuthor($user);
+        $book->setAuthor(null);
 
         $form = $this->createForm(
             BookType::class,
             $book,
             ['action' => $this->generateUrl('book_create')]
         );
+        $timestamp = time();
+        $date = (new DateTimeImmutable)->setTimestamp($timestamp);
+        $book->setBookCreationTime($date);
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -144,25 +159,13 @@ class BookController extends AbstractController
      * Edit action.
      *
      * @param Request $request HTTP request
-     *
      * @param Book    $book    Book entity
      *
      * @return Response HTTP response
-     *
      */
-    #[IsGranted('EDIT', subject: 'book')]
     #[Route('/{id}/edit', name: 'book_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|PUT')]
     public function edit(Request $request, Book $book): Response
     {
-        if ($book->getAuthor() !== $this->getUser()) {
-            $this->addFlash(
-                'warning',
-                $this->translator->trans('message.record_not_found')
-            );
-
-            return $this->redirectToRoute('book_index');
-        }
-
         $form = $this->createForm(
             BookType::class,
             $book,
@@ -171,6 +174,11 @@ class BookController extends AbstractController
                 'action' => $this->generateUrl('book_edit', ['id' => $book->getId()]),
             ]
         );
+
+        $timestamp = time();
+        $date = (new DateTimeImmutable)->setTimestamp($timestamp);
+        $book->setBookCreationTime($date);
+        $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->bookService->save($book);
@@ -201,17 +209,8 @@ class BookController extends AbstractController
      * @return Response HTTP response
      */
     #[Route('/{id}/delete', name: 'book_delete', requirements: ['id' => '[1-9]\d*'], methods: 'GET|DELETE')]
-    #[IsGranted('DELETE', subject: 'book')]
     public function delete(Request $request, Book $book): Response
     {
-        if ($book->getAuthor() !== $this->getUser()) {
-            $this->addFlash(
-                'warning',
-                $this->translator->trans('message.record_not_found')
-            );
-
-            return $this->redirectToRoute('book_index');
-        }
 
         $form = $this->createForm(
             BookType::class,
@@ -255,7 +254,7 @@ class BookController extends AbstractController
         '/{id}/reserve',
         name: 'book_reserve',
         requirements: ['id' => '[1-9]\d*'],
-        methods: 'GET|PUT',
+        methods: 'GET|POST',
     )]
     public function reserve(Request $request, Book $book): Response
     {
@@ -264,14 +263,24 @@ class BookController extends AbstractController
             ReservationType::class,
             $reservation,
             [
-                'method' => 'PUT',
+                'method' => 'POST',
                 'action' => $this->generateUrl('book_reserve', ['id' => $book->getId()]),
             ]
         );
+        $reservation->setBook($book);
+        $user = $this->getUser();
+        $reservation->setRequester($user);
+        $reservation->setEmail($user->getEmail());
+        $reservationStatus = $this->reservationStatusService->findOneById(1);
+        $reservation->setReservationStatus($reservationStatus);
+        $timestamp = time();
+        $date = (new DateTimeImmutable)->setTimestamp($timestamp);
+        $reservation->setReservationTime($date);
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->bookService->reserve($reservation);
+            $this->reservationService->save($reservation);
 
             $this->addFlash(
                 'success',
@@ -306,20 +315,18 @@ class BookController extends AbstractController
     )]
     public function books(Request $request): Response
     {
-            $curruser = $this->userService->getCurrentUser();
-            $user = $this->getUser();
-            $filters = $this->getFilters($request);
-            $pagination = $this->bookService->getPaginatedAll(
-                $request->query->getInt('page', 1),
-                $filters
-            );
+        $filters = $this->getFilters($request);
+        $pagination = $this->bookService->getPaginatedAll(
+            $request->query->getInt('page', 1),
+            $filters
+        );
 
-            return $this->render(
-                'book/all.html.twig',
-                [
+        return $this->render(
+            'book/all.html.twig',
+            [
                 'pagination' => $pagination,
-                ]
-            );
+            ]
+        );
     }
 
     /**

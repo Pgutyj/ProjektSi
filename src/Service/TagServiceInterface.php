@@ -16,13 +16,13 @@ interface TagServiceInterface
     /**
      * Find by title.
      *
-     * @param string $title Tag tag_info
+     * @param string $tagInfo Tag tag_info
      *
      * @return Tag|null Tag entity
      *
      * @throws NonUniqueResultException
      */
-    public function findOneByTitle(string $title): ?Tag;
+    public function findOneByTagInfo(string $tagInfo): ?Tag;
 
     /**
      * Save entity.
@@ -48,14 +48,11 @@ interface TagServiceInterface
     public function getPaginatedList(int $page): PaginationInterface;
 
     /**
-     *
      * can Be Deleted .
      *
      * checks if entity can be deleted
      *
      * @param Tag $tag Tag entity
-     *
-     * @return bool
      */
     public function canBeDeleted(Tag $tag): bool;
 

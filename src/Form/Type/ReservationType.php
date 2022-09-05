@@ -31,15 +31,6 @@ class ReservationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add(
-            'email',
-            TextType::class,
-            [
-                'label' => 'label.email',
-                'required' => true,
-                'attr' => ['max_length' => 200],
-            ]
-        );
-        $builder->add(
             'comment',
             TextType::class,
             [
@@ -48,18 +39,7 @@ class ReservationType extends AbstractType
                 'attr' => ['max_length' => 200],
             ]
         );
-        $builder->add(
-            'reservation_time',
-            DateTimeType::class,
-            [
-                'date_label' => 'label.reservation_time',
-                'placeholder' => [
-                    'year' => 'Year', 'month' => 'Month', 'day' => 'Day',
-                    'hour' => 'Hour', 'minute' => 'Minute', 'second' => 'Second',
-                ],
-                'input' => 'datetime_immutable',
-            ]
-        );
+
     }
 
     /**

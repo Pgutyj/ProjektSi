@@ -3,6 +3,7 @@
 /**
  * User Entity.
  */
+
 namespace App\Entity;
 
 use App\Entity\Enum\UserRole;
@@ -13,7 +14,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * class User
+ * class User.
  */
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: 'users')]
@@ -22,8 +23,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     /**
      * Primary key.
-     *
-     * @var int|null
      */
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -89,7 +88,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * setter for email.
      *
-     * @param string $email
+     * @param string $email email
      *
      * @return string $email email
      */
@@ -101,9 +100,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * A visual identifier that represents this user.
      *
-     * @see UserInterface
+     * getter for user identifier - user email
      *
-     * @return string
+     * @return string user email
+     *
+     * @see UserInterface
      */
     public function getUserIdentifier(): string
     {
@@ -113,7 +114,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @deprecated since Symfony 5.3, use getUserIdentifier instead
      *
-     * @return string
+     * @return string nick
      */
     public function getUsername(): string
     {
@@ -122,8 +123,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @see UserInterface
+     * getter for User roles
      *
-     * @return array
+     * @return array user roles
      */
     public function getRoles(): array
     {
@@ -158,8 +160,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * setter for nick.
      *
      * @param string $nick user nick
-     *
-     * @return void
      */
     public function setNick(string $nick): void
     {
@@ -183,9 +183,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      *
      * setter for user password
      *
-     * @param string $password
-     *
-     * @return string password
+     * @param string $password user password
      */
     public function setPassword(string $password): void
     {
@@ -198,7 +196,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      *
      * @see UserInterface
      *
-     * @return string|null
+     * @return string
      */
     public function getSalt(): ?string
     {

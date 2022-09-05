@@ -2,6 +2,7 @@
 /**
  * Security Controller.
  */
+
 namespace App\Controller;
 
 use App\Entity\User;
@@ -27,12 +28,12 @@ class SecurityController extends AbstractController
     private UserServiceInterface $userService;
 
     /**
-     * translator
+     * translator.
      */
     private TranslatorInterface $translator;
 
     /**
-     * Password hasher
+     * Password hasher.
      */
     private UserPasswordHasherInterface $passwordHasher;
 
@@ -40,11 +41,8 @@ class SecurityController extends AbstractController
      * construct function.
      *
      * @param UserService                 $userService    User Service
-     *
      * @param TranslatorInterface         $translator     Translator
-     *
      * @param UserPasswordHasherInterface $passwordHasher Password hasher
-     *
      */
     public function __construct(UserServiceInterface $userService, TranslatorInterface $translator, UserPasswordHasherInterface $passwordHasher)
     {
@@ -59,7 +57,6 @@ class SecurityController extends AbstractController
      * @param AuthenticationUtils $authenticationUtils HTTP authentication
      *
      * @return Response HTTP response
-     *
      */
     #[Route(path: '/login', name: 'app_login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
@@ -75,6 +72,7 @@ class SecurityController extends AbstractController
 
         return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
     }
+
     /**
      * Logout function.
      */
@@ -83,15 +81,15 @@ class SecurityController extends AbstractController
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
+
     /**
      * signup action.
      *
      * @param Request $request HTTP request
      *
      * @return Response HTTP response
-     *
      */
-    #[Route(path:'/signup', name:'app_signup', methods:'GET|POST')]
+    #[Route(path: '/signup', name: 'app_signup', methods: 'GET|POST')]
     public function signup(Request $request): Response
     {
         $user = new User();

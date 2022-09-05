@@ -15,6 +15,7 @@
                 <th>{{ knp_pagination_sortable(pagination, 'label.id'|trans, 'user.id')  }}</th>
                 <th>{{ knp_pagination_sortable(pagination,'user.email'|trans, 'user.email') }}</th>
                 <th>{{ knp_pagination_sortable(pagination,'user.nick'|trans, 'user.nick') }}</th>
+                <th>{{ knp_pagination_sortable(pagination,'user.roles'|trans, 'user.role') }}</th>
                 <th>{{ knp_pagination_sortable(pagination,'action.edit'|trans, 'action.edit') }}</th>
             </tr>
             </thead>
@@ -24,9 +25,14 @@
                     <td>{{ user.id }}</td>
                     <td>{{ user.email }}</td>
                     <td>{{ user.nick }}</td>
+                    {% if 'ROLE_ADMIN' in user.roles%}
+                        <td>{{ 'label.admin'|trans }}</td>
+                    {% else %}
+                        <td>{{ 'label.user'|trans }}</td>
+                    {% endif %}
                     <td>
                     <p>
-                        <a href="{{ url('profile_edit', {id: user.id}) }}" title="{{ 'action.edit'|trans }}">
+                        <a href="{{ url('profile_edit', {id: user.id}) }}" class="btn btn-outline-success" title="{{ 'action.edit'|trans }}">
                             {{ 'action.edit'|trans }}
                         </a>
                     </p>

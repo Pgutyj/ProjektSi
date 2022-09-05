@@ -3,6 +3,7 @@
 /**
  * Category Repository.
  */
+
 namespace App\Repository;
 
 use App\Entity\Category;
@@ -11,7 +12,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\QueryBuilder;
 
 /**
- * class CategoryRepository
+ * class CategoryRepository.
  *
  * @extends ServiceEntityRepository<Category>
  *
@@ -37,7 +38,6 @@ class CategoryRepository extends ServiceEntityRepository
      * construct function.
      *
      * @param ManagerRegistry $registry Manager Registry
-     *
      */
     public function __construct(ManagerRegistry $registry)
     {
@@ -56,13 +56,10 @@ class CategoryRepository extends ServiceEntityRepository
             ->orderBy('category.id', 'ASC');
     }
 
-
-
     /**
      * save entity.
      *
      * @param Category $category Category entity
-     *
      */
     public function save(Category $category): void
     {
@@ -74,13 +71,13 @@ class CategoryRepository extends ServiceEntityRepository
      * delete entity.
      *
      * @param Category $category Category entity
-     *
      */
     public function delete(Category $category): void
     {
         $this->_em->remove($category);
         $this->_em->flush();
     }
+
     /**
      * Get or create new query builder.
      *

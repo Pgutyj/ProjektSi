@@ -24,6 +24,7 @@
             </thead>
             <tbody>
             {% for book in pagination.items%}
+                {% if book.author is null %}
                 <tr>
                     <td>{{ book.id }}</td>
                     <td>{{ book.title }}</td>
@@ -45,33 +46,30 @@
                             {{ 'label.notags'|trans }}
                         {% endif %}
                     <td>{{ book.price }}</td>
-                    </td>
                     <td>
-                        {% if is_granted('CREATE', book) %}
-                            <a href="{{ url('book_create', {id: book.id}) }}" title="{{ 'action.create'|trans }}">
+                        {% if 'ROLE_ADMIN' in app.user.roles %}
+
+                            <a class="btn btn-outline-dark" href="{{ url('book_create', {id: book.id}) }}" title="{{ 'action.create'|trans }}">
                                 {{ 'action.create'|trans }}
+                            </a>
+                            <a class="btn btn-outline-success" href="{{ url('book_edit', {id: book.id}) }}" title="{{ 'action.edit'|trans }}">
+                                {{ 'action.edit'|trans }}
+                            </a>
+                            <a class="btn btn-outline-danger" href="{{ url('book_delete', {id: book.id}) }}" title="{{ 'action.delete'|trans }}">
+                                {{ 'action.delete'|trans }}
+                            </a>
+                        {% endif %}
+                        {% if is_granted('IS_AUTHENTICATED_FULLY')%}
+                            <a class="btn btn-outline-danger" href="{{ url('book_reserve', {id: book.id}) }}" title="{{ 'action.reserve'|trans }}">
+                                {{ 'action.reserve'|trans }}
                             </a>
                         {% endif %}
                         <a class="btn btn-outline-primary" href="{{ url('book_show', {id: book.id}) }}" title="{{ 'action.show'|trans }}">
                             {{ 'action.show'|trans }}
                         </a>
-                        {% if is_granted('EDIT', book) %}
-                            <a class="btn btn-outline-success" href="{{ url('book_edit', {id: book.id}) }}" title="{{ 'action.edit'|trans }}">
-                                {{ 'action.edit'|trans }}
-                            </a>
-                        {% endif %}
-                        {% if is_granted('DELETE', book) %}
-                            <a class="btn btn-outline-danger" href="{{ url('book_delete', {id: book.id}) }}" title="{{ 'action.delete'|trans }}">
-                                {{ 'action.delete'|trans }}
-                            </a>
-                        {% endif %}
-                        {% if app.user.id!=book.Author.id and is_granted('IS_AUTHENTICATED_FULLY')%}
-                            <a class="btn btn-outline-danger" href="{{ url('book_reserve', {id: book.id}) }}" title="{{ 'action.reserve'|trans }}">
-                                {{ 'action.reserve'|trans }}
-                            </a>
-                        {% endif %}
                     </td>
                 </tr>
+                {% endif %}
             {% endfor %}
             </tbody>
         </table>

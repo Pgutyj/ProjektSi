@@ -37,8 +37,8 @@
                     <td>
                         {% if book.tags is defined and book.tags|length %}
                             {% for tag in book.tags %}
-                        <a href="{{ url('book_index', {'filters.tag_id' : tag.id}) }}" title="{{ tag.tag_info }}">
-                            {{ tag.tag_info }}
+                        <a href="{{ url('book_index', {'filters.tag_id' : tag.id}) }}" title="{{ tag.tagInfo }}">
+                            {{ tag.tagInfo }}
                         </a><br>
                              {% endfor %}
                             {% else %}
@@ -46,24 +46,20 @@
                              {% endif %}
                     <td>{{ book.price }}</td>
                      <td>
-                         {% if is_granted('CREATE', book) %}
-                        <a href="{{ url('book_create', {id: book.id}) }}" title="{{ 'action.create'|trans }}">
+                         <a class="btn btn-outline-primary" href="{{ url('book_show', {id: book.id}) }}" title="{{ 'action.show'|trans }}">
+                             {{ 'action.show'|trans }}
+                         </a>
+                         {% if 'ROLE_ADMIN' in app.user.roles %}
+                        <a class="btn btn-outline-info" href="{{ url('book_create', {id: book.id}) }}" title="{{ 'action.create'|trans }}" >
                             {{ 'action.create'|trans }}
                         </a>
-                         {% endif %}
-                            <a class="btn btn-outline-primary" href="{{ url('book_show', {id: book.id}) }}" title="{{ 'action.show'|trans }}">
-                                {{ 'action.show'|trans }}
-                            </a>
-                        {% if is_granted('EDIT', book) %}
                             <a class="btn btn-outline-success" href="{{ url('book_edit', {id: book.id}) }}" title="{{ 'action.edit'|trans }}">
                                 {{ 'action.edit'|trans }}
                             </a>
-                        {% endif %}
-                        {% if is_granted('DELETE', book) %}
                             <a class="btn btn-outline-danger" href="{{ url('book_delete', {id: book.id}) }}" title="{{ 'action.delete'|trans }}">
                                 {{ 'action.delete'|trans }}
                             </a>
-                        {% endif %}
+                         {% endif %}
                     </td>
                 </tr>
             {% endfor %}

@@ -5,7 +5,6 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Book;
 use App\Entity\Reservation;
 use DateTimeImmutable;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -34,12 +33,15 @@ class ReservationFixtures extends AbstractBaseFixtures implements DependentFixtu
             $reservation->setReservationStatus($reservationStatus);
             $book = $this->getRandomReference('books');
             $reservation->setBook($book);
+            $requester = $this->getRandomReference('users');
+            $reservation->setRequester($requester);
 
             return $reservation;
         });
 
         $this->manager->flush();
     }
+
     /**
      * get dependencies.
      *
@@ -49,6 +51,6 @@ class ReservationFixtures extends AbstractBaseFixtures implements DependentFixtu
      */
     public function getDependencies(): array
     {
-        return [ReservationStatusFixtures::class, BookFixtures::class];
+        return [ReservationStatusFixtures::class, BookFixtures::class, UserFixtures::class];
     }
 }

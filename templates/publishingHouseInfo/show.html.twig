@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ 'title.publishing_house_info_details'|trans({'%id%': publishingHouseInfo.id|default('')}) }}
+{% endblock %}
+
+{% block body %}
+    <h1>{{ 'title.publishing_house_info_details'|trans({'%id%': publishingHouseInfo.id|default('')}) }}</h1>
+    {% if publishingHouseInfo is defined and publishingHouseInfo|length %}
+        <dl class="dl-horizontal">
+            <dt>{{ 'label.id'|trans }}</dt>
+            <dd>{{ publishingHouseInfo.id }}</dd>
+            <dt>{{ 'label.name'|trans }}</dt>
+            <dd>{{ publishingHouseInfo.name }}</dd>
+        </dl>
+        <p>
+            <a href="{{ url('publishing_house_info_index') }}" title="{{ 'action.back_to_list'|trans }}">
+                {{ 'action.back_to_list'|trans }}
+            </a>
+        </p>
+    {% else %}
+        <p>
+            {{ 'message.record_not_found'|trans }}
+        </p>
+    {% endif %}
+{% endblock %}

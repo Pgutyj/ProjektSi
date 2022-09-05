@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 /**
  * Class CategoryController.
@@ -34,7 +35,6 @@ class CategoryController extends AbstractController
      * construct function.
      *
      * @param CategoryService     $categoryService Category Service
-     *
      * @param TranslatorInterface $translator      Translator
      */
     public function __construct(CategoryServiceInterface $categoryService, TranslatorInterface $translator)
@@ -71,12 +71,14 @@ class CategoryController extends AbstractController
         '/{id}',
         name: 'category_show',
         requirements: ['id' => '[1-9]\d*'],
-        methods: 'GET'
+        methods: 'GET',
+        defaults: ['slug' => 'slug']
     )]
     public function show(Category $category): Response
     {
         return $this->render('category/show.html.twig', ['category' => $category]);
     }
+
     /**
      * Create action.
      *
@@ -116,20 +118,19 @@ class CategoryController extends AbstractController
      * edit action.
      *
      * @param Request  $request  HTTP request
-     *
      * @param Category $category Category
      *
      * @return Response HTTP response
      */
-    #[Route('/{id}/edit', name: 'category_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|PUT')]
+    #[Route('/{id}/edit', name: 'category_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|POST')]
     public function edit(Request $request, Category $category): Response
     {
         $form = $this->createForm(
             CategoryType::class,
             $category,
             [
-                'method' => 'PUT',
-                'action' => $this->generateUrl('category_edit', ['id' => $category->getId()]),
+                'method' => 'POST',
+                'action' => $this->generateUrl('category_edit',['id' => $category->getId()]),
             ]
         );
         $form->handleRequest($request);
@@ -153,16 +154,16 @@ class CategoryController extends AbstractController
             ]
         );
     }
+
     /**
      * delete action.
      *
      * @param Request  $request  HTTP request
-     *
      * @param Category $category Category
      *
      * @return Response HTTP response
      */
-    #[Route('/{id}/delete', name: 'category_delete', requirements: ['id' => '[1-9]\d*'], methods: 'GET|DELETE')]
+    #[Route('/{id}/delete', name: 'category_delete', requirements: ['id' => '[1-9]\d*'], methods: 'GET|DELETE|POST')]
     public function delete(Request $request, Category $category): Response
     {
         if (!$this->categoryService->canBeDeleted($category)) {
@@ -178,8 +179,8 @@ class CategoryController extends AbstractController
             CategoryType::class,
             $category,
             [
-                'method' => 'DELETE',
-                'action' => $this->generateUrl('category_delete', ['id' => $category->getId()]),
+                'method' => 'POST',
+                'action' => $this->generateUrl('category_delete',  ['id' => $category->getId()]),
             ]
         );
         $form->handleRequest($request);

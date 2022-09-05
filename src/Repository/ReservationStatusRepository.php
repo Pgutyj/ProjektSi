@@ -3,6 +3,7 @@
 /**
  * ReservationStatusRepository.
  */
+
 namespace App\Repository;
 
 use App\Entity\ReservationStatus;
@@ -10,7 +11,8 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * class ReservationStatusRepository
+ * class ReservationStatusRepository.
+ *
  * @extends ServiceEntityRepository<ReservationStatus>
  *
  * @method ReservationStatus|null find($id, $lockMode = null, $lockVersion = null)
@@ -24,7 +26,6 @@ class ReservationStatusRepository extends ServiceEntityRepository
      * construct function.
      *
      * @param ManagerRegistry $registry Manager Registry
-     *
      */
     public function __construct(ManagerRegistry $registry)
     {
@@ -35,7 +36,6 @@ class ReservationStatusRepository extends ServiceEntityRepository
      * Add entity.
      *
      * @param ReservationStatus $entity ReservationStatus entity
-     *
      * @param bool              $flush  flush
      */
     public function add(ReservationStatus $entity, bool $flush = false): void
@@ -51,7 +51,6 @@ class ReservationStatusRepository extends ServiceEntityRepository
      * remove entity.
      *
      * @param ReservationStatus $entity ReservationStatus entity
-     *
      * @param bool              $flush  flush
      */
     public function remove(ReservationStatus $entity, bool $flush = false): void

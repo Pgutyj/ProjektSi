@@ -3,13 +3,15 @@
 /**
  * Reservation Entity.
  */
+
 namespace App\Entity;
 
 use App\Repository\ReservationRepository;
+use Cassandra\Date;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * class Reservation
+ * class Reservation.
  */
 #[ORM\Entity(repositoryClass: ReservationRepository::class)]
 #[ORM\Table(name: 'reservations')]
@@ -24,7 +26,7 @@ class Reservation
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
+    private ?int $id;
 
     /**
      * email.
@@ -32,7 +34,10 @@ class Reservation
      * @var string
      */
     #[ORM\Column(type: 'string', length: 255)]
-    private $email;
+    #[Assert\Type('string')]
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 3, max: 255)]
+    private ?string $email;
 
     /**
      * reservationTime.
@@ -47,7 +52,9 @@ class Reservation
      *
      * @var string
      */
-    #[ORM\Column(type: 'text', nullable: true)]
+    #[ORM\Column(type: 'text', nullable: false)]
+    #[Assert\Type('text')]
+    #[Assert\NotBlank]
     private $comment;
 
     /**
@@ -55,21 +62,26 @@ class Reservation
      *
      * @var ReservationStatus
      */
-    #[ORM\ManyToOne(targetEntity: ReservationStatus::class, fetch: 'EXTRA_LAZY')]
+    #[ORM\ManyToOne(targetEntity: ReservationStatus::class, cascade: ['persist', 'remove'], fetch: 'EXTRA_LAZY')]
     #[Assert\Type(ReservationStatus::class)]
     #[Assert\NotBlank]
     #[ORM\JoinColumn(nullable: true)]
-    private $reservationStatus;
+    private ?ReservationStatus $reservationStatus;
 
     /**
-     * Book
+     * Book.
      *
      * @var Book
      */
-    #[ORM\OneToOne(targetEntity: Book::class, cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne(targetEntity: Book::class, cascade: ['persist', 'remove'])]
     #[Assert\Type(Book::class)]
-    #[ORM\JoinColumn(nullable: true)]
+    #[ORM\JoinColumn(nullable: false)]
     private ?Book $book = null;
+
+    #[ORM\ManyToOne(targetEntity: User::class, fetch: 'EXTRA_LAZY')]
+    #[Assert\Type(User::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $requester;
 
     /**
      * Getter for Id.
@@ -94,7 +106,7 @@ class Reservation
     /**
      * setter for email.
      *
-     * @param string $email
+     * @param string $email email
      *
      * @return string $email email
      */
@@ -104,8 +116,9 @@ class Reservation
 
         return $this;
     }
+
     /**
-     * Getter for ReservationTime
+     * Getter for ReservationTime.
      *
      * @return DateTimeImmutable $reservationTime
      */
@@ -115,7 +128,7 @@ class Reservation
     }
 
     /**
-     * setter for ReservationTime
+     * setter for ReservationTime.
      *
      * @param DateTimeImmutable $reservationTime
      *
@@ -141,9 +154,9 @@ class Reservation
     /**
      * setter for comment.
      *
-     * @param string|null $comment
+     * @param string|null $comment comment
      *
-     * @return string $comment comment
+     * @return self comment string
      */
     public function setComment(?string $comment): self
     {
@@ -189,13 +202,37 @@ class Reservation
     /**
      * setter for ReservationStatus.
      *
-     * @param Book|null $book
+     * @param Book|null $book book entity
      *
      * @return entity Book
      */
     public function setBook(?Book $book): self
     {
         $this->book = $book;
+
+        return $this;
+    }
+
+    /**
+     * getter for Requester - user requesting for reservation.
+     *
+     * @return User entity user
+     */
+    public function getRequester(): ?User
+    {
+        return $this->requester;
+    }
+
+    /**
+     * setter for Requester.
+     *
+     * @param User|null $requester User entity
+     *
+     * @return self User entity
+     */
+    public function setRequester(?User $requester): self
+    {
+        $this->requester = $requester;
 
         return $this;
     }

@@ -2,14 +2,16 @@
 /**
  * Category Entity.
  */
+
 namespace App\Entity;
 
 use App\Repository\CategoryRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- *  class Category
+ *  class Category.
  */
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
 #[ORM\Table(name: 'categories')]
@@ -18,8 +20,6 @@ class Category
 {
     /**
      * Primary key.
-     *
-     * @var int|null
      */
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -42,11 +42,11 @@ class Category
      *
      * @var string
      */
-    #[ORM\Column(type: 'string', length: 128, nullable: true)]
+    #[ORM\Column(type: 'string', length: 128, unique: true)]
     #[Assert\Type('string')]
     #[Assert\Length(min: 3, max: 64)]
     #[Gedmo\Slug(fields: ['name'])]
-    private ?string $slug;
+    private ?string $slug=null;
 
     /**
      * Getter for Id.
@@ -72,13 +72,12 @@ class Category
      * setter for name.
      *
      * @param string $name name
-     *
-     * @return void
      */
     public function setName(?string $name): void
     {
         $this->name = $name;
     }
+
     /**
      * Getter for slug.
      *
@@ -88,12 +87,11 @@ class Category
     {
         return $this->slug;
     }
+
     /**
      * setter for slug.
      *
      * @param string $slug slug
-     *
-     * @return void
      */
     public function setSlug(?string $slug): void
     {

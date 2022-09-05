@@ -16,20 +16,22 @@
     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
         <div>{{ app.user.nick }}</div>
         <div>
-            <a href="{{ url('app_profile', {id: app.user.id}) }}">{{ 'action_profile'|trans }}</a>
-        </div>
-        <div>
-            <a href="{{ url('app_logout') }}">{{ 'action_logout'|trans }}</a>
-        </div>
-    {% else %}
-        <div>
-            <a href="{{ url('app_login') }}">{{ 'action_login'|trans }}</a>
+            <a href="{{ url('app_profile', {id: app.user.id}) }}" class="btn btn-primary">{{ 'action_profile'|trans }}</a>
+            <a href="{{ url('app_logout') }}" class="btn btn-primary">{{ 'action_logout'|trans }}</a>
+            <a href="{{ url('allBooks') }}" class="btn btn-primary">{{ 'action.allBooks'|trans }}</a>
+            <a href="{{ url('your_reservations') }}" class="btn btn-primary">{{ 'action.your_reservations'|trans }}</a>
+            <a href="{{ url('book_index') }}" class="btn btn-primary">{{ 'action.book_index'|trans }}</a>
+        {% if 'ROLE_ADMIN' in app.user.roles %}
+                <a href="{{ url('app_reservations') }}" class="btn btn-primary">{{ 'action.reservations'|trans }}</a>
+            <a href="{{ url('admin_index') }}" class="btn btn-primary">{{ 'action.admin'|trans }}</a>
+        {% endif %}
         </div>
     {% endif %}
     <div class="container-fluid">
         {% include 'default/_flash_messages.html.twig' %}
         {% block body %}{% endblock %}
     </div>
+
 </main>
 {% block javascripts %}
     <script

@@ -1,8 +1,9 @@
 <?php
 
 /**
- * UserRepository
+ * UserRepository.
  */
+
 namespace App\Repository;
 
 use App\Entity\User;
@@ -15,7 +16,8 @@ use Knp\Component\Pager\PaginatorInterface;
 use Doctrine\ORM\QueryBuilder;
 
 /**
- * class UserRepository
+ * class UserRepository.
+ *
  * @extends ServiceEntityRepository<User>
  *
  * @method User|null find($id, $lockMode = null, $lockVersion = null)
@@ -40,9 +42,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
      * construct function.
      *
      * @param ManagerRegistry    $registry  Manager Registry
-     *
      * @param PaginatorInterface $paginator paginator
-     *
      */
     public function __construct(ManagerRegistry $registry, PaginatorInterface $paginator)
     {
@@ -54,7 +54,6 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
      * Add entity.
      *
      * @param User $entity User entity
-     *
      * @param bool $flush  flush
      */
     public function add(User $entity, bool $flush = false): void
@@ -70,7 +69,6 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
      * save entity.
      *
      * @param User $user User entity
-     *
      */
     public function save(User $user): void
     {
@@ -82,7 +80,6 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
      * delete entity.
      *
      * @param User $user User entity
-     *
      */
     public function delete(User $user): void
     {
@@ -94,7 +91,6 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
      * remove entity.
      *
      * @param User $entity User entity
-     *
      * @param bool $flush  flush
      */
     public function remove(User $entity, bool $flush = false): void
@@ -110,7 +106,6 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
      * Used to upgrade (rehash) the user's password automatically over time.
      *
      * @param PasswordAuthenticatedUserInterface $user              Password Authenticated User Interface
-     *
      * @param string                             $newHashedPassword new password that is hashed
      */
     public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newHashedPassword): void

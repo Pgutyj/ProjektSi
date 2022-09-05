@@ -17,7 +17,7 @@ use Knp\Component\Pager\PaginatorInterface;
 class UserService implements UserServiceInterface
 {
     /**
-     * security
+     * security.
      */
     private $security;
 
@@ -61,7 +61,7 @@ class UserService implements UserServiceInterface
     }
 
     /**
-     * getter for the currently logged in user
+     * getter for the currently logged in user.
      */
     public function getCurrentUser(): void
     {

@@ -13,7 +13,6 @@ use Knp\Component\Pager\Pagination\PaginationInterface;
  */
 interface CategoryServiceInterface
 {
-
     /**
      * Save entity.
      *
@@ -38,14 +37,11 @@ interface CategoryServiceInterface
     public function getPaginatedList(int $page): PaginationInterface;
 
     /**
-     *
      * can Be Deleted .
      *
      * checks if entity can be deleted
      *
      * @param Category $category Category entity
-     *
-     * @return bool
      */
     public function canBeDeleted(Category $category): bool;
 

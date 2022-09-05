@@ -12,9 +12,8 @@ use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 
 /**
- *  class TagService
+ *  class TagService.
  */
-
 class TagService implements TagServiceInterface
 {
     /**
@@ -26,9 +25,7 @@ class TagService implements TagServiceInterface
      * Constructor.
      *
      * @param TagRepository      $tagRepository  Tag Repository
-     *
      * @param PaginatorInterface $paginator      paginator
-     *
      * @param BookRepository     $bookRepository Book Repository
      */
     public function __construct(TagRepository $tagRepository, PaginatorInterface $paginator, BookRepository $bookRepository)
@@ -41,15 +38,15 @@ class TagService implements TagServiceInterface
     /**
      * Find by title.
      *
-     * @param string $title Tag tag_info
+     * @param string $tagInfo Tag tag_info
      *
      * @return Tag|null Tag entity
      *
      * @throws NonUniqueResultException
      */
-    public function findOneByTitle(string $title): ?Tag
+    public function findOneByTagInfo(string $tagInfo): ?Tag
     {
-        return $this->tagRepository->findOneByTitle($title);
+        return $this->tagRepository->findOneByTagInfo($tagInfo);
     }
 
     /**
@@ -73,14 +70,13 @@ class TagService implements TagServiceInterface
     }
 
     /**
-     *
      * can Be Deleted .
      *
      * checks if entity can be deleted
      *
      * @param Tag $tag Tag entity
      *
-     * @return bool
+     * @return bool false if exception is thrown
      */
     public function canBeDeleted(Tag $tag): bool
     {

@@ -34,9 +34,7 @@ class TagController extends AbstractController
      * construct function.
      *
      * @param TagServiceInterface $tagService Tag Service
-     *
      * @param TranslatorInterface $translator Translator
-     *
      */
     public function __construct(TagServiceInterface $tagService, TranslatorInterface $translator)
     {
@@ -58,7 +56,7 @@ class TagController extends AbstractController
             $request->query->getInt('page', 1)
         );
 
-        return $this->render('tag/index.html.twig', ['pagination' => $pagination]);
+        return $this->render('Tag/index.html.twig', ['pagination' => $pagination]);
     }
 
     /**
@@ -76,7 +74,7 @@ class TagController extends AbstractController
     )]
     public function show(Tag $tag): Response
     {
-        return $this->render('tag/show.html.twig', ['tag' => $tag]);
+        return $this->render('Tag/show.html.twig', ['tag' => $tag]);
     }
 
     /**
@@ -109,7 +107,7 @@ class TagController extends AbstractController
         }
 
         return $this->render(
-            'tag/create.html.twig',
+            'Tag/create.html.twig',
             ['form' => $form->createView()]
         );
     }
@@ -118,19 +116,18 @@ class TagController extends AbstractController
      * Edit action.
      *
      * @param Request $request HTTP request
-     *
      * @param Tag     $tag     Tag entity
      *
      * @return Response HTTP response
      */
-    #[Route('/{id}/edit', name: 'tag_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|PUT')]
+    #[Route('/{id}/edit', name: 'tag_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|PUT|POST')]
     public function edit(Request $request, Tag $tag): Response
     {
         $form = $this->createForm(
             TagType::class,
             $tag,
             [
-                'method' => 'PUT',
+                'method' => 'POST',
                 'action' => $this->generateUrl('tag_edit', ['id' => $tag->getId()]),
             ]
         );
@@ -148,7 +145,7 @@ class TagController extends AbstractController
         }
 
         return $this->render(
-            'tag/edit.html.twig',
+            'Tag/edit.html.twig',
             [
                 'form' => $form->createView(),
                 'tag' => $tag,
@@ -160,7 +157,6 @@ class TagController extends AbstractController
      * delete action.
      *
      * @param Request $request HTTP request
-     *
      * @param Tag     $tag     Tag entity
      *
      * @return Response HTTP response
@@ -168,14 +164,14 @@ class TagController extends AbstractController
     #[Route('/{id}/delete', name: 'tag_delete', requirements: ['id' => '[1-9]\d*'], methods: 'GET|DELETE')]
     public function delete(Request $request, Tag $tag): Response
     {
-        if (!$this->tagService->canBeDeleted($tag)) {
-            $this->addFlash(
-                'warning',
-                $this->translator->trans('message.tag_contains_book')
-            );
+        //  if (!$this->tagService->canBeDeleted($tag)) {
+        //    $this->addFlash(
+        //      'warning',
+        //    $this->translator->trans('message.tag_contains_book')
+        // );
 
-            return $this->redirectToRoute('tag_index');
-        }
+        //    return $this->redirectToRoute('tag_index');
+        //   }
 
         $form = $this->createForm(
             TagType::class,
@@ -199,7 +195,7 @@ class TagController extends AbstractController
         }
 
         return $this->render(
-            'tag/delete.html.twig',
+            'Tag/delete.html.twig',
             [
                 'form' => $form->createView(),
                 'tag' => $tag,

@@ -32,7 +32,6 @@ class AdminController extends AbstractController
      * Constructor.
      *
      * @param UserService         $userService User Service
-     *
      * @param TranslatorInterface $translator  Translator
      */
     public function __construct(UserServiceInterface $userService, TranslatorInterface $translator)

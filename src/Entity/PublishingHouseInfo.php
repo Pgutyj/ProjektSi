@@ -2,13 +2,14 @@
 /**
  * PublishingHouseInfo Entity.
  */
+
 namespace App\Entity;
 
 use App\Repository\PublishingHouseInfoRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- *  class PublishingHouseInfo
+ *  class PublishingHouseInfo.
  */
 #[ORM\Entity(repositoryClass: PublishingHouseInfoRepository::class)]
 #[ORM\Table(name: 'publishingHouseInfos')]
@@ -23,7 +24,7 @@ class PublishingHouseInfo
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
+    private ?int $id;
 
     /**
      * name.
@@ -31,7 +32,10 @@ class PublishingHouseInfo
      * @var string
      */
     #[ORM\Column(type: 'string', length: 100)]
-    private $name;
+    #[Assert\Type('string')]
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 3, max: 100)]
+    private ?string $name;
 
     /**
      * Getter for Id.
@@ -58,7 +62,7 @@ class PublishingHouseInfo
      *
      * @param string $name name
      *
-     * @return self
+     * @return self string
      */
     public function setName(string $name): self
     {

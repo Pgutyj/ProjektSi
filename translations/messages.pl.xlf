@@ -80,7 +80,7 @@
 
        <trans-unit id="label.name">
        <source>label.name</source>
-       <target>Nazwa kategorii</target>
+       <target>Nazwa</target>
        </trans-unit>
 
        <trans-unit id="title.category_details">
@@ -400,6 +400,131 @@
         <trans-unit id="title.your_book_list">
             <source>title.your_book_list</source>
             <target>Lista twoich książek</target>
+        </trans-unit>
+
+        <trans-unit id="message.author_contains_book">
+            <source>message.author_contains_book</source>
+            <target>Ten Autor jest przypisany do książki</target>
+        </trans-unit>
+
+        <trans-unit id="message.publishing_house_contains_book">
+            <source>message.publishing_house_contains_book</source>
+            <target>To Wydawnictwo jest przypisane do książki</target>
+        </trans-unit>
+
+        <trans-unit id="title.author_info_create">
+            <source>title.author_info_create</source>
+            <target>Stwórz Autora</target>
+        </trans-unit>
+
+        <trans-unit id="title.author_info_delete">
+            <source>title.author_info_delete</source>
+            <target>Usuń Autora</target>
+        </trans-unit>
+
+        <trans-unit id="title.author_info_edit">
+            <source>title.author_info_edit</source>
+            <target>Edytuj Autora</target>
+        </trans-unit>
+
+        <trans-unit id="title.author_list">
+            <source>title.author_list</source>
+            <target>Lista Autorów</target>
+        </trans-unit>
+
+        <trans-unit id="title.author_info_details">
+            <source>title.author_info_details</source>
+            <target>Szczegóły Autora</target>
+        </trans-unit>
+
+        <trans-unit id="title.publishing_house_info_create">
+            <source>title.publishing_house_info_create</source>
+            <target>Stwórz Wydawnictwo</target>
+        </trans-unit>
+
+        <trans-unit id="title.publishing_house_info_delete">
+            <source>title.publishing_house_info_delete</source>
+            <target>Usuń Wydawnictwo</target>
+        </trans-unit>
+
+        <trans-unit id="title.publishing_house_info_edit">
+            <source>title.publishing_house_info_edit</source>
+            <target>Edytuj Wydawnictwo</target>
+        </trans-unit>
+
+        <trans-unit id="title.publishing_house_info_list">
+            <source>title.publishing_house_info_list</source>
+            <target>Lista Wydawnictw</target>
+        </trans-unit>
+
+        <trans-unit id="title.publishing_house_info_details">
+            <source>title.publishing_house_info_details</source>
+            <target>Szczegóły Wydawnictwa</target>
+        </trans-unit>
+
+        <trans-unit id="action.your_reservations">
+            <source>action.your_reservations</source>
+            <target>Twoje Rezerwacje</target>
+        </trans-unit>
+
+        <trans-unit id="action.reservations">
+            <source>action.reservations</source>
+            <target>Rezerwacje</target>
+        </trans-unit>
+
+        <trans-unit id="action.admin">
+            <source>action.admin</source>
+            <target>panel Admina</target>
+        </trans-unit>
+
+        <trans-unit id="action.tag_index">
+            <source>action.tag_index</source>
+            <target>Zarządzaj Tagami</target>
+        </trans-unit>
+
+        <trans-unit id="action.category_index">
+            <source>action.category_index</source>
+            <target>Zarządzaj Kategoriami</target>
+        </trans-unit>
+
+        <trans-unit id="action.allBooks">
+            <source>action.allBooks</source>
+            <target>Przeglądaj</target>
+        </trans-unit>
+
+        <trans-unit id="action.book_index">
+            <source>action.book_index</source>
+            <target>Twoje książki</target>
+        </trans-unit>
+
+        <trans-unit id="user.roles">
+            <source>user.roles</source>
+            <target>Rola</target>
+        </trans-unit>
+
+        <trans-unit id="label.admin">
+            <source>label.admin</source>
+            <target>Administrator</target>
+        </trans-unit>
+
+        <trans-unit id="label.user">
+            <source>label.user</source>
+            <target>Użytkownik</target>
+        </trans-unit>
+
+        <trans-unit id="message.access_denied">
+            <source>message.access_denied</source>
+            <target>Odmowa dostępu</target>
+        </trans-unit>
+
+        <trans-unit id="action.publishing_house_info_index">
+            <source>action.publishing_house_info_index</source>
+            <target>Zarządzaj Wydawnictwami</target>
+        </trans-unit>
+
+        <trans-unit id="action.author_info_index">
+            <source>action.author_info_index</source>
+            <target>Zarządzaj Autorami</target>
         </trans-unit>
     </body>
   </file>

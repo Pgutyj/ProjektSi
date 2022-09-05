@@ -6,12 +6,13 @@
 namespace App\Service;
 
 use App\Entity\Reservation;
+use App\Entity\User;
 use App\Repository\ReservationRepository;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 
 /**
- * Class ReservationService
+ * Class ReservationService.
  */
 class ReservationService implements ReservationServiceInterface
 {
@@ -49,7 +50,6 @@ class ReservationService implements ReservationServiceInterface
      * Constructor.
      *
      * @param ReservationRepository $reservationRepository Reservation Repository
-     *
      * @param PaginatorInterface    $paginator             paginator
      */
     public function __construct(ReservationRepository $reservationRepository, PaginatorInterface $paginator)
@@ -83,6 +83,23 @@ class ReservationService implements ReservationServiceInterface
     {
         return $this->paginator->paginate(
             $this->reservationRepository->queryAll(),
+            $page,
+            ReservationRepository::PAGINATOR_ITEMS_PER_PAGE
+        );
+    }
+
+    /**
+     * Get paginated list of all reservations belonging to a certain user.
+     *
+     * @param int  $page      Page number
+     * @param User $requester user entity
+     *
+     * @return PaginationInterface<string, mixed> Paginated list
+     */
+    public function getPaginatedReservations(int $page, User $requester): PaginationInterface
+    {
+        return $this->paginator->paginate(
+            $this->reservationRepository->queryByRequester($requester),
             $page,
             ReservationRepository::PAGINATOR_ITEMS_PER_PAGE
         );

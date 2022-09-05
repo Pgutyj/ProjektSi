@@ -1,17 +1,19 @@
 <?php
 /**
- * ReservationRepository
+ * ReservationRepository.
  */
+
 namespace App\Repository;
 
-use App\Entity\Book;
 use App\Entity\Reservation;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\QueryBuilder;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * class ReservationRepository
+ * class ReservationRepository.
+ *
  * @extends ServiceEntityRepository<Reservation>
  *
  * @method Reservation|null find($id, $lockMode = null, $lockVersion = null)
@@ -36,7 +38,6 @@ class ReservationRepository extends ServiceEntityRepository
      * construct function.
      *
      * @param ManagerRegistry $registry Manager Registry
-     *
      */
     public function __construct(ManagerRegistry $registry)
     {
@@ -47,7 +48,6 @@ class ReservationRepository extends ServiceEntityRepository
      * Add entity.
      *
      * @param Reservation $entity Reservation entity
-     *
      * @param bool        $flush  flush
      */
     public function add(Reservation $entity, bool $flush = false): void
@@ -63,7 +63,6 @@ class ReservationRepository extends ServiceEntityRepository
      * Add remove.
      *
      * @param Reservation $entity Reservation entity
-     *
      * @param bool        $flush  flush
      */
     public function remove(Reservation $entity, bool $flush = false): void
@@ -78,7 +77,6 @@ class ReservationRepository extends ServiceEntityRepository
     /**
      * Query all records.
      *
-     *
      * @return QueryBuilder Query builder
      */
     public function queryAll(): QueryBuilder
@@ -91,14 +89,30 @@ class ReservationRepository extends ServiceEntityRepository
             )
             ->join('reservation.book', 'book')
             ->join('reservation.reservationStatus', 'reservationStatus')
-            ->orderBy('reservation.id', 'ASC');
+            ->orderBy('reservation.reservationTime', 'ASC');
+    }
+
+    /**
+     * Query records by requester user entity.
+     *
+     * @param UserInterface $user requester
+     *
+     * @return QueryBuilder Query builder
+     */
+    public function queryByRequester(UserInterface $user): QueryBuilder
+    {
+        $queryBuilder = $this->queryAll();
+
+        $queryBuilder->andWhere('reservation.requester = :requester')
+            ->setParameter('requester', $user);
+
+        return $queryBuilder;
     }
 
     /**
      * save entity.
      *
      * @param Reservation $reservation Reservation entity
-     *
      */
     public function save(Reservation $reservation): void
     {
@@ -110,7 +124,6 @@ class ReservationRepository extends ServiceEntityRepository
      * delete entity.
      *
      * @param Reservation $reservation Reservation entity
-     *
      */
     public function delete(Reservation $reservation): void
     {

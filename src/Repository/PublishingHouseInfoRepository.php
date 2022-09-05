@@ -1,16 +1,19 @@
 <?php
 
 /**
- * PublishingHouseInfoRepository
+ * PublishingHouseInfoRepository.
  */
+
 namespace App\Repository;
 
 use App\Entity\PublishingHouseInfo;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\QueryBuilder;
 
 /**
- * class PublishingHouseInfoRepository
+ * class PublishingHouseInfoRepository.
+ *
  * @extends ServiceEntityRepository<PublishingHouseInfo>
  *
  * @method PublishingHouseInfo|null find($id, $lockMode = null, $lockVersion = null)
@@ -21,10 +24,20 @@ use Doctrine\Persistence\ManagerRegistry;
 class PublishingHouseInfoRepository extends ServiceEntityRepository
 {
     /**
+     * Items per page.
+     *
+     * Use constants to define configuration options that rarely change instead
+     * of specifying them in configuration files.
+     * See https://symfony.com/doc/current/best_practices.html#configuration
+     *
+     * @constant int
+     */
+    public const PAGINATOR_ITEMS_PER_PAGE = 5;
+
+    /**
      * construct function.
      *
      * @param ManagerRegistry $registry Manager Registry
-     *
      */
     public function __construct(ManagerRegistry $registry)
     {
@@ -35,7 +48,6 @@ class PublishingHouseInfoRepository extends ServiceEntityRepository
      * Add entity.
      *
      * @param PublishingHouseInfo $entity PublishingHouseInfo entity
-     *
      * @param bool                $flush  flush
      */
     public function add(PublishingHouseInfo $entity, bool $flush = false): void
@@ -51,7 +63,6 @@ class PublishingHouseInfoRepository extends ServiceEntityRepository
      * remove entity.
      *
      * @param PublishingHouseInfo $entity PublishingHouseInfo entity
-     *
      * @param bool                $flush  flush
      */
     public function remove(PublishingHouseInfo $entity, bool $flush = false): void
@@ -63,6 +74,51 @@ class PublishingHouseInfoRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * Query all records.
+     *
+     * @return QueryBuilder Query builder
+     */
+    public function queryAll(): QueryBuilder
+    {
+        return $this->getOrCreateQueryBuilder()
+            ->select('partial publishingHouseInfo.{id, name}')
+            ->orderBy('publishingHouseInfo.id', 'ASC');
+    }
+
+    /**
+     * save entity.
+     *
+     * @param PublishingHouseInfo $publishingHouseInfo Publishing House Info entity
+     */
+    public function save(PublishingHouseInfo $publishingHouseInfo): void
+    {
+        $this->_em->persist($publishingHouseInfo);
+        $this->_em->flush();
+    }
+
+    /**
+     * delete entity.
+     *
+     * @param AuthorInfo $publishingHouseInfo AuthorInfo entity
+     */
+    public function delete(PublishingHouseInfo $publishingHouseInfo): void
+    {
+        $this->_em->remove($publishingHouseInfo);
+        $this->_em->flush();
+    }
+
+    /**
+     * Get or create new query builder.
+     *
+     * @param QueryBuilder|null $queryBuilder Query builder
+     *
+     * @return QueryBuilder Query builder
+     */
+    private function getOrCreateQueryBuilder(QueryBuilder $queryBuilder = null): QueryBuilder
+    {
+        return $queryBuilder ?? $this->createQueryBuilder('publishingHouseInfo');
+    }
 //    /**
 //     * @return PublishingHouseInfo[] Returns an array of PublishingHouseInfo objects
 //     */

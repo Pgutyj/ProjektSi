@@ -2,14 +2,16 @@
 /**
  * Author Info Repository.
  */
+
 namespace App\Repository;
 
 use App\Entity\AuthorInfo;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\QueryBuilder;
 
 /**
- * class AuthorInfoRepository
+ * class AuthorInfoRepository.
  *
  * @extends ServiceEntityRepository<AuthorInfo>
  *
@@ -21,10 +23,20 @@ use Doctrine\Persistence\ManagerRegistry;
 class AuthorInfoRepository extends ServiceEntityRepository
 {
     /**
+     * Items per page.
+     *
+     * Use constants to define configuration options that rarely change instead
+     * of specifying them in configuration files.
+     * See https://symfony.com/doc/current/best_practices.html#configuration
+     *
+     * @constant int
+     */
+    public const PAGINATOR_ITEMS_PER_PAGE = 5;
+
+    /**
      * construct function.
      *
      * @param ManagerRegistry $registry Manager Registry
-     *
      */
     public function __construct(ManagerRegistry $registry)
     {
@@ -35,8 +47,7 @@ class AuthorInfoRepository extends ServiceEntityRepository
      * Add entity.
      *
      * @param AuthorInfo $entity AuthorInfo entity
-     *
-    * @param bool       $flush  flush
+     * @param bool       $flush  flush
      */
     public function add(AuthorInfo $entity, bool $flush = false): void
     {
@@ -51,7 +62,6 @@ class AuthorInfoRepository extends ServiceEntityRepository
      * remove entity.
      *
      * @param AuthorInfo $entity AuthorInfo entity
-     *
      * @param bool       $flush  flush
      */
     public function remove(AuthorInfo $entity, bool $flush = false): void
@@ -61,6 +71,52 @@ class AuthorInfoRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    /**
+     * Query all records.
+     *
+     * @return QueryBuilder Query builder
+     */
+    public function queryAll(): QueryBuilder
+    {
+        return $this->getOrCreateQueryBuilder()
+            ->select('partial authorInfo.{id, name}')
+            ->orderBy('authorInfo.id', 'ASC');
+    }
+
+    /**
+     * save entity.
+     *
+     * @param AuthorInfo $authorInfo Author Info entity
+     */
+    public function save(AuthorInfo $authorInfo): void
+    {
+        $this->_em->persist($authorInfo);
+        $this->_em->flush();
+    }
+
+    /**
+     * delete entity.
+     *
+     * @param AuthorInfo $authorInfo AuthorInfo entity
+     */
+    public function delete(AuthorInfo $authorInfo): void
+    {
+        $this->_em->remove($authorInfo);
+        $this->_em->flush();
+    }
+
+    /**
+     * Get or create new query builder.
+     *
+     * @param QueryBuilder|null $queryBuilder Query builder
+     *
+     * @return QueryBuilder Query builder
+     */
+    private function getOrCreateQueryBuilder(QueryBuilder $queryBuilder = null): QueryBuilder
+    {
+        return $queryBuilder ?? $this->createQueryBuilder('authorInfo');
     }
 
 //    /**

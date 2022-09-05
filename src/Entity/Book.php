@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 use DateTimeImmutable;
 
 /**
- * class Book
+ * class Book.
  */
 #[ORM\Entity(repositoryClass: BookRepository::class)]
 #[ORM\Table(name: 'books')]
@@ -26,20 +26,25 @@ class Book
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
+    private ?int $id;
     /**
      * title.
      *
      * @var string
      */
     #[ORM\Column(type: 'string', length: 100)]
-    private $title;
+    #[Assert\Type('string')]
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 3, max: 100)]
+    private ?string $title;
     /**
      * description.
      *
      * @var text
      */
     #[ORM\Column(type: 'text')]
+    #[Assert\Type('text')]
+    #[Assert\NotBlank]
     private $description;
     /**
      * bookCreationTime.
@@ -52,7 +57,9 @@ class Book
      * @var int|null
      */
     #[ORM\Column(type: 'integer', nullable: true)]
-    private $price;
+    #[Assert\NotBlank]
+    #[Assert\Type('integer')]
+    private ?int $price;
 
     /**
      * Category.
@@ -108,7 +115,7 @@ class Book
     private ?PublishingHouseInfo $publishingHouseInfo;
 
     /**
-     *constructor
+     *constructor.
      */
     public function __construct()
     {
@@ -140,7 +147,7 @@ class Book
      *
      * @param string $title title
      *
-     * @return self
+     * @return self string
      */
     public function setTitle(string $title): self
     {
@@ -162,9 +169,9 @@ class Book
     /**
      * Setter for Description.
      *
-     * @param string $description
+     * @param string $description description
      *
-     * @return string $description description
+     * @return self description
      */
     public function setDescription(string $description): self
     {
@@ -208,9 +215,9 @@ class Book
     /**
      * Setter for Price.
      *
-     * @param int|null $price
+     * @param int|null $price book price
      *
-     * @return int $price price
+     * @return self price
      */
     public function setPrice(?int $price): self
     {
@@ -228,6 +235,7 @@ class Book
     {
         return $this->category;
     }
+
     /**
      * Getter for category.
      *
@@ -243,7 +251,7 @@ class Book
     }
 
     /**
-     * getter for tags
+     * getter for tags.
      *
      * @return Collection<int, Tag>
      */
@@ -251,8 +259,9 @@ class Book
     {
         return $this->tags;
     }
+
     /**
-     * function for adding tags
+     * function for adding tags.
      *
      * @param Tag $tag Tag entity
      */
@@ -264,7 +273,7 @@ class Book
     }
 
     /**
-     * function for removing tags
+     * function for removing tags.
      *
      * @param Tag $tag Tag entity
      */
@@ -274,7 +283,7 @@ class Book
     }
 
     /**
-     * getter for Author
+     * getter for Author.
      *
      * @return User User entity
      */
@@ -282,12 +291,13 @@ class Book
     {
         return $this->author;
     }
+
     /**
-     * setter for author
+     * setter for author.
      *
      * @param User $author User entity
      *
-     * @return self
+     * @return self User entity
      */
     public function setAuthor(?User $author): self
     {
@@ -295,8 +305,9 @@ class Book
 
         return $this;
     }
+
     /**
-     * getter for AuthorInfo
+     * getter for AuthorInfo.
      *
      * @return AuthorInfo AuthorInfo entity
      */
@@ -306,7 +317,7 @@ class Book
     }
 
     /**
-     * setter for AuthorInfo
+     * setter for AuthorInfo.
      *
      * @param AuthorInfo $bookAuthor AuthorInfo entity
      */
@@ -316,7 +327,7 @@ class Book
     }
 
     /**
-     * getter for PublishingHouseInfo
+     * getter for PublishingHouseInfo.
      *
      * @return PublishingHouseInfo PublishingHouseInfo entity
      */
@@ -326,11 +337,11 @@ class Book
     }
 
     /**
-     * setter for PublishingHouseInfo
+     * setter for PublishingHouseInfo.
      *
      * @param PublishingHouseInfo $publishingHouseInfo PublishingHouseInfo entity
      *
-     * @return self
+     * @return self PublishingHouseInfo entity
      */
     public function setPublishingHouseInfo(?PublishingHouseInfo $publishingHouseInfo): self
     {

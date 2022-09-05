@@ -17,7 +17,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * class BookRepository
+ * class BookRepository.
  */
 class BookRepository extends ServiceEntityRepository
 {
@@ -64,30 +64,9 @@ class BookRepository extends ServiceEntityRepository
     }
 
     /**
-     * Count books by tag.
-     *
-     * @param Tag $tag Tag entity
-     *
-     * @return int Number of books in tag
-     *
-     * @throws NoResultException
-     * @throws NonUniqueResultException
-     */
-    public function countByTag(Tag $tag): int
-    {
-        $qb = $this->getOrCreateQueryBuilder();
-
-        return $qb->select($qb->expr()->countDistinct('book.id'))
-            ->where('book.tags = :tag')
-            ->getQuery()
-            ->getSingleScalarResult();
-    }
-
-    /**
      * Save entity.
      *
      * @param Book $book Book entity
-     *
      */
     public function save(Book $book): void
     {
@@ -121,7 +100,6 @@ class BookRepository extends ServiceEntityRepository
      * Query books by author.
      *
      * @param User                  $user    User entity
-     *
      * @param array<string, object> $filters Filters array
      *
      * @return QueryBuilder Query builder

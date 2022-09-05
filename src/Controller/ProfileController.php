@@ -2,6 +2,7 @@
 /**
  * Profile Controller.
  */
+
 namespace App\Controller;
 
 use App\Entity\User;
@@ -26,11 +27,11 @@ class ProfileController extends AbstractController
     private UserServiceInterface $userService;
 
     /**
-     * translator
+     * translator.
      */
     private TranslatorInterface $translator;
     /**
-     * Password hasher
+     * Password hasher.
      */
     private UserPasswordHasherInterface $passwordHasher;
 
@@ -38,11 +39,8 @@ class ProfileController extends AbstractController
      * construct function.
      *
      * @param UserService                 $userService    User Service
-     *
      * @param TranslatorInterface         $translator     Translator
-     *
      * @param UserPasswordHasherInterface $passwordHasher Password hasher
-     *
      */
     public function __construct(UserServiceInterface $userService, TranslatorInterface $translator, UserPasswordHasherInterface $passwordHasher)
     {
@@ -50,11 +48,11 @@ class ProfileController extends AbstractController
         $this->translator = $translator;
         $this->passwordHasher = $passwordHasher;
     }
+
     /**
      * Index function.
      *
      * @return Response HTTP response
-     *
      */
     #[Route(name: 'app_profile', methods: 'GET|POST')]
     public function index(): Response
@@ -75,22 +73,29 @@ class ProfileController extends AbstractController
      * Used for editing user profile data
      *
      * @param Request $request HTTP request
-     *
      * @param User    $user    User entity
      *
      * @return Response HTTP response
-     *
      */
-    #[Route(path: '/{id}/profile_edit', name: 'profile_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|PUT')]
+    #[Route(path: '/{id}/profile_edit', name: 'profile_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|POST')]
+    #[IsGranted('EDIT', subject: 'user')]
     public function edit(Request $request, User $user): Response
     {
+        $currUser=$this->getUser();
+      //  if ($currUser->getRoles() != ["ROLE_USER", "ROLE_ADMIN"] ) {
+          //  $this->addFlash(
+            //    'warning',
+            //    $this->translator->trans('message.access_denied')
+          //  );
+
+           // return $this->redirectToRoute('app_profile');
+       // }
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-        $curruser = $this->userService->getCurrentUser();
         $form = $this->createForm(
             UserType::class,
             $user,
             [
-                'method' => 'PUT',
+                'method' => 'POST',
                 'action' => $this->generateUrl('profile_edit', ['id' => $user->getId()]),
             ]
         );

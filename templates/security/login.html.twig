@@ -41,10 +41,13 @@
         {{ 'label.sign_in'|trans }}
     </button>
 </form>
-    <a href="{{ url('app_signup') }}" title="{{ 'action.sign_up'|trans }}">
+    <br>
+    <div>
+    <a href="{{ url('app_signup') }}" class="btn btn-primary" title="{{ 'action.sign_up'|trans }}">
         {{ 'action.sign_up'|trans }}
     </a>
-    <a href="{{ url('allBooks') }}" title="{{ 'action.browse'|trans }}">
+    <a href="{{ url('allBooks') }}" class="btn btn-primary" title="{{ 'action.browse'|trans }}">
         {{ 'action.browse'|trans }}
     </a>
+    </div>
 {% endblock %}

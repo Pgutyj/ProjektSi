@@ -18,9 +18,7 @@ interface BookServiceInterface
      * Get paginated list.
      *
      * @param int   $page    Page number
-     *
      * @param User  $author  book author
-     *
      * @param array $filters array of filters
      *
      * @return PaginationInterface<string, mixed> Paginated list
@@ -31,7 +29,6 @@ interface BookServiceInterface
      * Get paginated All.
      *
      * @param int   $page    Page number
-     *
      * @param array $filters array of filters
      *
      * @return PaginationInterface<string, mixed> Paginated list
@@ -53,9 +50,11 @@ interface BookServiceInterface
     public function delete(Book $book): void;
 
     /**
-     * reserve entity.
+     * find a book by id.
      *
-     * @param Book $book Book entity
+     * @param int $id book id
+     *
+     * @return Book book entity
      */
-    public function reserve(Book $book): void;
+    public function findOneById(int $id): ?Book;
 }

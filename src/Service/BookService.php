@@ -40,11 +40,8 @@ class BookService implements BookServiceInterface
      * Constructor.
      *
      * @param CategoryServiceInterface $categoryService Category Service
-     *
      * @param PaginatorInterface       $paginator       paginator
-     *
      * @param TagServiceInterface      $tagService      Tag service
-     *
      * @param TagServiceInterface      $bookRepository  Book Repository
      */
     public function __construct(CategoryServiceInterface $categoryService, PaginatorInterface $paginator, TagServiceInterface $tagService, BookRepository $bookRepository)
@@ -54,13 +51,12 @@ class BookService implements BookServiceInterface
         $this->tagService = $tagService;
         $this->bookRepository = $bookRepository;
     }
+
     /**
      * Get paginated list.
      *
      * @param int   $page    Page number
-     *
      * @param User  $author  entity user
-     *
      * @param array $filters array of filters
      *
      * @return PaginationInterface<string, mixed> Paginated list
@@ -77,10 +73,23 @@ class BookService implements BookServiceInterface
     }
 
     /**
+     * Find by id.
+     *
+     * @param int $id Book id
+     *
+     * @return Book|null Book entity
+     *
+     * @throws NonUniqueResultException
+     */
+    public function findOneById(int $id): ?Book
+    {
+        return $this->bookRepository->findOneById($id);
+    }
+
+    /**
      * Get paginated list of all books that are available.
      *
      * @param int   $page    Page number
-     *
      * @param array $filters array of filters
      *
      * @return PaginationInterface<string, mixed> Paginated list
@@ -115,17 +124,6 @@ class BookService implements BookServiceInterface
     {
         $this->bookRepository->delete($book);
     }
-
-    /**
-     * reserve entity.
-     *
-     * @param Book $book Book entity
-     */
-    public function reserve(Book $book): void
-    {
-        $this->bookRepository->reserve($book);
-    }
-
 
     /**
      * Prepare filters for the book list.

@@ -51,7 +51,7 @@ class TagsDataTransformer implements DataTransformerInterface
             $tagInfos[] = $tag->getTagInfo();
         }
 
-        return implode(', ', $tagInfo);
+        return implode(', ', $tagInfos);
     }
 
     /**
@@ -69,10 +69,10 @@ class TagsDataTransformer implements DataTransformerInterface
 
         foreach ($tagInfos as $tagInfo) {
             if ('' !== trim($tagInfo)) {
-                $tag = $this->tagService->findOneByTitle(strtolower($tagInfo));
+                $tag = $this->tagService->findOneByTagInfo(strtolower($tagInfo));
                 if (null === $tag) {
                     $tag = new Tag();
-                    $tag->setTitle($tagInfo);
+                    $tag->setTagInfo($tagInfo);
 
                     $this->tagService->save($tag);
                 }

@@ -15,9 +15,16 @@
             </dd>
         </dl>
         <p>
-            <a href="{{ url('profile_edit', {id: app.user.id}) }}" title="{{ 'action.edit'|trans }}">
+            <a href="{{ url('profile_edit', {id: app.user.id}) }}" title="{{ 'action.edit'|trans }}" class="btn btn-outline-info">
                 {{ 'action.edit'|trans }}
             </a>
+            {% if 'ROLE_ADMIN' in app.user.roles %}
+            <a href="{{ url('admin_index') }}" class="btn btn-outline-primary">{{ 'action.admin'|trans }}</a>
+                <a href="{{ url('tag_index') }}" class="btn btn-outline-success">{{ 'action.tag_index'|trans }}</a>
+                <a href="{{ url('category_index') }}" class="btn btn-outline-danger">{{ 'action.category_index'|trans }}</a>
+                <a href="{{ url('publishing_house_info_index') }}" class="btn btn-outline-secondary">{{ 'action.publishing_house_info_index'|trans }}</a>
+                <a href="{{ url('author_info_index') }}" class="btn btn-outline-dark">{{ 'action.author_info_index'|trans }}</a>
+                {% endif %}
         </p>
         <p>
             <a href="{{ url('book_index') }}" title="{{ 'action.back_to_list'|trans }}">

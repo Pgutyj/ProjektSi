@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ 'title.author_list'|trans }}
+{% endblock %}
+
+{% block body %}
+    <h1>{{ 'title.author_list'|trans }}</h1>
+    {% if pagination is defined and pagination.items|length %}
+
+
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>{{ knp_pagination_sortable(pagination, 'label.id'|trans, 'authorInfo.id')  }}</th>
+                <th>{{ knp_pagination_sortable(pagination,'label.title'|trans, 'authorInfo.name') }}</th>
+                <th>{{ knp_pagination_sortable(pagination,'label.create'|trans, 'authorInfo.create') }}</th>
+                <th>{{ knp_pagination_sortable(pagination,'label.actions'|trans, 'authorInfo.actions') }}</th>
+                <th>{{ knp_pagination_sortable(pagination,'label.editing'|trans, 'authorInfo.editing') }}</th>
+                <th>{{ knp_pagination_sortable(pagination,'label.delete'|trans, 'authorInfo.delete') }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for authorInfo in pagination.items%}
+                <tr>
+                    <td>{{ authorInfo.id }}</td>
+                    <td>{{ authorInfo.name }}</td>
+                    <td>
+                        <a class="btn btn-outline-info" href="{{ url('author_info_create', {id: authorInfo.id}) }}" title="{{ 'action.create'|trans }}">
+                            {{ 'action.create'|trans }}
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{{ url('author_info_show', {id: authorInfo.id}) }}" title="{{ 'action.view'|trans }}" class="btn btn-outline-primary">
+                            {{ 'action.view'|trans }}
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{{ url('author_info_edit', {id: authorInfo.id}) }}" title="{{ 'action.edit'|trans }}" class="btn btn-outline-success">
+                            {{ 'action.edit'|trans }}
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{{ url('author_info_delete', {id: authorInfo.id}) }}" title="{{ 'action.delete'|trans }}" class="btn btn-outline-danger">
+                            {{ 'action.delete'|trans }}
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="navigation text-center">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+
+    {% else %}
+        <p>
+            {{ 'message.empty_list'|trans }}
+        </p>
+    {% endif %}
+{% endblock %}

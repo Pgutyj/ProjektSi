@@ -3,6 +3,7 @@
 /**
  * Book fixtures.
  */
+
 namespace App\DataFixtures;
 
 use App\Entity\Book;
@@ -42,9 +43,9 @@ class BookFixtures extends AbstractBaseFixtures implements DependentFixtureInter
             foreach ($tags as $tag) {
                 $book->addTag($tag);
             }
-
-            $author = $this->getRandomReference('users');
-            $book->setAuthor($author);
+            // $reservation=$this->getRandomReference('reservations');
+            // $author= $reservation->getRequester();
+            $book->setAuthor(null);
             $bookAuthor = $this->getRandomReference('authorInfos');
             $book->setAuthorInfo($bookAuthor);
             $publishingHouseInfo = $this->getRandomReference('publishingHouseInfos');
@@ -55,6 +56,7 @@ class BookFixtures extends AbstractBaseFixtures implements DependentFixtureInter
 
         $this->manager->flush();
     }
+
     /**
      * get dependencies.
      *

@@ -3,6 +3,7 @@
 /**
  * Tag Repository.
  */
+
 namespace App\Repository;
 
 use App\Entity\Tag;
@@ -11,7 +12,8 @@ use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\QueryBuilder;
 
 /**
- * class TagRepository
+ * class TagRepository.
+ *
  * @extends ServiceEntityRepository<Tag>
  *
  * @method Tag|null find($id, $lockMode = null, $lockVersion = null)
@@ -36,7 +38,6 @@ class TagRepository extends ServiceEntityRepository
      * construct function.
      *
      * @param ManagerRegistry $registry Manager Registry
-     *
      */
     public function __construct(ManagerRegistry $registry)
     {
@@ -59,7 +60,6 @@ class TagRepository extends ServiceEntityRepository
      * Add entity.
      *
      * @param Tag  $entity Tag entity
-     *
      * @param bool $flush  flush
      */
     public function add(Tag $entity, bool $flush = false): void
@@ -75,7 +75,6 @@ class TagRepository extends ServiceEntityRepository
      * save entity.
      *
      * @param Tag $tag Tag entity
-     *
      */
     public function save(Tag $tag): void
     {
@@ -87,7 +86,6 @@ class TagRepository extends ServiceEntityRepository
      * remove entity.
      *
      * @param AuthorInfo $entity AuthorInfo entity
-     *
      * @param bool       $flush  flush
      */
     public function remove(Tag $entity, bool $flush = false): void
@@ -103,7 +101,6 @@ class TagRepository extends ServiceEntityRepository
      * delete entity.
      *
      * @param Tag $tag Tag entity
-     *
      */
     public function delete(Tag $tag): void
     {
