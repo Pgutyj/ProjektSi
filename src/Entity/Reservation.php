@@ -7,21 +7,19 @@
 namespace App\Entity;
 
 use App\Repository\ReservationRepository;
-use Cassandra\Date;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use DateTimeImmutable;
 
 /**
  * class Reservation.
  */
 #[ORM\Entity(repositoryClass: ReservationRepository::class)]
 #[ORM\Table(name: 'reservations')]
-#[UniqueEntity(fields: ['name'])]
 class Reservation
 {
     /**
      * Primary key.
-     *
-     * @var int|null
      */
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -52,8 +50,8 @@ class Reservation
      *
      * @var string
      */
-    #[ORM\Column(type: 'text', nullable: false)]
-    #[Assert\Type('text')]
+    #[ORM\Column(type: 'string', length: 3000, nullable: false)]
+    #[Assert\Type('string')]
     #[Assert\NotBlank]
     private $comment;
 
@@ -73,7 +71,7 @@ class Reservation
      *
      * @var Book
      */
-    #[ORM\ManyToOne(targetEntity: Book::class, cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne(targetEntity: Book::class, cascade: ['persist', 'remove'], fetch: 'EXTRA_LAZY')]
     #[Assert\Type(Book::class)]
     #[ORM\JoinColumn(nullable: false)]
     private ?Book $book = null;
@@ -122,7 +120,7 @@ class Reservation
      *
      * @return DateTimeImmutable $reservationTime
      */
-    public function getReservationTime(): ?\DateTimeImmutable
+    public function getReservationTime(): ?DateTimeImmutable
     {
         return $this->reservationTime;
     }
@@ -130,11 +128,11 @@ class Reservation
     /**
      * setter for ReservationTime.
      *
-     * @param DateTimeImmutable $reservationTime
+     * @param DateTimeImmutable $reservationTime time of reservation
      *
-     * @return DateTimeImmutable reservationTime
+     * @return self $reservationTime
      */
-    public function setReservationTime(\DateTimeImmutable $reservationTime): self
+    public function setReservationTime(DateTimeImmutable $reservationTime): self
     {
         $this->reservationTime = $reservationTime;
 
@@ -168,7 +166,7 @@ class Reservation
     /**
      * Getter for ReservationStatus.
      *
-     * @return entity reservationStatus ReservationStatus
+     * @return ReservationStatus reservationStatus ReservationStatus
      */
     public function getReservationStatus(): ?ReservationStatus
     {
@@ -178,7 +176,7 @@ class Reservation
     /**
      * setter for ReservationStatus.
      *
-     * @param entity $reservationStatus ReservationStatus
+     * @param ReservationStatus $reservationStatus ReservationStatus
      *
      * @return self Entity Reservation Status
      */
@@ -192,7 +190,7 @@ class Reservation
     /**
      * Getter for ReservationStatus.
      *
-     * @return entity Book Book
+     * @return Book Book Book entity
      */
     public function getBook(): ?Book
     {
@@ -204,7 +202,7 @@ class Reservation
      *
      * @param Book|null $book book entity
      *
-     * @return entity Book
+     * @return Book Book entity
      */
     public function setBook(?Book $book): self
     {

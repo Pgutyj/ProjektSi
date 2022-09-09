@@ -13,15 +13,15 @@
 </head>
 <body>
 <main role="main" class="container-fluid">
-    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+      {% if is_granted('IS_AUTHENTICATED_FULLY') %}
         <div>{{ app.user.nick }}</div>
-        <div>
+        <div class="d-flex flex-wrap" >
             <a href="{{ url('app_profile', {id: app.user.id}) }}" class="btn btn-primary">{{ 'action_profile'|trans }}</a>
             <a href="{{ url('app_logout') }}" class="btn btn-primary">{{ 'action_logout'|trans }}</a>
             <a href="{{ url('allBooks') }}" class="btn btn-primary">{{ 'action.allBooks'|trans }}</a>
             <a href="{{ url('your_reservations') }}" class="btn btn-primary">{{ 'action.your_reservations'|trans }}</a>
             <a href="{{ url('book_index') }}" class="btn btn-primary">{{ 'action.book_index'|trans }}</a>
-        {% if 'ROLE_ADMIN' in app.user.roles %}
+         {% if 'ROLE_ADMIN' in app.user.roles %}
                 <a href="{{ url('app_reservations') }}" class="btn btn-primary">{{ 'action.reservations'|trans }}</a>
             <a href="{{ url('admin_index') }}" class="btn btn-primary">{{ 'action.admin'|trans }}</a>
         {% endif %}

@@ -8,6 +8,8 @@ namespace App\Entity;
 use App\Repository\AuthorInfoRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * class AuthorInfo.
@@ -19,8 +21,6 @@ class AuthorInfo
 {
     /**
      * Primary key.
-     *
-     * @var int|null
      */
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -74,11 +74,21 @@ class AuthorInfo
         $this->name = $name;
     }
 
+    /**
+     * Getter for slug.
+     *
+     * @return string
+     */
     public function getSlug(): ?string
     {
         return $this->slug;
     }
 
+    /**
+     * setter for slug.
+     *
+     * @param string $slug slug
+     */
     public function setSlug(?string $slug): void
     {
         $this->slug = $slug;

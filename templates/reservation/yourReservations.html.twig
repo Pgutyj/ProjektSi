@@ -8,16 +8,17 @@
     <h1>{{ 'title.reservations_list'|trans }}</h1>
     {% if pagination is defined and pagination.items|length %}
 
-
+        <div class="table-responsive">
         <table class="table table-striped">
             <thead>
             <tr>
                 <th>{{ knp_pagination_sortable(pagination, 'label.id'|trans, 'reservation.id')  }}</th>
                 <th>{{ knp_pagination_sortable(pagination,'label.email'|trans, 'reservation.email') }}</th>
-                <th>{{ knp_pagination_sortable(pagination,'label.reservation_time'|trans, 'reservation.reservation_time') }}</th>
+                <th>{{ knp_pagination_sortable(pagination,'label.reservation_time'|trans, 'reservation.reservationTime') }}</th>
                 <th>{{ knp_pagination_sortable(pagination,'label.comment'|trans, 'reservation.comment') }}</th>
                 <th>{{ knp_pagination_sortable(pagination,'label.title'|trans, 'book.title') }}</th>
-                <th>{{ knp_pagination_sortable(pagination,'label.StatusInfo'|trans, 'reservation.ReservationStatus.StatusInfo') }}</th>
+                <th>{{ knp_pagination_sortable(pagination,'label.StatusInfo'|trans, 'reservationStatus.statusInfo') }}</th>
+                <th>{{ 'label.actions'|trans }}</th>
             </tr>
             </thead>
             <tbody>
@@ -29,10 +30,27 @@
                 <td>{{ reservation.comment }}</td>
                 <td>{{ reservation.book.title }}</td>
                 <td>{{ reservation.ReservationStatus.StatusInfo }}</td>
+                <td>
+                    {% if is_granted('EDIT', reservation) %}
+                    <a class="btn btn-outline-info" href="{{ url('reservation_edit',  {id: reservation.id})}}" title="{{ 'action.edit'|trans }}" class="btn btn-outline-primary">
+                        {{ 'action.edit'|trans }}
+                    </a>
+                    {% endif %}
+                    {% if is_granted('DELETE', reservation) %}
+                    <a class="btn btn-outline-primary" href="{{ url('reservation_delete',  {id: reservation.id})}}" title="{{ 'action.delete'|trans }}" class="btn btn-outline-primary">
+                        {{ 'action.delete'|trans }}
+                    </a>
+                    {% endif %}
+                    {% if is_granted('VIEW', reservation) %}
+                    <a class="btn btn-outline-success" href="{{ url('reservation_show',  {id: reservation.id})}}" title="{{ 'action.show'|trans }}" class="btn btn-outline-primary">
+                        {{ 'action.show'|trans }}
+                    </a>
+                    {% endif %}
+                </td>
             {% endfor %}
             </tbody>
         </table>
-
+        </div>
         <div class="navigation text-center">
             {{ knp_pagination_render(pagination) }}
         </div>

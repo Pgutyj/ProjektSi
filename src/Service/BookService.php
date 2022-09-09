@@ -8,8 +8,11 @@ namespace App\Service;
 use App\Entity\Book;
 use App\Entity\User;
 use App\Repository\BookRepository;
+use App\Repository\ReservationRepository;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 
 /**
  * Class BookService.
@@ -37,19 +40,26 @@ class BookService implements BookServiceInterface
     private BookRepository $bookRepository;
 
     /**
+     * reservation repository.
+     */
+    private ReservationRepository $reservationRepository;
+
+    /**
      * Constructor.
      *
-     * @param CategoryServiceInterface $categoryService Category Service
-     * @param PaginatorInterface       $paginator       paginator
-     * @param TagServiceInterface      $tagService      Tag service
-     * @param TagServiceInterface      $bookRepository  Book Repository
+     * @param CategoryServiceInterface $categoryService       Category Service
+     * @param PaginatorInterface       $paginator             paginator
+     * @param TagServiceInterface      $tagService            Tag service
+     * @param BookRepository           $bookRepository        Book Repository
+     * @param ReservationRepository    $reservationRepository Reservation Repository
      */
-    public function __construct(CategoryServiceInterface $categoryService, PaginatorInterface $paginator, TagServiceInterface $tagService, BookRepository $bookRepository)
+    public function __construct(CategoryServiceInterface $categoryService, PaginatorInterface $paginator, TagServiceInterface $tagService, BookRepository $bookRepository, ReservationRepository $reservationRepository)
     {
         $this->categoryService = $categoryService;
         $this->paginator = $paginator;
         $this->tagService = $tagService;
         $this->bookRepository = $bookRepository;
+        $this->reservationRepository = $reservationRepository;
     }
 
     /**
@@ -123,6 +133,26 @@ class BookService implements BookServiceInterface
     public function delete(Book $book): void
     {
         $this->bookRepository->delete($book);
+    }
+
+    /**
+     * can Be Deleted .
+     *
+     * checks if entity can be deleted
+     *
+     * @param Book $book Book entity
+     *
+     * @return bool false if thrown exception
+     */
+    public function canBeDeleted(Book $book): bool
+    {
+        try {
+            $result = $this->reservationRepository->countByBook($book);
+
+            return !($result > 0);
+        } catch (NoResultException|NonUniqueResultException) {
+            return false;
+        }
     }
 
     /**

@@ -7,17 +7,17 @@
 {% block body %}
 <h1>{{ 'title.reservations_list'|trans }}</h1>
 {% if pagination is defined and pagination.items|length %}
-
-<table class="table table-striped">
-    <thead>
-    <tr>
+    <div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+        <tr>
         <th>{{ knp_pagination_sortable(pagination, 'label.id'|trans, 'reservation.id')  }}</th>
-        <th>{{ knp_pagination_sortable(pagination,'label.email'|trans, 'reservation.name') }}</th>
-        <th>{{ knp_pagination_sortable(pagination,'label.reservation_time'|trans, 'reservation.ReservationTime') }}</th>
+        <th>{{ knp_pagination_sortable(pagination,'label.email'|trans, 'reservation.email') }}</th>
+        <th>{{ knp_pagination_sortable(pagination,'label.reservation_time'|trans, 'reservation.reservationTime') }}</th>
         <th>{{ knp_pagination_sortable(pagination,'label.comment'|trans, 'reservation.comment') }}</th>
         <th>{{ knp_pagination_sortable(pagination,'label.title'|trans, 'book.title') }}</th>
-        <th>{{ knp_pagination_sortable(pagination,'label.StatusInfo'|trans, 'reservation.ReservationStatus.StatusInfo') }}</th>
-        <th>{{ knp_pagination_sortable(pagination,'label.manage'|trans, 'actions.manage') }}</th>
+        <th>{{ knp_pagination_sortable(pagination,'label.StatusInfo'|trans, 'reservationStatus.statusInfo') }}</th>
+        <th>{{ 'label.manage'|trans }}</th>
 
     </tr>
     </thead>
@@ -34,11 +34,15 @@
                 <a class="btn btn-outline-success" href="{{ url('reservations_manage', {id: reservation.id}) }}" title="{{ 'action.manage'|trans }}">
                     {{ 'action.manage'|trans }}
                 </a>
+                <a class="btn btn-outline-danger" href="{{ url('reservation_delete', {id: reservation.id}) }}" title="{{ 'action.delete'|trans }}">
+                    {{ 'action.delete'|trans }}
+                </a>
             </td>
         </tr>
     {% endfor %}
     </tbody>
 </table>
+    </div>
     <div class="navigation text-center">
         {{ knp_pagination_render(pagination) }}
     </div>

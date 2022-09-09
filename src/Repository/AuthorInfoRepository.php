@@ -81,7 +81,7 @@ class AuthorInfoRepository extends ServiceEntityRepository
     public function queryAll(): QueryBuilder
     {
         return $this->getOrCreateQueryBuilder()
-            ->select('partial authorInfo.{id, name}')
+            ->select('partial authorInfo.{id, name, slug}')
             ->orderBy('authorInfo.id', 'ASC');
     }
 

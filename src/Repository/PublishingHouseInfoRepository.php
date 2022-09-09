@@ -100,7 +100,7 @@ class PublishingHouseInfoRepository extends ServiceEntityRepository
     /**
      * delete entity.
      *
-     * @param AuthorInfo $publishingHouseInfo AuthorInfo entity
+     * @param PublishingHouseInfo $publishingHouseInfo AuthorInfo entity
      */
     public function delete(PublishingHouseInfo $publishingHouseInfo): void
     {

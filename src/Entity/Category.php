@@ -9,6 +9,7 @@ use App\Repository\CategoryRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  *  class Category.
@@ -46,7 +47,7 @@ class Category
     #[Assert\Type('string')]
     #[Assert\Length(min: 3, max: 64)]
     #[Gedmo\Slug(fields: ['name'])]
-    private ?string $slug=null;
+    private ?string $slug = null;
 
     /**
      * Getter for Id.

@@ -34,8 +34,8 @@ class CategoryController extends AbstractController
     /**
      * construct function.
      *
-     * @param CategoryService     $categoryService Category Service
-     * @param TranslatorInterface $translator      Translator
+     * @param CategoryServiceInterface $categoryService Category Service
+     * @param TranslatorInterface      $translator      Translator
      */
     public function __construct(CategoryServiceInterface $categoryService, TranslatorInterface $translator)
     {
@@ -61,25 +61,6 @@ class CategoryController extends AbstractController
     }
 
     /**
-     * Show action.
-     *
-     * @param Category $category Category
-     *
-     * @return Response HTTP response
-     */
-    #[Route(
-        '/{id}',
-        name: 'category_show',
-        requirements: ['id' => '[1-9]\d*'],
-        methods: 'GET',
-        defaults: ['slug' => 'slug']
-    )]
-    public function show(Category $category): Response
-    {
-        return $this->render('category/show.html.twig', ['category' => $category]);
-    }
-
-    /**
      * Create action.
      *
      * @param Request $request HTTP request
@@ -99,6 +80,7 @@ class CategoryController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->categoryService->save($category);
+            $this->get('security.csrf.token_manager')->refreshToken('form_intention');
 
             $this->addFlash(
                 'success',
@@ -115,6 +97,25 @@ class CategoryController extends AbstractController
     }
 
     /**
+     * Show action.
+     *
+     * @param Category $category Category
+     *
+     * @return Response HTTP response
+     */
+    #[Route(
+        '/{slug}',
+        name: 'category_show',
+        requirements: ['id' => '[1-9]\d*'],
+        methods: 'GET',
+    )]
+    #[ParamConverter('category')]
+    public function show(Category $category): Response
+    {
+        return $this->render('category/show.html.twig', ['category' => $category]);
+    }
+
+    /**
      * edit action.
      *
      * @param Request  $request  HTTP request
@@ -122,7 +123,8 @@ class CategoryController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[Route('/{id}/edit', name: 'category_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|POST')]
+    #[Route('/{slug}/edit', name: 'category_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|POST')]
+    #[ParamConverter('category')]
     public function edit(Request $request, Category $category): Response
     {
         $form = $this->createForm(
@@ -130,17 +132,18 @@ class CategoryController extends AbstractController
             $category,
             [
                 'method' => 'POST',
-                'action' => $this->generateUrl('category_edit',['id' => $category->getId()]),
+                'action' => $this->generateUrl('category_edit', ['slug' => $category->getSlug()]),
             ]
         );
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->categoryService->save($category);
+            $this->get('security.csrf.token_manager')->refreshToken('form_intention');
 
             $this->addFlash(
                 'success',
-                $this->translator->trans('message.created_successfully')
+                $this->translator->trans('message.edited_successfully')
             );
 
             return $this->redirectToRoute('category_index');
@@ -163,7 +166,8 @@ class CategoryController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[Route('/{id}/delete', name: 'category_delete', requirements: ['id' => '[1-9]\d*'], methods: 'GET|DELETE|POST')]
+    #[Route('/{slug}/delete', name: 'category_delete', requirements: ['id' => '[1-9]\d*'], methods: 'GET|DELETE|POST')]
+    #[ParamConverter('category')]
     public function delete(Request $request, Category $category): Response
     {
         if (!$this->categoryService->canBeDeleted($category)) {
@@ -180,7 +184,7 @@ class CategoryController extends AbstractController
             $category,
             [
                 'method' => 'POST',
-                'action' => $this->generateUrl('category_delete',  ['id' => $category->getId()]),
+                'action' => $this->generateUrl('category_delete', ['slug' => $category->getSlug()]),
             ]
         );
         $form->handleRequest($request);

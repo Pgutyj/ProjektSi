@@ -10,6 +10,8 @@ use App\Repository\AuthorInfoRepository;
 use App\Repository\BookRepository;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 
 /**
  * Class Author Info service.
@@ -85,7 +87,7 @@ class AuthorInfoService implements AuthorInfoServiceInterface
      *
      * @param int $id Category id
      *
-     * @return Category|null Category entity
+     * @return AuthorInfo|null Category entity
      *
      * @throws NonUniqueResultException
      */
@@ -99,14 +101,14 @@ class AuthorInfoService implements AuthorInfoServiceInterface
      *
      * checks if entity can be deleted
      *
-     * @param AuthorInfo $bookAuthor AuthorInfo entity
+     * @param AuthorInfo $authorInfo AuthorInfo entity
      *
      * @return bool false if thrown exception
      */
-    public function canBeDeleted(AuthorInfo $bookAuthor): bool
+    public function canBeDeleted(AuthorInfo $authorInfo): bool
     {
         try {
-            $result = $this->bookRepository->countByBookAuthor($bookAuthor);
+            $result = $this->bookRepository->countByBookAuthor($authorInfo);
 
             return !($result > 0);
         } catch (NoResultException|NonUniqueResultException) {

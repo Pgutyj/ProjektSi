@@ -1,14 +1,21 @@
 <?php
+/**
+ * Reservation Voter.
+ */
 
 namespace App\Security\Voter;
 
+use App\Entity\Reservation;
 use App\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\Security;
 
-class ProfileVoter extends Voter
+/**
+ * class ReservationVoter.
+ */
+class ReservationVoter extends Voter
 {
     /**
      * Edit permission.
@@ -18,14 +25,26 @@ class ProfileVoter extends Voter
     public const EDIT = 'EDIT';
 
     /**
-     * Security helper.
+     * View permission.
      *
-     * @var Security
+     * @const string
+     */
+    public const VIEW = 'VIEW';
+
+    /**
+     * Delete permission.
+     *
+     * @const string
+     */
+    public const DELETE = 'DELETE';
+
+    /**
+     * Security helper.
      */
     private Security $security;
 
     /**
-     * OrderVoter constructor.
+     * ReservationVoter constructor.
      *
      * @param Security $security Security helper
      */
@@ -33,7 +52,6 @@ class ProfileVoter extends Voter
     {
         $this->security = $security;
     }
-
 
     /**
      * Determines if the attribute and subject are supported by this voter.
@@ -45,9 +63,10 @@ class ProfileVoter extends Voter
      */
     protected function supports(string $attribute, $subject): bool
     {
-        return in_array($attribute, [self::EDIT])
-            && $subject instanceof User;
+        return in_array($attribute, [self::EDIT, self::VIEW, self::DELETE])
+            && $subject instanceof Reservation;
     }
+
     /**
      * Perform a single access check operation on a given attribute, subject and token.
      * It is safe to assume that $attribute and $subject already passed the "supports()" method check.
@@ -67,24 +86,52 @@ class ProfileVoter extends Voter
 
         switch ($attribute) {
             case self::EDIT:
-                return $this->canEdit($user);
+                return $this->canEdit($subject, $user);
+            case self::VIEW:
+                return $this->canView($subject, $user);
+            case self::DELETE:
+                return $this->canDelete($subject, $user);
         }
 
         return false;
     }
 
     /**
-     * Checks if user can edit task.
+     * Checks if user can edit reservation.
      *
-     * @param User $curruser current user
-     * @param User $user User
+     * @param Reservation $reservation Reservation entity
+     * @param User        $user        User
      *
      * @return bool Result
      */
-    private function canEdit(User $user): bool
+    private function canEdit(Reservation $reservation, User $user): bool
     {
-        $curruser = $this->getUser();
-        return $user === $curruser;
+        return $reservation->getRequester() === $user;
     }
 
+    /**
+     * Checks if user can view reservation.
+     *
+     * @param Reservation $reservation Reservation entity
+     * @param User        $user        User
+     *
+     * @return bool Result
+     */
+    private function canView(Reservation $reservation, User $user): bool
+    {
+        return $reservation->getRequester() === $user;
+    }
+
+    /**
+     * Checks if user can delete reservation.
+     *
+     * @param Reservation $reservation Reservation entity
+     * @param User        $user        User
+     *
+     * @return bool Result
+     */
+    private function canDelete(Reservation $reservation, User $user): bool
+    {
+        return $reservation->getRequester() === $user || in_array('ROLE_ADMIN', $user->getRoles());
+    }
 }

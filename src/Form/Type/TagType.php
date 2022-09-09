@@ -47,7 +47,10 @@ class TagType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(['data_class' => Tag::class]);
+        $resolver->setDefaults([
+            'data_class' => Tag::class,
+            'csrf_token_id' => 'form_intention',
+        ]);
     }
 
     /**

@@ -47,7 +47,10 @@ class PublishingHouseInfoType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(['data_class' => PublishingHouseInfo::class]);
+        $resolver->setDefaults([
+            'data_class' => PublishingHouseInfo::class,
+            'csrf_token_id' => 'form_intention',
+        ]);
     }
 
     /**

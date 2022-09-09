@@ -10,6 +10,8 @@ use App\Repository\BookRepository;
 use App\Repository\TagRepository;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 
 /**
  *  class TagService.
@@ -20,6 +22,16 @@ class TagService implements TagServiceInterface
      * Paginator.
      */
     private PaginatorInterface $paginator;
+
+    /**
+     * Tag Repository.
+     */
+    private TagRepository $tagRepository;
+
+    /**
+     * Book Repository.
+     */
+    private BookRepository $bookRepository;
 
     /**
      * Constructor.

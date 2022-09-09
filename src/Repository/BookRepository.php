@@ -58,7 +58,7 @@ class BookRepository extends ServiceEntityRepository
 
         return $qb->select($qb->expr()->countDistinct('book.id'))
             ->where('book.category = :category')
-            ->setParameter(':category', $category)
+            ->setParameter(':category', $category->getId())
             ->getQuery()
             ->getSingleScalarResult();
     }
@@ -109,7 +109,7 @@ class BookRepository extends ServiceEntityRepository
         $queryBuilder = $this->queryAll($filters);
 
         $queryBuilder->andWhere('book.author = :author')
-            ->setParameter('author', $user);
+            ->setParameter('author', $user->getId());
 
         return $queryBuilder;
     }

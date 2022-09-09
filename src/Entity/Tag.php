@@ -5,9 +5,11 @@
 
 namespace App\Entity;
 
-use App\Repository\TagRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
+use App\Repository\TagRepository;
+
 /**
  * class Tag.
  */
@@ -16,9 +18,12 @@ use Gedmo\Mapping\Annotation as Gedmo;
 class Tag
 {
     /**
+     * books array.
+     */
+    private array $books;
+
+    /**
      * Primary key.
-     *
-     * @var int|null
      */
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -35,7 +40,7 @@ class Tag
 
     #[ORM\Column(type: 'string', length: 40, unique: true)]
     #[Assert\Type('string')]
-    #[Assert\Length(min: 3, max: 40)]
+    #[Assert\Length(min: 2, max: 40)]
     #[Gedmo\Slug(fields: ['tagInfo'])]
     private ?string $slug;
 
@@ -90,11 +95,21 @@ class Tag
         return $this;
     }
 
+    /**
+     * Getter for slug.
+     *
+     * @return string
+     */
     public function getSlug(): ?string
     {
         return $this->slug;
     }
 
+    /**
+     * setter for slug.
+     *
+     * @param string $slug slug
+     */
     public function setSlug(?string $slug): void
     {
         $this->slug = $slug;

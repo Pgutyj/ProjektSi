@@ -7,6 +7,8 @@ namespace App\Entity;
 
 use App\Repository\PublishingHouseInfoRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  *  class PublishingHouseInfo.
@@ -18,8 +20,6 @@ class PublishingHouseInfo
 {
     /**
      * Primary key.
-     *
-     * @var int|null
      */
     #[ORM\Id]
     #[ORM\GeneratedValue]

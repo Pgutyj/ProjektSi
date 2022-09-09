@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ 'title.user_show'|trans({'%id%': user.id|default('')}) }}
+{% endblock %}
+
+{% block body %}
+    <h1>{{ 'title.profile_details'|trans({'%id%': user.id|default('')}) }}</h1>
+        <dl class="dl-horizontal">
+            <dt>{{ 'label.email'|trans }}</dt>
+            <dd>{{ user.email}}</dd>
+            <dt>{{ 'label.nick'|trans }}</dt>
+            <dd>{{ user.nick }}</dd>
+            <dt>{{ 'user.roles'|trans }}</dt>
+            {% if 'ROLE_ADMIN' in user.roles%}
+                <dd>{{ 'label.admin'|trans }}</dd>
+            {% else %}
+                <dd>{{ 'label.user'|trans }}</dd>
+            {% endif %}
+        </dl>
+        <p>
+            <a href="{{ url('admin_index') }}" title="{{ 'action.back_to_list'|trans }}">
+                {{ 'action.back_to_list'|trans }}
+            </a>
+        </p>
+{% endblock %}

@@ -7,17 +7,16 @@
 {% block body %}
     <h1>{{ 'title.your_book_list'|trans }}</h1>
     {% if pagination is defined and pagination.items|length %}
-
-
+        <div class="table-responsive">
         <table class="table table-striped">
-            <thead>
+            <thead class="thead-dark">
             <tr>
                 <th>{{ knp_pagination_sortable(pagination, 'label.id'|trans, 'book.id')  }}</th>
                 <th>{{ knp_pagination_sortable(pagination,'label.title'|trans, 'book.title') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label.AuthorInfo'|trans, 'AuthorInfo.name')  }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label.PublishingHouseInfo'|trans, 'PublishingHouseInfo.name')  }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label.category'|trans, 'category.name')  }}</th>
-                <th>{{ knp_pagination_sortable(pagination,'label.tags'|trans, 'book.tags.tagInfo') }}</th>
+                <th>{{ knp_pagination_sortable(pagination,'label.tags'|trans, 'tags.tagInfo')}}</th>
                 <th>{{ knp_pagination_sortable(pagination,'label.price'|trans, 'book.price') }}</th>
                 <th>{{ 'label.actions'|trans }}</th>
             </tr>
@@ -65,7 +64,7 @@
             {% endfor %}
             </tbody>
         </table>
-
+        </div>
         <div class="navigation text-center">
             {{ knp_pagination_render(pagination) }}
         </div>

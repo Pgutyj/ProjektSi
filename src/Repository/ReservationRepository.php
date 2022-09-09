@@ -6,6 +6,7 @@
 namespace App\Repository;
 
 use App\Entity\Reservation;
+use App\Entity\Book;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\QueryBuilder;
@@ -32,7 +33,7 @@ class ReservationRepository extends ServiceEntityRepository
      *
      * @constant int
      */
-    public const PAGINATOR_ITEMS_PER_PAGE = 5;
+    public const PAGINATOR_ITEMS_PER_PAGE = 10;
 
     /**
      * construct function.
@@ -42,6 +43,24 @@ class ReservationRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Reservation::class);
+    }
+
+    /**
+     * Count reservations by books.
+     *
+     * @param Book $book Book
+     *
+     * @return int Number of reservations in book
+     */
+    public function countByBook(Book $book): int
+    {
+        $qb = $this->getOrCreateQueryBuilder();
+
+        return $qb->select($qb->expr()->countDistinct('reservation.id'))
+            ->where('reservation.book = :book')
+            ->setParameter(':book', $book->getId())
+            ->getQuery()
+            ->getSingleScalarResult();
     }
 
     /**
@@ -89,7 +108,7 @@ class ReservationRepository extends ServiceEntityRepository
             )
             ->join('reservation.book', 'book')
             ->join('reservation.reservationStatus', 'reservationStatus')
-            ->orderBy('reservation.reservationTime', 'ASC');
+            ->orderBy('reservation.reservationTime', 'DESC');
     }
 
     /**
@@ -104,7 +123,7 @@ class ReservationRepository extends ServiceEntityRepository
         $queryBuilder = $this->queryAll();
 
         $queryBuilder->andWhere('reservation.requester = :requester')
-            ->setParameter('requester', $user);
+            ->setParameter('requester', $user->getId());
 
         return $queryBuilder;
     }

@@ -22,6 +22,11 @@ class UserService implements UserServiceInterface
     private $security;
 
     /**
+     * Paginator.
+     */
+    private PaginatorInterface $paginator;
+
+    /**
      * User repository.
      */
     private UserRepository $userRepository;

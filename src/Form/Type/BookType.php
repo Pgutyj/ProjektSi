@@ -16,7 +16,6 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 
 /**
  * Class BookType.
@@ -123,7 +122,7 @@ class BookType extends AbstractType
             [
                 'label' => 'label.tags',
                 'required' => false,
-                'attr' => ['max_length' => 128],
+                'attr' => ['max_length' => 300],
             ]
         );
         $builder->get('tags')->addModelTransformer(
@@ -140,7 +139,8 @@ class BookType extends AbstractType
     {
         $resolver->setDefaults(
             [
-            'data_class' => Book::class,
+                'data_class' => Book::class,
+                'csrf_token_id' => 'form_intention',
             ],
         );
     }

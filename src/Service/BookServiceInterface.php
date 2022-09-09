@@ -57,4 +57,15 @@ interface BookServiceInterface
      * @return Book book entity
      */
     public function findOneById(int $id): ?Book;
+
+    /**
+     * can Be Deleted .
+     *
+     * checks if entity can be deleted
+     *
+     * @param Book $book Book entity
+     *
+     * @return bool false if thrown exception
+     */
+    public function canBeDeleted(Book $book): bool;
 }

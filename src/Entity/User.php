@@ -1,5 +1,4 @@
 <?php
-
 /**
  * User Entity.
  */
@@ -7,8 +6,8 @@
 namespace App\Entity;
 
 use App\Entity\Enum\UserRole;
-use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\UserRepository;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -51,7 +50,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * array for user roles.
      *
-     * @var json
+     * @var array<int, string>
      */
     #[ORM\Column(type: 'json')]
     private array $roles = [];
@@ -125,12 +124,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @see UserInterface
      * getter for User roles
      *
-     * @return array user roles
+     * @return array<int, string> Roles
      */
     public function getRoles(): array
     {
         $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
         $roles[] = UserRole::ROLE_USER->value;
 
         return array_unique($roles);
@@ -139,7 +137,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * setter for roles.
      *
-     * @param array $roles user roles
+     * @param array<int, string> $roles Roles
      */
     public function setRoles(array $roles): void
     {

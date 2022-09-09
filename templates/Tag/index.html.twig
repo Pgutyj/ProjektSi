@@ -7,17 +7,16 @@
 {% block body %}
     <h1>{{ 'title.tag_list'|trans }}</h1>
     {% if pagination is defined and pagination.items|length %}
-
-
+        <div class="table-responsive">
         <table class="table table-striped">
             <thead>
             <tr>
                 <th>{{ knp_pagination_sortable(pagination, 'label.id'|trans, 'tag.id')  }}</th>
                 <th>{{ knp_pagination_sortable(pagination,'label.title'|trans, 'tag.tagInfo') }}</th>
-                <th>{{ knp_pagination_sortable(pagination,'label.create'|trans, 'tag.create') }}</th>
-                <th>{{ knp_pagination_sortable(pagination,'label.actions'|trans, 'tag.actions') }}</th>
-                <th>{{ knp_pagination_sortable(pagination,'label.editing'|trans, 'tag.editing') }}</th>
-                <th>{{ knp_pagination_sortable(pagination,'label.delete'|trans, 'tag.delete') }}</th>
+                <th>{{ 'label.create'|trans }}</th>
+                <th>{{ 'label.actions'|trans }}</th>
+                <th>{{ 'label.editing'|trans }}</th>
+                <th>{{ 'label.delete'|trans }}</th>
             </tr>
             </thead>
             <tbody>
@@ -26,22 +25,22 @@
                     <td>{{ tag.id }}</td>
                     <td>{{ tag.tagInfo }}</td>
                     <td>
-                        <a class="btn btn-outline-info" href="{{ url('tag_create', {id: tag.id}) }}"  title="{{ 'action.create'|trans }}">
+                        <a class="btn btn-outline-info" href="{{ url('tag_create') }}"  title="{{ 'action.create'|trans }}">
                             {{ 'action.create'|trans }}
                         </a>
                     </td>
                     <td>
-                        <a class="btn btn-outline-primary" href="{{ url('tag_show', {id: tag.id}) }}" title="{{ 'action.view'|trans }}">
+                        <a class="btn btn-outline-primary" href="{{ url('tag_show', {slug: tag.slug}) }}" title="{{ 'action.view'|trans }}">
                             {{ 'action.view'|trans }}
                         </a>
                     </td>
                     <td>
-                        <a class="btn btn-outline-success" href="{{ url('tag_edit', {id: tag.id}) }}" title="{{ 'action.edit'|trans }}">
+                        <a class="btn btn-outline-success" href="{{ url('tag_edit', {slug: tag.slug}) }}" title="{{ 'action.edit'|trans }}">
                             {{ 'action.edit'|trans }}
                         </a>
                     </td>
                     <td>
-                        <a class="btn btn-outline-danger" href="{{ url('tag_delete', {id: tag.id}) }}" title="{{ 'action.delete'|trans }}">
+                        <a class="btn btn-outline-danger" href="{{ url('tag_delete', {slug: tag.slug}) }}" title="{{ 'action.delete'|trans }}">
                             {{ 'action.delete'|trans }}
                         </a>
                     </td>
@@ -49,7 +48,7 @@
             {% endfor %}
             </tbody>
         </table>
-
+        </div>
         <div class="navigation text-center">
             {{ knp_pagination_render(pagination) }}
         </div>

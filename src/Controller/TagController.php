@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 /**
  * Class TagController.
@@ -60,24 +61,6 @@ class TagController extends AbstractController
     }
 
     /**
-     * Show action.
-     *
-     * @param Tag $tag Tag entity
-     *
-     * @return Response HTTP response
-     */
-    #[Route(
-        '/{id}',
-        name: 'tag_show',
-        requirements: ['id' => '[1-9]\d*'],
-        methods: 'GET'
-    )]
-    public function show(Tag $tag): Response
-    {
-        return $this->render('Tag/show.html.twig', ['tag' => $tag]);
-    }
-
-    /**
      * Create action.
      *
      * @param Request $request HTTP request
@@ -96,6 +79,8 @@ class TagController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $this->get('security.csrf.token_manager')->refreshToken('form_intention');
+
             $this->tagService->save($tag);
 
             $this->addFlash(
@@ -113,6 +98,25 @@ class TagController extends AbstractController
     }
 
     /**
+     * Show action.
+     *
+     * @param Tag $tag Tag entity
+     *
+     * @return Response HTTP response
+     */
+    #[Route(
+        '/{slug}',
+        name: 'tag_show',
+        requirements: ['id' => '[1-9]\d*'],
+        methods: 'GET'
+    )]
+    #[ParamConverter('tag')]
+    public function show(Tag $tag): Response
+    {
+        return $this->render('Tag/show.html.twig', ['tag' => $tag]);
+    }
+
+    /**
      * Edit action.
      *
      * @param Request $request HTTP request
@@ -120,7 +124,8 @@ class TagController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[Route('/{id}/edit', name: 'tag_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|PUT|POST')]
+    #[Route('/{slug}/edit', name: 'tag_edit', methods: 'GET|PUT|POST')]
+    #[ParamConverter('tag')]
     public function edit(Request $request, Tag $tag): Response
     {
         $form = $this->createForm(
@@ -128,12 +133,14 @@ class TagController extends AbstractController
             $tag,
             [
                 'method' => 'POST',
-                'action' => $this->generateUrl('tag_edit', ['id' => $tag->getId()]),
+                'action' => $this->generateUrl('tag_edit', ['slug' => $tag->getSlug()]),
             ]
         );
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $this->get('security.csrf.token_manager')->refreshToken('form_intention');
+
             $this->tagService->save($tag);
 
             $this->addFlash(
@@ -161,24 +168,15 @@ class TagController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[Route('/{id}/delete', name: 'tag_delete', requirements: ['id' => '[1-9]\d*'], methods: 'GET|DELETE')]
+    #[Route('/{slug}/delete', name: 'tag_delete', methods: 'GET|DELETE')]
     public function delete(Request $request, Tag $tag): Response
     {
-        //  if (!$this->tagService->canBeDeleted($tag)) {
-        //    $this->addFlash(
-        //      'warning',
-        //    $this->translator->trans('message.tag_contains_book')
-        // );
-
-        //    return $this->redirectToRoute('tag_index');
-        //   }
-
         $form = $this->createForm(
             TagType::class,
             $tag,
             [
                 'method' => 'DELETE',
-                'action' => $this->generateUrl('tag_delete', ['id' => $tag->getId()]),
+                'action' => $this->generateUrl('tag_delete', ['slug' => $tag->getSlug()]),
             ]
         );
         $form->handleRequest($request);

@@ -7,6 +7,7 @@ namespace App\Service;
 
 use App\Entity\PublishingHouseInfo;
 use Knp\Component\Pager\Pagination\PaginationInterface;
+use Doctrine\ORM\NonUniqueResultException;
 
 /**
  * Interface AuthorInfoServiceInterface.
@@ -16,7 +17,7 @@ interface PublishingHouseInfoServiceInterface
     /**
      * Save entity.
      *
-     * @param AuthorInfo $publishingHouseInfo PublishingHouseInfo entity
+     * @param PublishingHouseInfo $publishingHouseInfo PublishingHouseInfo entity
      */
     public function save(PublishingHouseInfo $publishingHouseInfo): void;
 

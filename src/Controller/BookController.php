@@ -136,13 +136,14 @@ class BookController extends AbstractController
             ['action' => $this->generateUrl('book_create')]
         );
         $timestamp = time();
-        $date = (new DateTimeImmutable)->setTimestamp($timestamp);
+        $date = (new DateTimeImmutable())->setTimestamp($timestamp);
         $book->setBookCreationTime($date);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->bookService->save($book);
+            $this->get('security.csrf.token_manager')->refreshToken('form_intention');
 
             $this->addFlash(
                 'success',
@@ -176,12 +177,13 @@ class BookController extends AbstractController
         );
 
         $timestamp = time();
-        $date = (new DateTimeImmutable)->setTimestamp($timestamp);
+        $date = (new DateTimeImmutable())->setTimestamp($timestamp);
         $book->setBookCreationTime($date);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->bookService->save($book);
+            $this->get('security.csrf.token_manager')->refreshToken('form_intention');
 
             $this->addFlash(
                 'success',
@@ -211,6 +213,14 @@ class BookController extends AbstractController
     #[Route('/{id}/delete', name: 'book_delete', requirements: ['id' => '[1-9]\d*'], methods: 'GET|DELETE')]
     public function delete(Request $request, Book $book): Response
     {
+        if (!$this->bookService->canBeDeleted($book)) {
+            $this->addFlash(
+                'warning',
+                $this->translator->trans('message.book_contains_reservation')
+            );
+
+            return $this->redirectToRoute('allBooks');
+        }
 
         $form = $this->createForm(
             BookType::class,
@@ -258,6 +268,15 @@ class BookController extends AbstractController
     )]
     public function reserve(Request $request, Book $book): Response
     {
+        if (null !== $book->getAuthor()) {
+            $this->addFlash(
+                'warning',
+                $this->translator->trans('message.book_already_reserved')
+            );
+
+            return $this->redirectToRoute('allBooks');
+        }
+
         $reservation = new Reservation();
         $form = $this->createForm(
             ReservationType::class,
@@ -274,7 +293,7 @@ class BookController extends AbstractController
         $reservationStatus = $this->reservationStatusService->findOneById(1);
         $reservation->setReservationStatus($reservationStatus);
         $timestamp = time();
-        $date = (new DateTimeImmutable)->setTimestamp($timestamp);
+        $date = (new DateTimeImmutable())->setTimestamp($timestamp);
         $reservation->setReservationTime($date);
 
         $form->handleRequest($request);

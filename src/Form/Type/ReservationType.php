@@ -10,7 +10,6 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 
 /**
  * Class ReservationType.
@@ -36,10 +35,9 @@ class ReservationType extends AbstractType
             [
                 'label' => 'label.comment',
                 'required' => true,
-                'attr' => ['max_length' => 200],
+                'attr' => ['max_length' => 400],
             ]
         );
-
     }
 
     /**
@@ -49,7 +47,10 @@ class ReservationType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(['data_class' => Reservation::class]);
+        $resolver->setDefaults([
+            'data_class' => Reservation::class,
+            'csrf_token_id' => 'form_intention',
+        ]);
     }
 
     /**

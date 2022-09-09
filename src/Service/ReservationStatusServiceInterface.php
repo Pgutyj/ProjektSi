@@ -6,6 +6,7 @@
 namespace App\Service;
 
 use App\Entity\ReservationStatus;
+use Doctrine\ORM\NonUniqueResultException;
 
 /**
  * Interface CategoryServiceInterface.

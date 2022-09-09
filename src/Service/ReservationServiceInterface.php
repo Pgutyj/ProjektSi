@@ -8,6 +8,7 @@ namespace App\Service;
 use App\Entity\User;
 use App\Entity\Reservation;
 use Knp\Component\Pager\Pagination\PaginationInterface;
+use Doctrine\ORM\NonUniqueResultException;
 
 /**
  * Interface ReservationServiceInterface.
@@ -40,9 +41,9 @@ interface ReservationServiceInterface
     /**
      * Find by id.
      *
-     * @param int $id Category id
+     * @param int $id reservation id
      *
-     * @return Category|null Category entity
+     * @return Reservation|null Category entity
      *
      * @throws NonUniqueResultException
      */

@@ -40,7 +40,7 @@ class SecurityController extends AbstractController
     /**
      * construct function.
      *
-     * @param UserService                 $userService    User Service
+     * @param UserServiceInterface        $userService    User Service
      * @param TranslatorInterface         $translator     Translator
      * @param UserPasswordHasherInterface $passwordHasher Password hasher
      */
@@ -61,13 +61,7 @@ class SecurityController extends AbstractController
     #[Route(path: '/login', name: 'app_login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
-        // if ($this->getUser()) {
-        //     return $this->redirectToRoute('target_path');
-        // }
-
-        // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
-        // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
         return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
@@ -110,6 +104,8 @@ class SecurityController extends AbstractController
                     $password
                 )
             );
+            $this->get('security.csrf.token_manager')->refreshToken('form_intention');
+
             $this->userService->save($user);
 
             $this->addFlash(

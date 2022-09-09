@@ -35,12 +35,12 @@ class BookTagRepository extends ServiceEntityRepository
     /**
      * Add function.
      *
-     * @param BookTag $entity BookTag entity
-     * @param bool    $flush  flush
+     * @param BookTag $bookTag BookTag entity
+     * @param bool    $flush   flush
      */
-    public function add(BookTag $entity, bool $flush = false): void
+    public function add(BookTag $bookTag, bool $flush = false): void
     {
-        $this->getEntityManager()->persist($entity);
+        $this->getEntityManager()->persist($bookTag);
 
         if ($flush) {
             $this->getEntityManager()->flush();
@@ -50,12 +50,12 @@ class BookTagRepository extends ServiceEntityRepository
     /**
      * remove function.
      *
-     * @param BookTag $entity BookTag entity
-     * @param bool    $flush  flush
+     * @param BookTag $bookTag BookTag entity
+     * @param bool    $flush   flush
      */
-    public function remove(BookTag $entity, bool $flush = false): void
+    public function remove(BookTag $bookTag, bool $flush = false): void
     {
-        $this->getEntityManager()->remove($entity);
+        $this->getEntityManager()->remove($bookTag);
 
         if ($flush) {
             $this->getEntityManager()->flush();

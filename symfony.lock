@@ -1,6 +1,15 @@
 {
+    "amphp/amp": {
+        "version": "v2.6.2"
+    },
+    "amphp/byte-stream": {
+        "version": "v1.8.1"
+    },
     "behat/transliterator": {
         "version": "v1.5.0"
+    },
+    "composer/package-versions-deprecated": {
+        "version": "1.11.99.5"
     },
     "composer/pcre": {
         "version": "3.0.0"
@@ -10,6 +19,9 @@
     },
     "composer/xdebug-handler": {
         "version": "3.0.3"
+    },
+    "dnoegel/php-xdg-base-dir": {
+        "version": "v0.1.1"
     },
     "doctrine/annotations": {
         "version": "1.13",
@@ -113,6 +125,12 @@
     "fakerphp/faker": {
         "version": "v1.19.0"
     },
+    "felixfbecker/advanced-json-rpc": {
+        "version": "v3.2.1"
+    },
+    "felixfbecker/language-server-protocol": {
+        "version": "v1.5.2"
+    },
     "friendsofphp/php-cs-fixer": {
         "version": "3.8",
         "recipe": {
@@ -146,8 +164,17 @@
     "myclabs/deep-copy": {
         "version": "1.11.0"
     },
+    "myclabs/php-enum": {
+        "version": "1.8.4"
+    },
+    "netresearch/jsonmapper": {
+        "version": "v4.0.0"
+    },
     "nikic/php-parser": {
         "version": "v4.13.2"
+    },
+    "openlss/lib-array2xml": {
+        "version": "1.0.0"
     },
     "phar-io/manifest": {
         "version": "2.0.3"
@@ -210,6 +237,12 @@
             "phpunit.xml.dist",
             "tests/bootstrap.php"
         ]
+    },
+    "psalm/plugin-phpunit": {
+        "version": "0.17.0"
+    },
+    "psalm/plugin-symfony": {
+        "version": "v3.1.8"
     },
     "psr/cache": {
         "version": "2.0.0"
@@ -675,7 +708,16 @@
     "twig/twig": {
         "version": "v3.4.1"
     },
+    "vimeo/psalm": {
+        "version": "4.27.0"
+    },
     "webmozart/assert": {
         "version": "1.10.0"
+    },
+    "webmozart/path-util": {
+        "version": "2.3.0"
+    },
+    "weirdan/doctrine-psalm-plugin": {
+        "version": "v2.3.0"
     }
 }

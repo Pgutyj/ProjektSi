@@ -64,7 +64,10 @@ class UserType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(['data_class' => User::class]);
+        $resolver->setDefaults([
+            'data_class' => User::class,
+            'csrf_token_id' => 'form_intention',
+        ]);
     }
 
     /**

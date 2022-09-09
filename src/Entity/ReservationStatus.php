@@ -8,6 +8,8 @@ namespace App\Entity;
 
 use App\Repository\ReservationStatusRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * class ReservationStatus.
@@ -19,8 +21,6 @@ class ReservationStatus
 {
     /**
      * Primary key.
-     *
-     * @var int|null
      */
     #[ORM\Id]
     #[ORM\GeneratedValue]

@@ -10,6 +10,8 @@ use App\Repository\CategoryRepository;
 use App\Repository\BookRepository;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 
 /**
  * Class Category Service.

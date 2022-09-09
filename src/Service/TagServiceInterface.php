@@ -7,6 +7,7 @@ namespace App\Service;
 
 use App\Entity\Tag;
 use Knp\Component\Pager\Pagination\PaginationInterface;
+use Doctrine\ORM\NonUniqueResultException;
 
 /**
  * Interface TagServiceInterface.

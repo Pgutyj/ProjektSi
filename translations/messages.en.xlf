@@ -544,6 +544,46 @@
             <source>action.author_info_index</source>
             <target>Manage book authors</target>
         </trans-unit>
+
+        <trans-unit id="message.book_already_reserved">
+            <source>message.book_already_reserved</source>
+            <target>This book is already reserved</target>
+        </trans-unit>
+
+        <trans-unit id="message.cannot_delete_admin">
+            <source>message.cannot_delete_admin</source>
+            <target>You cannot delete an Admin</target>
+        </trans-unit>
+
+        <trans-unit id="title.user_delete">
+            <source>title.user_delete</source>
+            <target>Delete user</target>
+        </trans-unit>
+
+        <trans-unit id="title.user_show">
+            <source>title.user_show</source>
+            <target>Show user</target>
+        </trans-unit>
+
+        <trans-unit id="title.reservation_delete">
+            <source>title.reservation_delete</source>
+            <target>Delete a reservation</target>
+        </trans-unit>
+
+        <trans-unit id="title.reservation_edit">
+            <source>title.reservation_edit</source>
+            <target>Edit a reservation</target>
+        </trans-unit>
+
+        <trans-unit id="title.reservation_details">
+            <source>title.reservation_details</source>
+            <target>Reservation details</target>
+        </trans-unit>
+
+        <trans-unit id="message.book_contains_reservation">
+            <source>message.book_contains_reservation</source>
+            <target>Book Contains a Reservation</target>
+        </trans-unit>
     </body>
   </file>
 </xliff>

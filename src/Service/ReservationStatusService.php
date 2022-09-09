@@ -14,6 +14,11 @@ use App\Repository\ReservationStatusRepository;
 class ReservationStatusService implements ReservationStatusServiceInterface
 {
     /**
+     * Reservation Status Repository.
+     */
+    private ReservationStatusRepository $reservationStatusRepository;
+
+    /**
      * Constructor.
      *
      * @param ReservationStatusRepository $reservationStatusRepository Category Repository
@@ -28,9 +33,7 @@ class ReservationStatusService implements ReservationStatusServiceInterface
      *
      * @param int $id Category id
      *
-     * @return Category|null Category entity
-     *
-     * @throws NonUniqueResultException
+     * @return ReservationStatus|null ReservationStatus entity
      */
     public function findOneById(int $id): ?ReservationStatus
     {

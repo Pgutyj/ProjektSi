@@ -10,6 +10,8 @@ use App\Repository\PublishingHouseInfoRepository;
 use App\Repository\BookRepository;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 
 /**
  * Publishing House Info Service.
@@ -69,7 +71,7 @@ class PublishingHouseInfoService implements PublishingHouseInfoServiceInterface
      *
      * @param int $id Category id
      *
-     * @return Category|null Category entity
+     * @return PublishingHouseInfo|null Category entity
      *
      * @throws NonUniqueResultException
      */

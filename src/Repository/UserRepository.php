@@ -12,7 +12,6 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
-use Knp\Component\Pager\PaginatorInterface;
 use Doctrine\ORM\QueryBuilder;
 
 /**
@@ -41,13 +40,11 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     /**
      * construct function.
      *
-     * @param ManagerRegistry    $registry  Manager Registry
-     * @param PaginatorInterface $paginator paginator
+     * @param ManagerRegistry $registry Manager Registry
      */
-    public function __construct(ManagerRegistry $registry, PaginatorInterface $paginator)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, User::class);
-        $this->paginator = $paginator;
     }
 
     /**

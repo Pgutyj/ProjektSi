@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 /**
  * Class AuthorInfoController.
@@ -60,24 +61,6 @@ class AuthorInfoController extends AbstractController
     }
 
     /**
-     * Show action.
-     *
-     * @param AuthorInfo $authorInfo AuthorInfo entity
-     *
-     * @return Response HTTP response
-     */
-    #[Route(
-        '/{id}',
-        name: 'author_info_show',
-        requirements: ['id' => '[1-9]\d*'],
-        methods: 'GET'
-    )]
-    public function show(AuthorInfo $authorInfo): Response
-    {
-        return $this->render('authorInfo/show.html.twig', ['authorInfo' => $authorInfo]);
-    }
-
-    /**
      * Create action.
      *
      * @param Request $request HTTP request
@@ -97,6 +80,7 @@ class AuthorInfoController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->authorInfoService->save($authorInfo);
+            $this->get('security.csrf.token_manager')->refreshToken('form_intention');
 
             $this->addFlash(
                 'success',
@@ -113,6 +97,24 @@ class AuthorInfoController extends AbstractController
     }
 
     /**
+     * Show action.
+     *
+     * @param AuthorInfo $authorInfo AuthorInfo entity
+     *
+     * @return Response HTTP response
+     */
+    #[Route(
+        '/{slug}',
+        name: 'author_info_show',
+        methods: 'GET'
+    )]
+    #[ParamConverter('authorInfo')]
+    public function show(AuthorInfo $authorInfo): Response
+    {
+        return $this->render('authorInfo/show.html.twig', ['authorInfo' => $authorInfo]);
+    }
+
+    /**
      * edit action.
      *
      * @param Request    $request    HTTP request
@@ -120,7 +122,8 @@ class AuthorInfoController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[Route('/{id}/edit', name: 'author_info_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|POST')]
+    #[Route('/{slug}/edit', name: 'author_info_edit', methods: 'GET|POST')]
+    #[ParamConverter('authorInfo')]
     public function edit(Request $request, AuthorInfo $authorInfo): Response
     {
         $form = $this->createForm(
@@ -128,13 +131,14 @@ class AuthorInfoController extends AbstractController
             $authorInfo,
             [
                 'method' => 'POST',
-                'action' => $this->generateUrl('author_info_edit', ['id' => $authorInfo->getId()]),
+                'action' => $this->generateUrl('author_info_edit', ['slug' => $authorInfo->getSlug()]),
             ]
         );
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->authorInfoService->save($authorInfo);
+            $this->get('security.csrf.token_manager')->refreshToken('form_intention');
 
             $this->addFlash(
                 'success',
@@ -161,7 +165,8 @@ class AuthorInfoController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[Route('/{id}/delete', name: 'author_info_delete', requirements: ['id' => '[1-9]\d*'], methods: 'GET|DELETE|POST')]
+    #[Route('/{slug}/delete', name: 'author_info_delete', methods: 'GET|DELETE|POST')]
+    #[ParamConverter('authorInfo')]
     public function delete(Request $request, AuthorInfo $authorInfo): Response
     {
         if (!$this->authorInfoService->canBeDeleted($authorInfo)) {
@@ -178,7 +183,7 @@ class AuthorInfoController extends AbstractController
             $authorInfo,
             [
                 'method' => 'POST',
-                'action' => $this->generateUrl('author_info_delete', ['id' => $authorInfo->getId()]),
+                'action' => $this->generateUrl('author_info_delete', ['slug' => $authorInfo->getSlug()]),
             ]
         );
         $form->handleRequest($request);

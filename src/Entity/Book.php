@@ -5,11 +5,12 @@
 
 namespace App\Entity;
 
-use App\Repository\BookRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use DateTimeImmutable;
+use App\Repository\BookRepository;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * class Book.
@@ -20,8 +21,6 @@ class Book
 {
     /**
      * Primary key.
-     *
-     * @var int|null
      */
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -40,10 +39,10 @@ class Book
     /**
      * description.
      *
-     * @var text
+     * @var string
      */
-    #[ORM\Column(type: 'text')]
-    #[Assert\Type('text')]
+    #[ORM\Column(type: 'string', length: 3000)]
+    #[Assert\Type('string')]
     #[Assert\NotBlank]
     private $description;
     /**
@@ -53,8 +52,6 @@ class Book
     private ?DateTimeImmutable $bookCreationTime;
     /**
      * price.
-     *
-     * @var int|null
      */
     #[ORM\Column(type: 'integer', nullable: true)]
     #[Assert\NotBlank]
@@ -195,7 +192,7 @@ class Book
      *
      * @param DateTimeImmutable $bookCreationTime book Creation Time
      *
-     * @return DateTimeInterface $bookCreationTime $bookCreationTime
+     * @return DateTimeImmutable $bookCreationTime $bookCreationTime
      */
     public function setBookCreationTime(DateTimeImmutable $bookCreationTime): void
     {

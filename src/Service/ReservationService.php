@@ -61,11 +61,9 @@ class ReservationService implements ReservationServiceInterface
     /**
      * Find by id.
      *
-     * @param int $id Category id
+     * @param int $id Reservation id
      *
-     * @return Category|null Category entity
-     *
-     * @throws NonUniqueResultException
+     * @return Reservation|null Reservation entity
      */
     public function findOneById(int $id): ?Reservation
     {

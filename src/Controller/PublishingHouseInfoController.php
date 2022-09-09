@@ -96,6 +96,8 @@ class PublishingHouseInfoController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $this->get('security.csrf.token_manager')->refreshToken('form_intention');
+
             $this->publishingHouseInfoService->save($publishingHouseInfo);
 
             $this->addFlash(
@@ -115,7 +117,7 @@ class PublishingHouseInfoController extends AbstractController
     /**
      * edit action.
      *
-     * @param Request             $request                    HTTP request
+     * @param Request             $request             HTTP request
      * @param PublishingHouseInfo $publishingHouseInfo PublishingHouseInfo entity
      *
      * @return Response HTTP response
@@ -134,6 +136,8 @@ class PublishingHouseInfoController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $this->get('security.csrf.token_manager')->refreshToken('form_intention');
+
             $this->publishingHouseInfoService->save($publishingHouseInfo);
 
             $this->addFlash(
@@ -156,8 +160,8 @@ class PublishingHouseInfoController extends AbstractController
     /**
      * delete action.
      *
-     * @param Request             $request                    HTTP request
-     * @param PublishingHouseInfo $publishingHouseInfoService PublishingHouseInfo entity
+     * @param Request             $request             HTTP request
+     * @param PublishingHouseInfo $publishingHouseInfo PublishingHouseInfo entity
      *
      * @return Response HTTP response
      */

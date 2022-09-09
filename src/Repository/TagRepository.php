@@ -52,7 +52,7 @@ class TagRepository extends ServiceEntityRepository
     public function queryAll(): QueryBuilder
     {
         return $this->getOrCreateQueryBuilder()
-            ->select('partial tag.{id, tagInfo}')
+            ->select('partial tag.{id, tagInfo, slug}')
             ->orderBy('tag.tagInfo', 'DESC');
     }
 
@@ -85,8 +85,8 @@ class TagRepository extends ServiceEntityRepository
     /**
      * remove entity.
      *
-     * @param AuthorInfo $entity AuthorInfo entity
-     * @param bool       $flush  flush
+     * @param Tag  $entity Tag entity
+     * @param bool $flush  flush
      */
     public function remove(Tag $entity, bool $flush = false): void
     {
