@@ -7,6 +7,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\Type\UserType;
+use App\Form\Type\UserPasswordType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Service\UserServiceInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -14,6 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * Class ProfileController.
@@ -78,17 +80,9 @@ class ProfileController extends AbstractController
      * @return Response HTTP response
      */
     #[Route(path: '/{id}/profile_edit', name: 'profile_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|POST')]
+    #[IsGranted('EDIT', subject: 'user')]
     public function edit(Request $request, User $user): Response
     {
-        $currUser = $this->getUser();
-        if ($user->getId() !== $currUser->getId() && $currUser->getRoles() !== ['ROLE_USER', 'ROLE_ADMIN']) {
-            $this->addFlash(
-                'warning',
-                $this->translator->trans('message.access_denied')
-            );
-
-            return $this->redirectToRoute('app_profile');
-        }
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $form = $this->createForm(
             UserType::class,
@@ -96,6 +90,52 @@ class ProfileController extends AbstractController
             [
                 'method' => 'POST',
                 'action' => $this->generateUrl('profile_edit', ['id' => $user->getId()]),
+            ]
+        );
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->get('security.csrf.token_manager')->refreshToken('form_intention');
+
+            $this->userService->save($user);
+            $this->addFlash(
+                'success',
+                $this->translator->trans('message.edited_successfully')
+            );
+
+            return $this->redirectToRoute('app_profile');
+        }
+
+        return $this->render(
+            'profile/edit.html.twig',
+            [
+                'user' => $user,
+                'form' => $form->createView(),
+            ]
+        );
+    }
+
+    /**
+     * Edit action for user password.
+     *
+     * Used for editing user profile data
+     *
+     * @param Request $request HTTP request
+     * @param User    $user    User entity
+     *
+     * @return Response HTTP response
+     */
+    #[Route(path: '/{id}/password_edit', name: 'password_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|POST')]
+    #[IsGranted('EDIT_PASSWORD', subject: 'user')]
+    public function editPassword(Request $request, User $user): Response
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $form = $this->createForm(
+            UserPasswordType::class,
+            $user,
+            [
+                'method' => 'POST',
+                'action' => $this->generateUrl('password_edit', ['id' => $user->getId()]),
             ]
         );
         $form->handleRequest($request);
@@ -120,7 +160,7 @@ class ProfileController extends AbstractController
         }
 
         return $this->render(
-            'profile/edit.html.twig',
+            'profile/editPassword.html.twig',
             [
                 'user' => $user,
                 'form' => $form->createView(),
@@ -137,16 +177,9 @@ class ProfileController extends AbstractController
      * @return Response HTTP response
      */
     #[Route('/{id}/delete', name: 'user_delete', requirements: ['id' => '[1-9]\d*'], methods: 'GET|DELETE|POST')]
+    #[IsGranted('DELETE', subject: 'user')]
     public function delete(Request $request, User $user): Response
     {
-        if ($user->getRoles() === ['ROLE_USER', 'ROLE_ADMIN']) {
-            $this->addFlash(
-                'warning',
-                $this->translator->trans('message.cannot_delete_admin')
-            );
-
-            return $this->redirectToRoute('admin_index');
-        }
         $form = $this->createForm(
             UserType::class,
             $user,
@@ -190,9 +223,9 @@ class ProfileController extends AbstractController
         requirements: ['id' => '[1-9]\d*'],
         methods: 'GET',
     )]
+    #[IsGranted('VIEW', subject: 'user')]
     public function show(User $user): Response
     {
         return $this->render('profile/show.html.twig', ['user' => $user]);
     }
-
 }

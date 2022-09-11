@@ -106,7 +106,7 @@ class ReservationVoter extends Voter
      */
     private function canEdit(Reservation $reservation, User $user): bool
     {
-        return $reservation->getRequester() === $user;
+        return $reservation->getRequester() === $user || $user->getRoles() === ['ROLE_USER', 'ROLE_ADMIN'];
     }
 
     /**
@@ -119,7 +119,7 @@ class ReservationVoter extends Voter
      */
     private function canView(Reservation $reservation, User $user): bool
     {
-        return $reservation->getRequester() === $user;
+        return $reservation->getRequester() === $user || $user->getRoles() === ['ROLE_USER', 'ROLE_ADMIN'];
     }
 
     /**
@@ -132,6 +132,6 @@ class ReservationVoter extends Voter
      */
     private function canDelete(Reservation $reservation, User $user): bool
     {
-        return $reservation->getRequester() === $user || in_array('ROLE_ADMIN', $user->getRoles());
+        return $reservation->getRequester() === $user || $user->getRoles() === ['ROLE_USER', 'ROLE_ADMIN'];
     }
 }

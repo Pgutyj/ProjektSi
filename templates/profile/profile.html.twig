@@ -15,9 +15,18 @@
             </dd>
         </dl>
         <p>
+            {% if is_granted('EDIT', app.user) %}
             <a href="{{ url('profile_edit', {id: app.user.id}) }}" title="{{ 'action.edit'|trans }}" class="btn btn-outline-info">
                 {{ 'action.edit'|trans }}
             </a>
+            {% endif %}
+
+            {% if is_granted('EDIT_PASSWORD', app.user) %}
+            <a href="{{ url('password_edit', {id: app.user.id}) }}" title="{{ 'action.password_edit'|trans }}" class="btn btn-outline-warning">
+                {{ 'action.password_edit'|trans }}
+            </a>
+            {% endif %}
+
             {% if 'ROLE_ADMIN' in app.user.roles %}
             <a href="{{ url('admin_index') }}" class="btn btn-outline-primary">{{ 'action.admin'|trans }}</a>
                 <a href="{{ url('tag_index') }}" class="btn btn-outline-success">{{ 'action.tag_index'|trans }}</a>

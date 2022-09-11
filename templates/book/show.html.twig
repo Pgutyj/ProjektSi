@@ -11,7 +11,7 @@
             <dt>{{ 'label.id'|trans }}</dt>
             <dd>{{ book.id }}</dd>
             <dt>{{ 'label.BookCreationTime'|trans }}</dt>
-            <dd>{{ book.BookCreationTime|date('d/m/Y') }}</dd>
+            <dd>{{ book.BookCreationTime|format_date('long') }}</dd>
             <dt>{{ 'label.AuthorInfo'|trans }}</dt>
             <dd>{{  book.AuthorInfo.name }}</dd>
             <dt>{{ 'label.PublishingHouseInfo'|trans }}</dt>

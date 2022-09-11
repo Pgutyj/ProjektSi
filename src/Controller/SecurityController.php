@@ -6,7 +6,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\Type\UserType;
+use App\Form\Type\SignUpType;
 use App\Entity\Enum\UserRole;
 use App\Service\UserServiceInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -89,7 +89,7 @@ class SecurityController extends AbstractController
         $user = new User();
         $user->setRoles([UserRole::ROLE_USER->value]);
         $form = $this->createForm(
-            UserType::class,
+            SignUpType::class,
             $user,
             ['action' => $this->generateUrl('app_signup')]
         );

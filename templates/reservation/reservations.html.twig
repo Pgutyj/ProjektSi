@@ -26,7 +26,7 @@
         <tr>
             <td>{{ reservation.id }}</td>
             <td>{{ reservation.email }}</td>
-            <td>{{ reservation.ReservationTime|date('d/m/Y') }}</td>
+            <td>{{ reservation.ReservationTime|format_date('long') }}</td>
             <td>{{ reservation.comment }}</td>
             <td>{{ reservation.book.title }}</td>
             <td>{{ reservation.ReservationStatus.StatusInfo }}</td>

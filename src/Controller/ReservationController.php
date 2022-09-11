@@ -155,15 +155,6 @@ class ReservationController extends AbstractController
     #[IsGranted('EDIT', subject: 'reservation')]
     public function edit(Request $request, Reservation $reservation): Response
     {
-        if ($reservation->getRequester() !== $this->getUser()) {
-            $this->addFlash(
-                'warning',
-                $this->translator->trans('message.access_denied')
-            );
-
-            return $this->redirectToRoute('your_reservations');
-        }
-
         $form = $this->createForm(
             ReservationType::class,
             $reservation,
@@ -224,7 +215,7 @@ class ReservationController extends AbstractController
             ]
         );
         $form->handleRequest($request);
-        $book=$reservation->getBook();
+        $book = $reservation->getBook();
         if ($form->isSubmitted() && $form->isValid()) {
             $book->setAuthor(null);
             $reservation->setReservationStatus(null);
@@ -264,15 +255,6 @@ class ReservationController extends AbstractController
     #[IsGranted('VIEW', subject: 'reservation')]
     public function show(Reservation $reservation): Response
     {
-        if ($reservation->getRequester() !== $this->getUser()) {
-            $this->addFlash(
-                'warning',
-                $this->translator->trans('message.access_denied')
-            );
-
-            return $this->redirectToRoute('your_reservations');
-        }
-
         return $this->render('reservation/show.html.twig', ['reservation' => $reservation]);
     }
 }

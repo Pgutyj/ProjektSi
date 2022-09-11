@@ -566,6 +566,16 @@
             <source>message.book_contains_reservation</source>
             <target>Książka zawiera rezerwację</target>
         </trans-unit>
+
+        <trans-unit id="action.password_edit">
+            <source>action.password_edit</source>
+            <target>Edytuj hasło</target>
+        </trans-unit>
+
+        <trans-unit id="title.password_edit">
+            <source>title.password_edit</source>
+            <target>Edytuj hasło</target>
+        </trans-unit>
     </body>
   </file>
 </xliff>

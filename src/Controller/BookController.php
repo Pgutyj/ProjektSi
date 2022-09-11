@@ -19,6 +19,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use DateTimeImmutable;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * Class BookController.
@@ -266,17 +267,9 @@ class BookController extends AbstractController
         requirements: ['id' => '[1-9]\d*'],
         methods: 'GET|POST',
     )]
+    #[IsGranted('RESERVE', subject: 'book')]
     public function reserve(Request $request, Book $book): Response
     {
-        if (null !== $book->getAuthor()) {
-            $this->addFlash(
-                'warning',
-                $this->translator->trans('message.book_already_reserved')
-            );
-
-            return $this->redirectToRoute('allBooks');
-        }
-
         $reservation = new Reservation();
         $form = $this->createForm(
             ReservationType::class,

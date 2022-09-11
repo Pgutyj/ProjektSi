@@ -13,7 +13,7 @@
             <dt>{{ 'label.email'|trans }}</dt>
             <dd>{{ reservation.email }}</dd>
             <dt>{{ 'label.reservation_time'|trans }}</dt>
-            <dd>{{ reservation.reservationTime|date('d/m/Y') }}</dd>
+            <dd>{{ reservation.reservationTime|format_date('long') }}</dd>
             <dt>{{ 'label.comment'|trans }}</dt>
             <dd>{{ reservation.comment }}</dd>
             <dt>{{ 'label.StatusInfo'|trans }}</dt>
