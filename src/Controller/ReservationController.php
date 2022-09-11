@@ -224,8 +224,9 @@ class ReservationController extends AbstractController
             ]
         );
         $form->handleRequest($request);
-
+        $book=$reservation->getBook();
         if ($form->isSubmitted() && $form->isValid()) {
+            $book->setAuthor(null);
             $reservation->setReservationStatus(null);
             $reservation->setBook(null);
             $this->reservationService->delete($reservation);

@@ -88,4 +88,5 @@ class UserService implements UserServiceInterface
             UserRepository::PAGINATOR_ITEMS_PER_PAGE
         );
     }
+
 }
